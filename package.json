@@ -1,0 +1,10 @@
+{
+  "name": "clue-circuit",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A fully static, screen-shared word-clue game with private spymaster links",
+  "license": "MIT",
+  "engines": { "node": ">=22" },
+  "scripts": { "start": "node scripts/serve.mjs", "test": "node --test test/*.test.mjs" }
+}

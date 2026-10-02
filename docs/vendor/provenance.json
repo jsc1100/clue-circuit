@@ -1,0 +1,15 @@
+{
+  "anime": {
+    "project": "juliangarnier/anime",
+    "path": "dist/bundles/anime.umd.min.js",
+    "blob": "6c1a3ca65c60d1eb968a01470307de1c581d0490",
+    "version": "4.5.0"
+  },
+  "motion": {
+    "project": "motiondivision/motion",
+    "distributionRepository": "elementor/elementor",
+    "commit": "d82b5ccd2091c21af3bb248878a494bd94989627",
+    "path": "assets/lib/motion/motion.js",
+    "blob": "5f349132f8aa4cf55eb339f1ee7834138ec7163d"
+  }
+}
