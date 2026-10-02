@@ -6,13 +6,13 @@ An independent, beautifully animated word-clue game for team game nights. Built 
 
 1. The host opens the game, picks word packs, and enters team names, one spymaster per team, and operators. Names are optional. Click **Deal us in**.
 2. Share only the host's board tab in your approved meeting app.
-3. Open **Team links**. Privately send each spymaster their key link or a downloaded PNG key. Never screen-share a spymaster page.
+3. Open **Team links**. Privately send each spymaster their private spymaster key link or a downloaded PNG key. Operator snapshot links are optional helper views.
 4. The spymaster studies the hidden colors and says one word plus a number aloud (for example, “Space, three”). The host enters the spoken clue.
 5. Operators discuss their guesses aloud. The host clicks a card and confirms the reveal. The game handles turns, guess allowances, scoring, and wins.
 
-Operators can participate entirely in the meeting; they do not need to open the game. Optional operator links show an answer-free snapshot. Guests need no GitHub accounts and do not become GitHub repository collaborators or registered members.
+Operators can participate entirely in the meeting; they do not need to open the game. Optional operator links show an answer-free board snapshot for remote viewers. Guests need no GitHub accounts and do not become GitHub repository collaborators or registered members.
 
-**Links are snapshots, not live rooms.** They don't synchronize changes, report presence, or check people into a shared roster. Host-entered membership lives on the host device. Spymasters may click their private key cards to cross them off locally as the host reveals them. Existing invitations keep their original roster and board; send new links after a new board or roster change. Both spymasters see the full color key.
+**Links are snapshots, not live rooms.** They don't synchronize changes, report presence, or check people into a shared roster. Host-entered membership lives on the host device. Spymasters may click their private spymaster key cards to cross them off locally as the host reveals them. Existing invitations keep their original roster and board; send new links after a new board or roster change. Both spymasters see the full color key.
 
 ## Features
 
@@ -21,7 +21,7 @@ Operators can participate entirely in the meeting; they do not need to open the 
 - Respects the system reduced-motion setting; a visible toggle also reduces animation.
 - Six original word collections, 300–354 unique entries each. Combine packs; cross-pack duplicates are removed.
 - Custom words and short phrases, comma/semicolon/newline separated. Append to selected packs or replace them. Minimum 25 unique entries; 24 characters each; maximum 5,000 entries.
-- Host-managed teams, spymaster and operator names, private key links, and downloaded PNG keys.
+- Host-managed teams, spymaster and operator names, private spymaster key links, optional operator snapshots, and downloaded PNG keys.
 - One-word clues, counts 1–9, count-plus-one guess allowance, turn passing, trap loss, and team wins.
 - Undo (up to 40 actions), local game resume, mission log, and screen-sharing focus mode.
 - Responsive layouts and keyboard-accessible controls with confirmation before revealing a card.
@@ -37,14 +37,14 @@ Operators can participate entirely in the meeting; they do not need to open the 
 
 ## Publish on GitHub Pages
 
-Create a public repository named `clue-circuit` under `jsc1100` and upload this repository's contents. Then:
+For this repository (`jsc1100/clue-circuit`):
 
 1. Open **Settings → Pages**.
 2. Choose **Deploy from a branch**.
 3. Select **main** and **/docs**, then save.
 4. After deployment, visit `https://jsc1100.github.io/clue-circuit/`.
 
-No build step or package installation is needed. All assets, including both animation libraries, are committed in `docs/`. Relative asset paths support repository subdirectories. If you use a different repository name, use the corresponding Pages address.
+No build step or package installation is needed. All assets, including both animation libraries, are committed in `docs/`. Relative asset paths support repository subdirectories. If you fork or rename the repository, use the corresponding Pages address.
 
 ## Run locally
 
@@ -58,7 +58,7 @@ Open `http://localhost:3000`. This is just a static file server bound to your ow
 
 The standalone `play-offline.html` release file can be opened directly without Node or a server. It contains all code, styles, word packs, and animation libraries.
 
-Localhost links won't work for remote teammates. When hosting locally, the **Team links** dialog lets you specify the published GitHub Pages URL; private invitations contain their own board data. Until the Pages site is published, download the spymaster key PNGs and send those privately instead.
+Localhost links are usually not reachable for remote teammates. When hosting locally, the **Team links** dialog lets you specify a reachable public URL (for example, GitHub Pages); private invitations contain their own board data. Until the public site is available, download the spymaster key PNGs and send those privately instead.
 
 ## Privacy and limitations
 
@@ -90,7 +90,7 @@ Browser verification was completed against `http://localhost:3000` and direct `f
 - Full host flow: clue entry, reveal confirmation, explicit reveal outcome messaging, undo, trap-loss round end, and normal win condition.
 - Custom word validation (`<25` rejected, `25` accepted), team editing, and local resume behavior.
 - Invite/link model: operator snapshots omit hidden answers, spymaster links expose full key, and guest pages are labeled as non-live snapshots.
-- Private key PNG action in-app feedback (`Private key downloaded...`) and no runtime external resource origins beyond the same origin while serving locally.
+- Private spymaster key PNG action in-app feedback and no runtime external resource origins beyond the same origin while serving locally.
 - No console errors observed during local/browser verification runs.
 
 Current deployment note: `https://jsc1100.github.io/clue-circuit/` returned the GitHub Pages `404` placeholder during verification, so Pages still needs to be enabled for `main` / `docs` in repository Settings.
