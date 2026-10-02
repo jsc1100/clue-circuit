@@ -16,7 +16,7 @@ Operators can participate entirely in the meeting; they do not need to open the 
 
 ## Features
 
-- Halloween (default), high-tech, and winter holiday themes, switchable during play.
+- Thirteen switchable mood themes (including Halloween, Neon noir, Winter holiday, Arcade rush, Dungeon crawl, Space opera, and Spy thriller).
 - Anime.js staggered deals, atmospheric details, and celebrations; Motion spring hover, card flips, and dialog transitions.
 - Respects the system reduced-motion setting; a visible toggle also reduces animation.
 - Six original word collections, 300–354 unique entries each. Combine packs; cross-pack duplicates are removed.
@@ -84,7 +84,7 @@ All 12 unit tests pass on Node.js 22 (`npx -y node@22 --test test/*.test.mjs`), 
 
 Browser verification was completed against `http://localhost:3000` and direct `file:///.../play-offline.html` use. Verified flows include:
 
-- Theme switching (Halloween, high-tech, winter) and reduced-motion toggle behavior.
+- Theme switching across the expanded mood set and reduced-motion toggle behavior.
 - Desktop and mobile layouts (including compact game-top and two-column team sidebar behavior on small screens).
 - Keyboard interaction for guess confirmation (focusing a card and pressing Enter opens the reveal dialog).
 - Full host flow: clue entry, reveal confirmation, explicit reveal outcome messaging, undo, trap-loss round end, and normal win condition.

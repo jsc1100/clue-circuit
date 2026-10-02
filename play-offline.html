@@ -18,11 +18,54 @@ dialog{width:min(680px,calc(100vw - 30px));max-height:88vh;background:var(--pane
 @media(max-width:800px){.hero{min-height:400px;padding-left:0;padding-right:0}.hero h1{font-size:53px;letter-spacing:-3px}.hero h1 em{letter-spacing:-3px}.hero-description{font-size:14px}.hero-art{transform:scale(.8);height:310px}.hero-meta{gap:12px;font-size:10px}.hero-meta span+span{padding-left:12px}.pack-grid{grid-template-columns:repeat(2,1fr)}.team-fields{grid-template-columns:1fr}.team-fields input{min-height:42px}.section-note{display:none}.game-top{align-items:flex-start}.game-top h1{font-size:25px}.game-layout{grid-template-columns:1fr}.team-sidebar{display:grid;grid-template-columns:1fr 1fr;gap:14px}.team-panel{position:relative;padding:14px 18px}.team-panel .remaining{position:absolute;right:18px;top:18px;margin:0}.remaining strong{font-size:36px}.remaining span{font-size:8px}.team-panel h2{font-size:17px;max-width:65%;min-height:24px}.team-panel .progress-track{margin:14px 0 0}.team-panel>p,.team-panel .player-list{display:none}.team-panel .eyebrow{display:none}.team-panel-head{width:60%}.game-actions{max-width:220px}.word-card{height:100px}.card-word{font-size:14px}.how-strip{gap:15px}.topbar .quiet{font-size:0}.topbar .quiet span{font-size:16px;margin:0}.topbar nav{gap:5px}footer>span:nth-child(2){display:none}.clue-bar p{font-size:17px}}
 @media(max-width:560px){.topbar{padding:19px 16px;gap:8px}.brand{font-size:12px;letter-spacing:.6px}.brand-mark{font-size:26px;margin-right:3px}.topbar select{font-size:10px;padding:7px;max-width:124px}.topbar .icon-button{width:28px;font-size:18px}.topbar .quiet{display:none}main{padding:0 16px 40px}.hero{grid-template-columns:1fr;padding-top:40px;padding-bottom:34px;gap:0}.hero h1{font-size:66px;line-height:1.04;margin:23px 0}.hero-description{font-size:14px}.hero .eyebrow{font-size:8px}.hero-art{height:290px;margin-top:25px;transform:scale(.85)}.hero-meta{font-size:11px}.art-caption{bottom:-20px}.section-heading{margin:10px 0 18px}.section-heading .eyebrow{font-size:8px}h2{font-size:24px}.pack-grid{gap:10px}.pack{padding:18px 13px 14px;display:block;min-height:191px}.pack-icon{display:block;font-size:24px;margin-bottom:13px}.pack h3{font-size:15px}.pack-tag{font-size:7px;letter-spacing:.8px}.pack p{font-size:11px}.pack-check{top:14px;right:12px}.pack-count{font-size:8px}.custom-panel summary{padding:15px}.custom-panel summary .small{display:none}.custom-body{padding:0 15px 15px}.teams-setup{grid-template-columns:1fr}.team-fields{grid-template-columns:1fr 1.3fr}.team-fields input{min-height:64px}.team-top input{font-size:16px}.launch-panel{flex-direction:column;align-items:stretch;gap:18px}.launch-actions{justify-content:space-between}.launch{flex:1}.how-strip{grid-template-columns:1fr;gap:18px}.how-strip span{font-size:12px}.how-strip strong{font-size:13px}footer{padding:23px 16px;font-size:7px;gap:10px}.game-top{display:block}.game-actions{max-width:none;justify-content:flex-start;gap:3px;margin-top:18px}.game-actions button{padding:9px 10px;font-size:10px}.game-top h1{font-size:27px}.game-top .eyebrow{font-size:8px}.team-panel{padding:12px}.team-panel .remaining{right:11px;top:15px}.remaining span{display:none}.team-panel h2{font-size:14px;max-width:76%;min-height:28px}.remaining strong{font-size:32px}.team-panel-head{font-size:7px;letter-spacing:.8px}.clue-bar{padding:14px;gap:8px}.clue-bar p{font-size:15px}.pill{font-size:7px;padding:6px}.board{gap:6px}.word-card{height:82px;border-radius:5px}.card-face{border-radius:5px}.card-face:after{inset:3px;border-radius:3px}.card-number{top:6px;left:7px;font-size:6px}.card-glyph{top:4px;right:6px;font-size:9px}.card-word{font-size:10px;padding:12px 4px 0;letter-spacing:0}.card-label{font-size:5px;letter-spacing:.5px;margin-top:5px}.clue-inputs{gap:7px;flex-wrap:wrap}.clue-inputs input{width:65%;font-size:14px}.clue-inputs select{width:30%;font-size:12px}.clue-inputs button{width:100%;padding:13px}.turn-controls{flex-wrap:wrap}.turn-controls .small{width:100%;margin-left:0}.focus-mode .word-card{height:85px}dialog{padding:20px}.modal-team{grid-template-columns:1fr}.share-buttons button{flex:1}.confirm-word{font-size:34px!important}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
+
+:root{--drift-x:0px;--drift-y:0px}
+:root[data-theme=arcade]{--bg:#120a23;--panel:#1b1333;--panel2:#281a4a;--line:#3d2c66;--text:#f7ecff;--muted:#bca6d7;--accent:#ff4ec9;--accent-rgb:255,78,201;--glow:#5f2aa5}
+:root[data-theme=dungeon]{--bg:#16120d;--panel:#221b14;--panel2:#2d251c;--line:#4b3f2f;--text:#f3e7d2;--muted:#b8a78d;--accent:#d4a24c;--accent-rgb:212,162,76;--glow:#6f4e24}
+:root[data-theme=space]{--bg:#08122b;--panel:#0f1c3d;--panel2:#162955;--line:#30457d;--text:#e6f1ff;--muted:#9fb4d8;--accent:#84b6ff;--accent-rgb:132,182,255;--glow:#375ea5}
+:root[data-theme=noir]{--bg:#151317;--panel:#1f1b22;--panel2:#2a242f;--line:#3d3645;--text:#f1edf5;--muted:#aa9fb4;--accent:#e1b8a1;--accent-rgb:225,184,161;--glow:#6a4a42}
+:root[data-theme=heist]{--bg:#101a16;--panel:#172621;--panel2:#20312b;--line:#355047;--text:#e6f5ee;--muted:#9cbdb2;--accent:#8be2a5;--accent-rgb:139,226,165;--glow:#2e6a48}
+:root[data-theme=western]{--bg:#1f130d;--panel:#2b1c14;--panel2:#3a281f;--line:#5b4437;--text:#f8ead9;--muted:#c6ad93;--accent:#e2a46f;--accent-rgb:226,164,111;--glow:#8b4e2a}
+:root[data-theme=pirate]{--bg:#0d1b22;--panel:#122833;--panel2:#193544;--line:#2f4f5e;--text:#e7f3f7;--muted:#9ab5c0;--accent:#74d3c8;--accent-rgb:116,211,200;--glow:#2b6c73}
+:root[data-theme=kaiju]{--bg:#11170f;--panel:#1a2417;--panel2:#24311f;--line:#3f5535;--text:#eaf4e2;--muted:#a7be9a;--accent:#9edb6a;--accent-rgb:158,219,106;--glow:#3e6929}
+:root[data-theme=jungle]{--bg:#0f1d16;--panel:#162a21;--panel2:#1e392c;--line:#345443;--text:#e8f4e8;--muted:#9fbea9;--accent:#65d095;--accent-rgb:101,208,149;--glow:#2d7052}
+:root[data-theme=spy]{--bg:#10151c;--panel:#161f2a;--panel2:#1f2a36;--line:#364557;--text:#e6f0f7;--muted:#9fb1c2;--accent:#7cc6d4;--accent-rgb:124,198,212;--glow:#2f6272}
+
+.atmosphere{isolation:isolate}
+.aurora-layer,.mesh-layer,#vectorField{position:absolute;inset:0}
+.aurora-layer{z-index:2;filter:saturate(1.2);transform:translate3d(calc(var(--drift-x)*.35),calc(var(--drift-y)*.35),0)}
+.aurora-ribbon{position:absolute;width:72vw;height:34vh;border-radius:50%;filter:blur(56px);opacity:.24;mix-blend-mode:screen;will-change:transform,opacity}
+.ribbon-a{top:-6vh;left:-14vw;background:linear-gradient(120deg,rgba(var(--accent-rgb),.45),rgba(255,255,255,.04));animation:auroraFlowA 28s ease-in-out infinite}
+.ribbon-b{top:35vh;right:-18vw;background:linear-gradient(120deg,rgba(var(--accent-rgb),.35),rgba(117,204,255,.1));animation:auroraFlowB 31s ease-in-out infinite}
+.ribbon-c{bottom:-12vh;left:10vw;background:linear-gradient(100deg,rgba(var(--accent-rgb),.28),rgba(255,140,178,.08));animation:auroraFlowC 36s ease-in-out infinite}
+
+.mesh-layer{z-index:3;transform:translate3d(calc(var(--drift-x)*-.22),calc(var(--drift-y)*-.22),0)}
+.mesh-blob{position:absolute;border-radius:50%;mix-blend-mode:screen;filter:blur(24px);opacity:.2;will-change:transform,opacity}
+.blob-a{width:36vw;height:36vw;min-width:260px;min-height:260px;left:-9vw;bottom:-18vh;background:radial-gradient(circle at 40% 35%,rgba(var(--accent-rgb),.35),transparent 62%);animation:meshBreathA 24s ease-in-out infinite}
+.blob-b{width:30vw;height:30vw;min-width:220px;min-height:220px;right:-6vw;top:8vh;background:radial-gradient(circle at 55% 35%,rgba(255,255,255,.14),transparent 68%);animation:meshBreathB 22s ease-in-out infinite}
+.blob-c{width:28vw;height:28vw;min-width:210px;min-height:210px;right:22vw;bottom:-12vh;background:radial-gradient(circle at 45% 40%,rgba(var(--accent-rgb),.26),transparent 70%);animation:meshBreathC 27s ease-in-out infinite}
+.mesh-shimmer{position:absolute;inset:-20% -10%;background:conic-gradient(from 0deg at 50% 50%,transparent 0 18%,rgba(var(--accent-rgb),.11) 28%,transparent 40% 58%,rgba(255,255,255,.07) 70%,transparent 84% 100%);mix-blend-mode:screen;opacity:.03;filter:blur(38px);animation:meshShimmer 18s linear infinite}
+
+#vectorField{z-index:5;width:100%;height:100%;mix-blend-mode:screen;opacity:.44;transform:translate3d(calc(var(--drift-x)*.55),calc(var(--drift-y)*.55),0);transition:opacity .6s ease}
+#particles{position:absolute;inset:0;z-index:4}
+.orb{z-index:1}
+.grid-glow{z-index:0}
+
+@keyframes auroraFlowA{0%{transform:translate(-6%,10%) rotate(-8deg) scale(1)}50%{transform:translate(8%,-5%) rotate(9deg) scale(1.08)}100%{transform:translate(-6%,10%) rotate(-8deg) scale(1)}}
+@keyframes auroraFlowB{0%{transform:translate(5%,-8%) rotate(10deg) scale(1)}50%{transform:translate(-9%,8%) rotate(-7deg) scale(1.12)}100%{transform:translate(5%,-8%) rotate(10deg) scale(1)}}
+@keyframes auroraFlowC{0%{transform:translate(-4%,4%) rotate(5deg) scale(1)}50%{transform:translate(10%,-9%) rotate(-6deg) scale(1.1)}100%{transform:translate(-4%,4%) rotate(5deg) scale(1)}}
+@keyframes meshBreathA{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(4vw,-2vh,0) scale(1.13)}}
+@keyframes meshBreathB{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-3vw,3vh,0) scale(1.1)}}
+@keyframes meshBreathC{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(2vw,-3vh,0) scale(1.15)}}
+@keyframes meshShimmer{0%{transform:rotate(0deg) scale(1)}50%{transform:rotate(180deg) scale(1.06)}100%{transform:rotate(360deg) scale(1)}}
+
+.reduced .aurora-layer,.reduced .mesh-layer,.reduced #vectorField{display:none}
+.reduced #particles .particle{display:none}
 </style>
 </head><body>
-<div class="atmosphere" aria-hidden="true"><div class="orb orb-one"></div><div class="orb orb-two"></div><div class="grid-glow"></div><div id="particles"></div></div>
+<div class="atmosphere" aria-hidden="true"><div class="aurora-layer"><span class="aurora-ribbon ribbon-a"></span><span class="aurora-ribbon ribbon-b"></span><span class="aurora-ribbon ribbon-c"></span></div><div class="mesh-layer"><span class="mesh-blob blob-a"></span><span class="mesh-blob blob-b"></span><span class="mesh-blob blob-c"></span><span class="mesh-shimmer"></span></div><canvas id="vectorField"></canvas><div class="orb orb-one"></div><div class="orb orb-two"></div><div class="grid-glow"></div><div id="particles"></div></div>
 <header class="topbar"><a href="./" class="brand" aria-label="Clue Circuit home"><span class="brand-mark">◈</span> CLUE<span>CIRCUIT</span><i>WORD CLUB</i></a>
-<nav aria-label="Appearance and help"><label class="theme-label" for="theme">SET THE MOOD</label><select id="theme"><option value="halloween">☾ Halloween</option><option value="tech">⌘ High tech</option><option value="winter">✧ Winter holiday</option></select><button id="motionToggle" class="icon-button" aria-label="Reduce animations" title="Reduce animations">◉</button><button id="help" class="quiet">How to play <span>↗</span></button></nav></header>
+<nav aria-label="Appearance and help"><label class="theme-label" for="theme">SET THE MOOD</label><select id="theme"><option value="halloween">☾ Halloween</option><option value="tech">⌘ Neon noir</option><option value="winter">✧ Winter holiday</option><option value="arcade">▣ Arcade rush</option><option value="dungeon">⚔ Dungeon crawl</option><option value="space">✶ Space opera</option><option value="noir">◬ Midnight noir</option><option value="heist">⬢ Heist mode</option><option value="western">✷ Frontier dusk</option><option value="pirate">☠ Pirate tide</option><option value="kaiju">◉ Kaiju panic</option><option value="jungle">✿ Jungle pulse</option><option value="spy">⌖ Spy thriller</option></select><button id="motionToggle" class="icon-button" aria-label="Reduce animations" title="Reduce animations">◉</button><button id="help" class="quiet">How to play <span>↗</span></button></nav></header>
 <main>
 <section id="lobby">
 <div class="hero"><div class="hero-copy"><p class="eyebrow"><span class="status-dot"></span> YOUR AFTER-HOURS WORD CLUB</p><h1>Good clues.<br><em>Bad alibis.</em></h1><p class="hero-description">Twenty-five words. Two teams. One beautifully<br class="desktop"> suspicious connection. Make yours count.</p><div class="hero-meta"><span><b>4+</b> people</span><span><b>15–30</b> minutes</span><span><b>Zero</b> installs</span></div></div>
@@ -7974,9 +8017,25 @@ RABBIT ROBIN CARDINAL WREN OWL FOX WOLF BEAR DEER PENGUIN`)}
 const $=id=>document.getElementById(id);
 const el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
 const storage={get(k){try{return localStorage.getItem(k);}catch{return null;}},set(k,v){try{localStorage.setItem(k,v);return true;}catch{return false;}}};
-const THEMES={halloween:['PHANTOM','A LITTLE MISCHIEF IS IN SEASON.','☾'],tech:['SIGNAL','MAKE CONTACT. FIND THE CONNECTION.','+'],winter:['WONDER','GOOD COMPANY. A LITTLE WINTER MAGIC.','✧']};
+const THEMES={
+ halloween:['PHANTOM','A LITTLE MISCHIEF IS IN SEASON.','☾'],
+ tech:['SIGNAL','NEON STREETS. CLEAN GETAWAYS.','⌘'],
+ winter:['WONDER','GOOD COMPANY. A LITTLE WINTER MAGIC.','✧'],
+ arcade:['BONUS','PRESS START. BUILD A STREAK.','▣'],
+ dungeon:['RELIC','TORCHLIGHT, TRAPS, AND TREASURE.','⚔'],
+ space:['ORBIT','STARS ABOVE. STATIC BELOW.','✶'],
+ noir:['ALIBI','RAIN, SHADOWS, AND BAD DECISIONS.','◬'],
+ heist:['VAULT','BLUEPRINTS READY. TIMERS RUNNING.','⬢'],
+ western:['OUTLAW','DUST, SUNSET, AND SHOWDOWNS.','✷'],
+ pirate:['COMPASS','MAPS, STORMS, AND MUTINY.','☠'],
+ kaiju:['COLOSSAL','CITY LIGHTS. MONSTER SHADOWS.','◉'],
+ jungle:['CANOPY','VINES, DRUMS, SECRET PATHS.','✿'],
+ spy:['DEAD DROP','CODE PHRASES. QUIET FOOTSTEPS.','⌖']
+};
+const THEME_HUES={halloween:28,tech:164,winter:192,arcade:308,dungeon:42,space:220,noir:334,heist:142,western:26,pirate:196,kaiju:98,jungle:140,spy:176};
 const savedKey='clue-circuit:game:v1',prefsKey='clue-circuit:prefs:v1';
 let g=null,guest=null,undo=[],pool=[],selected=new Set(['everyday','halloween']),busy=false,theme='halloween',ambient=[],hoverCleanups=[],toastTimer;
+const fieldFx={canvas:null,ctx:null,dpr:1,width:0,height:0,raf:0,flows:[],sparks:[],bound:false,pointer:{x:0,y:0,active:false}};
 let reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const autoReduced=reduced;
 try{const pref=JSON.parse(storage.get(prefsKey));if(pref){theme=THEMES[pref.theme]?pref.theme:theme;reduced=autoReduced||!!pref.reduced;}}catch{}
@@ -7991,15 +8050,60 @@ function closeModal(){$('modal').close();}
 $('closeModal').onclick=closeModal;
 $('modal').addEventListener('click',e=>{if(e.target===$('modal')){const r=$('modal').getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)closeModal();}});
 function confirmDialog(title,text,label,callback){modal('YOUR CALL',body=>{body.append(el('h2','',title),el('p','',text));const actions=el('div','modal-actions'),cancel=el('button','quiet','Cancel'),ok=el('button','primary',label);cancel.onclick=closeModal;ok.onclick=()=>{closeModal();callback();};actions.append(cancel,ok);body.append(actions);});}
+function setParallax(x=innerWidth/2,y=innerHeight/2){const dx=(x/Math.max(1,innerWidth)-.5)*24,dy=(y/Math.max(1,innerHeight)-.5)*18;document.documentElement.style.setProperty('--drift-x',`${dx.toFixed(2)}px`);document.documentElement.style.setProperty('--drift-y',`${dy.toFixed(2)}px`);}
+function pointerMove(event){fieldFx.pointer.x=event.clientX;fieldFx.pointer.y=event.clientY;fieldFx.pointer.active=true;setParallax(event.clientX,event.clientY);}
+function pointerLeave(){fieldFx.pointer.active=false;document.documentElement.style.setProperty('--drift-x','0px');document.documentElement.style.setProperty('--drift-y','0px');}
+function vectorHue(type){if(type==='red')return 10;if(type==='blue')return 192;if(type==='trap')return 276;return THEME_HUES[theme]??32;}
+function resizeVectorField(){if(!fieldFx.canvas||!fieldFx.ctx)return;fieldFx.dpr=Math.min(window.devicePixelRatio||1,2);fieldFx.width=innerWidth;fieldFx.height=innerHeight;fieldFx.canvas.width=Math.round(fieldFx.width*fieldFx.dpr);fieldFx.canvas.height=Math.round(fieldFx.height*fieldFx.dpr);fieldFx.canvas.style.width=`${fieldFx.width}px`;fieldFx.canvas.style.height=`${fieldFx.height}px`;fieldFx.ctx.setTransform(fieldFx.dpr,0,0,fieldFx.dpr,0,0);}
+function seedVectorFlow(){const count=Math.max(90,Math.min(220,Math.floor(innerWidth*innerHeight/14000)));fieldFx.flows=Array.from({length:count},()=>({x:Math.random()*fieldFx.width,y:Math.random()*fieldFx.height,vx:0,vy:0,life:Math.random()}));}
+function addSparkBurst(x,y,hue,count=18){for(let i=0;i<count;i++){const a=Math.random()*Math.PI*2,s=.45+Math.random()*2.1;fieldFx.sparks.push({x,y,px:x,py:y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,size:.8+Math.random()*2,hue:hue+(Math.random()-.5)*18});}if(fieldFx.sparks.length>520)fieldFx.sparks.splice(0,fieldFx.sparks.length-520);}
+function sparkBurstFromCard(index,type){if(reduced||!fieldFx.canvas||!fieldFx.ctx)return;const slot=$('board')?.children?.[index];if(!slot)return;const rect=slot.getBoundingClientRect();addSparkBurst(rect.left+rect.width/2,rect.top+rect.height/2,vectorHue(type),24);}
+function stopVectorField(){if(fieldFx.raf){cancelAnimationFrame(fieldFx.raf);fieldFx.raf=0;}if(fieldFx.ctx)fieldFx.ctx.clearRect(0,0,fieldFx.width,fieldFx.height);}
+function drawVectorField(ms){
+ if(reduced||!fieldFx.ctx)return;
+ const ctx=fieldFx.ctx,t=ms*.00038,hue=vectorHue();
+ ctx.clearRect(0,0,fieldFx.width,fieldFx.height);
+ for(const p of fieldFx.flows){
+  const ox=p.x,oy=p.y,swirl=Math.sin((p.y+t*800)*.008)+Math.cos((p.x-t*860)*.0075);
+  let ax=Math.cos(swirl*2.4)*.065,ay=Math.sin(swirl*2.4)*.065;
+  if(fieldFx.pointer.active){const dx=fieldFx.pointer.x-p.x,dy=fieldFx.pointer.y-p.y,d=Math.hypot(dx,dy)+1,force=Math.max(0,1-d/320);ax+=dx/d*force*.12;ay+=dy/d*force*.12;if(Math.random()<force*.004)addSparkBurst(p.x,p.y,hue,2);}
+  p.vx=(p.vx+ax)*.94;p.vy=(p.vy+ay)*.94;p.x+=p.vx;p.y+=p.vy;
+  if(p.x<-30||p.x>fieldFx.width+30||p.y<-30||p.y>fieldFx.height+30){p.x=Math.random()*fieldFx.width;p.y=Math.random()*fieldFx.height;p.vx=0;p.vy=0;continue;}
+  ctx.strokeStyle=`hsla(${hue+swirl*16},92%,74%,${.07+Math.min(.22,Math.abs(p.vx)+Math.abs(p.vy))})`;
+  ctx.lineWidth=.9;ctx.beginPath();ctx.moveTo(ox,oy);ctx.lineTo(p.x,p.y);ctx.stroke();
+ }
+ for(let i=fieldFx.sparks.length-1;i>=0;i--){const s=fieldFx.sparks[i];s.px=s.x;s.py=s.y;s.x+=s.vx;s.y+=s.vy;s.vx*=.98;s.vy*=.98;s.life-=.024;if(s.life<=0){fieldFx.sparks.splice(i,1);continue;}ctx.strokeStyle=`hsla(${s.hue},96%,79%,${s.life*.65})`;ctx.lineWidth=Math.max(.5,s.size*s.life*.7);ctx.beginPath();ctx.moveTo(s.px,s.py);ctx.lineTo(s.x,s.y);ctx.stroke();ctx.fillStyle=`hsla(${s.hue},96%,79%,${s.life*.9})`;ctx.beginPath();ctx.arc(s.x,s.y,Math.max(.35,s.size*s.life*.45),0,Math.PI*2);ctx.fill();}
+ fieldFx.raf=requestAnimationFrame(drawVectorField);
+}
+function startVectorField(){
+ fieldFx.canvas=$('vectorField');fieldFx.ctx=fieldFx.canvas?.getContext('2d',{alpha:true});if(!fieldFx.canvas||!fieldFx.ctx)return;
+ resizeVectorField();seedVectorFlow();if(!fieldFx.bound){window.addEventListener('resize',resizeVectorField);window.addEventListener('pointermove',pointerMove,{passive:true});window.addEventListener('pointerdown',pointerMove,{passive:true});window.addEventListener('pointerleave',pointerLeave);fieldFx.bound=true;}
+ stopVectorField();fieldFx.raf=requestAnimationFrame(drawVectorField);
+}
+function nextStepText(){
+ if(g?.winner)return `Round complete. ${g.teams[g.winner].name} won. Start another round or deal a fresh board.`;
+ if(g?.phase==='clue')return `Next: ${possessive(g.teams[g.turn].name)} spymaster gives a one-word clue and number.`;
+ if(g?.phase==='guess')return `Next: ${g.teams[g.turn].name} has ${g.left} ${g.left===1?'guess':'guesses'} left. Reveal a card or end the turn.`;
+ return 'Next: continue the round.';
+}
+function actionUpdate(happened,next=nextStepText()){
+ modal('ACTION UPDATE',body=>{
+  body.append(el('h2','','Action complete.'),el('p','',happened),el('p','share-notice',next));
+  const actions=el('div','modal-actions'),ok=el('button','primary','Continue');ok.onclick=closeModal;actions.append(ok);body.append(actions);
+ });
+}
 function preferences(){storage.set(prefsKey,JSON.stringify({theme,reduced}));}
 function setTheme(value){theme=THEMES[value]?value:'halloween';document.documentElement.dataset.theme=theme;$('theme').value=theme;$('heroWord').textContent=THEMES[theme][0];$('artCaption').textContent=THEMES[theme][1];preferences();atmosphere();}
 function atmosphere(){
- ambient.forEach(a=>a.pause());ambient=[];$('particles').replaceChildren();document.documentElement.classList.toggle('reduced',reduced);
+ ambient.forEach(a=>a.pause());ambient=[];stopVectorField();$('particles').replaceChildren();document.documentElement.classList.toggle('reduced',reduced);
  $('motionToggle').setAttribute('aria-pressed',String(reduced));$('motionToggle').setAttribute('aria-label',reduced?'Enable animations':'Reduce animations');$('motionToggle').title=reduced?'Enable animations':'Reduce animations';
- if(reduced)return;
+ if(reduced){pointerLeave();return;}
+ startVectorField();
  for(let i=0;i<15;i++){const p=el('span','particle',THEMES[theme][2]);p.style.left=`${(i*23+7)%100}%`;p.style.top=`${(i*17+5)%100}%`;$('particles').append(p);ambient.push(window.anime.animate(p,{translateY:[0,-30],opacity:[.08,.25],alternate:true,loop:true,duration:6000+i*270,delay:i*170,ease:'inOutSine'}));}
  ambient.push(window.anime.animate('.ghost',{translateY:[-4,5],rotate:[-3,3],alternate:true,loop:true,duration:2600,ease:'inOutSine'}));
  ambient.push(window.anime.animate('.orbit-a',{rotate:[0,360],loop:true,duration:85000,ease:'linear'}));
+ ambient.push(window.anime.animate('.aurora-layer',{translateX:[-8,8],translateY:[-5,5],alternate:true,loop:true,duration:19000,ease:'inOutSine'}));
+ ambient.push(window.anime.animate('.mesh-shimmer',{opacity:[.02,.13,.02],scale:[1,1.08,1],alternate:true,loop:true,duration:14500,ease:'inOutSine'}));
 }
 $('theme').onchange=e=>{setTheme(e.target.value);if(!reduced)window.Motion.animate('main',{opacity:[.6,1]},{duration:.4});};
 $('motionToggle').onclick=()=>{reduced=!reduced;preferences();atmosphere();};
@@ -8057,14 +8161,16 @@ async function perform(action){
  try{const teamBefore=g.turn;const next=act(g,action);undo.push(structuredClone(g));if(undo.length>40)undo.shift();g=next;busy=true;save();renderGame();
   if(action.type==='guess'&&!reduced){const b=$('board').children[action.index].firstChild;await window.Motion.animate(b,{rotateY:[0,180]},{duration:.62,ease:[.22,1,.36,1]});}
   busy=false;renderGame();if(action.type==='clue'){$('clueWord').value='';if(!reduced)window.anime.animate('.clue-bar',{scale:[.98,1],duration:500,ease:'outElastic(1,.6)'});}
-    if(action.type==='guess'){const revealed=g.cards[action.index],outcome=cardTypeLabel(revealed.type,g.teams),correct=revealed.type===teamBefore,summary=revealed.type==='trap'?'Round lost on the trap.':correct?`${g.teams[teamBefore].name} can keep guessing.`:`Turn passes to ${g.teams[g.turn].name}.`;notify(`${revealed.word} → ${outcome}. ${summary}`);}
+  if(action.type==='clue')actionUpdate(`Clue locked: ${g.clue.word.toUpperCase()} · ${g.clue.count}.`);
+    if(action.type==='guess'){const revealed=g.cards[action.index],outcome=cardTypeLabel(revealed.type,g.teams),correct=revealed.type===teamBefore,summary=revealed.type==='trap'?'Round lost on the trap.':correct?`${g.teams[teamBefore].name} can keep guessing.`:`Turn passes to ${g.teams[g.turn].name}.`;notify(`${revealed.word} → ${outcome}. ${summary}`);sparkBurstFromCard(action.index,revealed.type);actionUpdate(`${revealed.word} revealed as ${outcome}.`);}
+  if(action.type==='end')actionUpdate(`${g.teams[teamBefore].name} ended the turn.`);
   if(g.winner)celebrate(g.winner);
  }catch(err){busy=false;error('gameError',err.message);}
 }
 $('clueForm').onsubmit=e=>{e.preventDefault();error('gameError');perform({type:'clue',word:$('clueWord').value,count:Number($('clueCount').value)});};
 $('endTurn').onclick=()=>perform({type:'end'});
-$('undo').onclick=()=>{if(busy||!undo.length)return;g=undo.pop();save();error('gameError');renderGame();notify('Last action undone.');};
-function fresh(){if(busy)return;confirmDialog('Deal a fresh board?','The current round will be replaced. Team names and the word pool stay the same. Send fresh spymaster links after dealing.','Deal a new board',()=>{g=newGame(pool,g.teams,g.pack);undo=[];save();showGame(true);});}
+$('undo').onclick=()=>{if(busy||!undo.length)return;g=undo.pop();save();error('gameError');renderGame();notify('Last action undone.');actionUpdate('Last action was undone.');};
+function fresh(){if(busy)return;confirmDialog('Deal a fresh board?','The current round will be replaced. Team names and the word pool stay the same. Send fresh spymaster links after dealing.','Deal a new board',()=>{g=newGame(pool,g.teams,g.pack);undo=[];save();showGame(true);actionUpdate('Fresh board dealt.','Next: send new private spymaster keys before clues begin.');});}
 $('newBoard').onclick=fresh;$('playAgain').onclick=fresh;
 $('presentation').onclick=()=>{document.body.classList.toggle('focus-mode');$('presentation').textContent=document.body.classList.contains('focus-mode')?'Exit focus':'Focus mode';};
 function celebrate(team){if(reduced)return;$('confetti').replaceChildren();const colors=[getComputedStyle(document.documentElement).getPropertyValue('--'+team),'#e8b572','#f4efe7'];for(let i=0;i<60;i++){const p=el('i','confetto');p.style.background=colors[i%3];$('confetti').append(p);window.anime.animate(p,{translateX:[0,(Math.random()-.5)*innerWidth*1.5],translateY:[0,-150-Math.random()*180,innerHeight*.7],rotate:[0,Math.random()*720],opacity:[1,1,0],duration:1800+Math.random()*700,delay:Math.random()*250,ease:'outQuad',onComplete:()=>p.remove()});}}

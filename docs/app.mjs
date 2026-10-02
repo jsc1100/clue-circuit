@@ -4,9 +4,25 @@ import { newGame, act, remaining, parseWords, validateWords, invitation, encode,
 const $=id=>document.getElementById(id);
 const el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
 const storage={get(k){try{return localStorage.getItem(k);}catch{return null;}},set(k,v){try{localStorage.setItem(k,v);return true;}catch{return false;}}};
-const THEMES={halloween:['PHANTOM','A LITTLE MISCHIEF IS IN SEASON.','☾'],tech:['SIGNAL','MAKE CONTACT. FIND THE CONNECTION.','+'],winter:['WONDER','GOOD COMPANY. A LITTLE WINTER MAGIC.','✧']};
+const THEMES={
+ halloween:['PHANTOM','A LITTLE MISCHIEF IS IN SEASON.','☾'],
+ tech:['SIGNAL','NEON STREETS. CLEAN GETAWAYS.','⌘'],
+ winter:['WONDER','GOOD COMPANY. A LITTLE WINTER MAGIC.','✧'],
+ arcade:['BONUS','PRESS START. BUILD A STREAK.','▣'],
+ dungeon:['RELIC','TORCHLIGHT, TRAPS, AND TREASURE.','⚔'],
+ space:['ORBIT','STARS ABOVE. STATIC BELOW.','✶'],
+ noir:['ALIBI','RAIN, SHADOWS, AND BAD DECISIONS.','◬'],
+ heist:['VAULT','BLUEPRINTS READY. TIMERS RUNNING.','⬢'],
+ western:['OUTLAW','DUST, SUNSET, AND SHOWDOWNS.','✷'],
+ pirate:['COMPASS','MAPS, STORMS, AND MUTINY.','☠'],
+ kaiju:['COLOSSAL','CITY LIGHTS. MONSTER SHADOWS.','◉'],
+ jungle:['CANOPY','VINES, DRUMS, SECRET PATHS.','✿'],
+ spy:['DEAD DROP','CODE PHRASES. QUIET FOOTSTEPS.','⌖']
+};
+const THEME_HUES={halloween:28,tech:164,winter:192,arcade:308,dungeon:42,space:220,noir:334,heist:142,western:26,pirate:196,kaiju:98,jungle:140,spy:176};
 const savedKey='clue-circuit:game:v1',prefsKey='clue-circuit:prefs:v1';
 let g=null,guest=null,undo=[],pool=[],selected=new Set(['everyday','halloween']),busy=false,theme='halloween',ambient=[],hoverCleanups=[],toastTimer;
+const fieldFx={canvas:null,ctx:null,dpr:1,width:0,height:0,raf:0,flows:[],sparks:[],bound:false,pointer:{x:0,y:0,active:false}};
 let reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const autoReduced=reduced;
 try{const pref=JSON.parse(storage.get(prefsKey));if(pref){theme=THEMES[pref.theme]?pref.theme:theme;reduced=autoReduced||!!pref.reduced;}}catch{}
@@ -21,15 +37,60 @@ function closeModal(){$('modal').close();}
 $('closeModal').onclick=closeModal;
 $('modal').addEventListener('click',e=>{if(e.target===$('modal')){const r=$('modal').getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)closeModal();}});
 function confirmDialog(title,text,label,callback){modal('YOUR CALL',body=>{body.append(el('h2','',title),el('p','',text));const actions=el('div','modal-actions'),cancel=el('button','quiet','Cancel'),ok=el('button','primary',label);cancel.onclick=closeModal;ok.onclick=()=>{closeModal();callback();};actions.append(cancel,ok);body.append(actions);});}
+function setParallax(x=innerWidth/2,y=innerHeight/2){const dx=(x/Math.max(1,innerWidth)-.5)*24,dy=(y/Math.max(1,innerHeight)-.5)*18;document.documentElement.style.setProperty('--drift-x',`${dx.toFixed(2)}px`);document.documentElement.style.setProperty('--drift-y',`${dy.toFixed(2)}px`);}
+function pointerMove(event){fieldFx.pointer.x=event.clientX;fieldFx.pointer.y=event.clientY;fieldFx.pointer.active=true;setParallax(event.clientX,event.clientY);}
+function pointerLeave(){fieldFx.pointer.active=false;document.documentElement.style.setProperty('--drift-x','0px');document.documentElement.style.setProperty('--drift-y','0px');}
+function vectorHue(type){if(type==='red')return 10;if(type==='blue')return 192;if(type==='trap')return 276;return THEME_HUES[theme]??32;}
+function resizeVectorField(){if(!fieldFx.canvas||!fieldFx.ctx)return;fieldFx.dpr=Math.min(window.devicePixelRatio||1,2);fieldFx.width=innerWidth;fieldFx.height=innerHeight;fieldFx.canvas.width=Math.round(fieldFx.width*fieldFx.dpr);fieldFx.canvas.height=Math.round(fieldFx.height*fieldFx.dpr);fieldFx.canvas.style.width=`${fieldFx.width}px`;fieldFx.canvas.style.height=`${fieldFx.height}px`;fieldFx.ctx.setTransform(fieldFx.dpr,0,0,fieldFx.dpr,0,0);}
+function seedVectorFlow(){const count=Math.max(90,Math.min(220,Math.floor(innerWidth*innerHeight/14000)));fieldFx.flows=Array.from({length:count},()=>({x:Math.random()*fieldFx.width,y:Math.random()*fieldFx.height,vx:0,vy:0,life:Math.random()}));}
+function addSparkBurst(x,y,hue,count=18){for(let i=0;i<count;i++){const a=Math.random()*Math.PI*2,s=.45+Math.random()*2.1;fieldFx.sparks.push({x,y,px:x,py:y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,size:.8+Math.random()*2,hue:hue+(Math.random()-.5)*18});}if(fieldFx.sparks.length>520)fieldFx.sparks.splice(0,fieldFx.sparks.length-520);}
+function sparkBurstFromCard(index,type){if(reduced||!fieldFx.canvas||!fieldFx.ctx)return;const slot=$('board')?.children?.[index];if(!slot)return;const rect=slot.getBoundingClientRect();addSparkBurst(rect.left+rect.width/2,rect.top+rect.height/2,vectorHue(type),24);}
+function stopVectorField(){if(fieldFx.raf){cancelAnimationFrame(fieldFx.raf);fieldFx.raf=0;}if(fieldFx.ctx)fieldFx.ctx.clearRect(0,0,fieldFx.width,fieldFx.height);}
+function drawVectorField(ms){
+ if(reduced||!fieldFx.ctx)return;
+ const ctx=fieldFx.ctx,t=ms*.00038,hue=vectorHue();
+ ctx.clearRect(0,0,fieldFx.width,fieldFx.height);
+ for(const p of fieldFx.flows){
+  const ox=p.x,oy=p.y,swirl=Math.sin((p.y+t*800)*.008)+Math.cos((p.x-t*860)*.0075);
+  let ax=Math.cos(swirl*2.4)*.065,ay=Math.sin(swirl*2.4)*.065;
+  if(fieldFx.pointer.active){const dx=fieldFx.pointer.x-p.x,dy=fieldFx.pointer.y-p.y,d=Math.hypot(dx,dy)+1,force=Math.max(0,1-d/320);ax+=dx/d*force*.12;ay+=dy/d*force*.12;if(Math.random()<force*.004)addSparkBurst(p.x,p.y,hue,2);}
+  p.vx=(p.vx+ax)*.94;p.vy=(p.vy+ay)*.94;p.x+=p.vx;p.y+=p.vy;
+  if(p.x<-30||p.x>fieldFx.width+30||p.y<-30||p.y>fieldFx.height+30){p.x=Math.random()*fieldFx.width;p.y=Math.random()*fieldFx.height;p.vx=0;p.vy=0;continue;}
+  ctx.strokeStyle=`hsla(${hue+swirl*16},92%,74%,${.07+Math.min(.22,Math.abs(p.vx)+Math.abs(p.vy))})`;
+  ctx.lineWidth=.9;ctx.beginPath();ctx.moveTo(ox,oy);ctx.lineTo(p.x,p.y);ctx.stroke();
+ }
+ for(let i=fieldFx.sparks.length-1;i>=0;i--){const s=fieldFx.sparks[i];s.px=s.x;s.py=s.y;s.x+=s.vx;s.y+=s.vy;s.vx*=.98;s.vy*=.98;s.life-=.024;if(s.life<=0){fieldFx.sparks.splice(i,1);continue;}ctx.strokeStyle=`hsla(${s.hue},96%,79%,${s.life*.65})`;ctx.lineWidth=Math.max(.5,s.size*s.life*.7);ctx.beginPath();ctx.moveTo(s.px,s.py);ctx.lineTo(s.x,s.y);ctx.stroke();ctx.fillStyle=`hsla(${s.hue},96%,79%,${s.life*.9})`;ctx.beginPath();ctx.arc(s.x,s.y,Math.max(.35,s.size*s.life*.45),0,Math.PI*2);ctx.fill();}
+ fieldFx.raf=requestAnimationFrame(drawVectorField);
+}
+function startVectorField(){
+ fieldFx.canvas=$('vectorField');fieldFx.ctx=fieldFx.canvas?.getContext('2d',{alpha:true});if(!fieldFx.canvas||!fieldFx.ctx)return;
+ resizeVectorField();seedVectorFlow();if(!fieldFx.bound){window.addEventListener('resize',resizeVectorField);window.addEventListener('pointermove',pointerMove,{passive:true});window.addEventListener('pointerdown',pointerMove,{passive:true});window.addEventListener('pointerleave',pointerLeave);fieldFx.bound=true;}
+ stopVectorField();fieldFx.raf=requestAnimationFrame(drawVectorField);
+}
+function nextStepText(){
+ if(g?.winner)return `Round complete. ${g.teams[g.winner].name} won. Start another round or deal a fresh board.`;
+ if(g?.phase==='clue')return `Next: ${possessive(g.teams[g.turn].name)} spymaster gives a one-word clue and number.`;
+ if(g?.phase==='guess')return `Next: ${g.teams[g.turn].name} has ${g.left} ${g.left===1?'guess':'guesses'} left. Reveal a card or end the turn.`;
+ return 'Next: continue the round.';
+}
+function actionUpdate(happened,next=nextStepText()){
+ modal('ACTION UPDATE',body=>{
+  body.append(el('h2','','Action complete.'),el('p','',happened),el('p','share-notice',next));
+  const actions=el('div','modal-actions'),ok=el('button','primary','Continue');ok.onclick=closeModal;actions.append(ok);body.append(actions);
+ });
+}
 function preferences(){storage.set(prefsKey,JSON.stringify({theme,reduced}));}
 function setTheme(value){theme=THEMES[value]?value:'halloween';document.documentElement.dataset.theme=theme;$('theme').value=theme;$('heroWord').textContent=THEMES[theme][0];$('artCaption').textContent=THEMES[theme][1];preferences();atmosphere();}
 function atmosphere(){
- ambient.forEach(a=>a.pause());ambient=[];$('particles').replaceChildren();document.documentElement.classList.toggle('reduced',reduced);
+ ambient.forEach(a=>a.pause());ambient=[];stopVectorField();$('particles').replaceChildren();document.documentElement.classList.toggle('reduced',reduced);
  $('motionToggle').setAttribute('aria-pressed',String(reduced));$('motionToggle').setAttribute('aria-label',reduced?'Enable animations':'Reduce animations');$('motionToggle').title=reduced?'Enable animations':'Reduce animations';
- if(reduced)return;
+ if(reduced){pointerLeave();return;}
+ startVectorField();
  for(let i=0;i<15;i++){const p=el('span','particle',THEMES[theme][2]);p.style.left=`${(i*23+7)%100}%`;p.style.top=`${(i*17+5)%100}%`;$('particles').append(p);ambient.push(window.anime.animate(p,{translateY:[0,-30],opacity:[.08,.25],alternate:true,loop:true,duration:6000+i*270,delay:i*170,ease:'inOutSine'}));}
  ambient.push(window.anime.animate('.ghost',{translateY:[-4,5],rotate:[-3,3],alternate:true,loop:true,duration:2600,ease:'inOutSine'}));
  ambient.push(window.anime.animate('.orbit-a',{rotate:[0,360],loop:true,duration:85000,ease:'linear'}));
+ ambient.push(window.anime.animate('.aurora-layer',{translateX:[-8,8],translateY:[-5,5],alternate:true,loop:true,duration:19000,ease:'inOutSine'}));
+ ambient.push(window.anime.animate('.mesh-shimmer',{opacity:[.02,.13,.02],scale:[1,1.08,1],alternate:true,loop:true,duration:14500,ease:'inOutSine'}));
 }
 $('theme').onchange=e=>{setTheme(e.target.value);if(!reduced)window.Motion.animate('main',{opacity:[.6,1]},{duration:.4});};
 $('motionToggle').onclick=()=>{reduced=!reduced;preferences();atmosphere();};
@@ -87,14 +148,16 @@ async function perform(action){
  try{const teamBefore=g.turn;const next=act(g,action);undo.push(structuredClone(g));if(undo.length>40)undo.shift();g=next;busy=true;save();renderGame();
   if(action.type==='guess'&&!reduced){const b=$('board').children[action.index].firstChild;await window.Motion.animate(b,{rotateY:[0,180]},{duration:.62,ease:[.22,1,.36,1]});}
   busy=false;renderGame();if(action.type==='clue'){$('clueWord').value='';if(!reduced)window.anime.animate('.clue-bar',{scale:[.98,1],duration:500,ease:'outElastic(1,.6)'});}
-    if(action.type==='guess'){const revealed=g.cards[action.index],outcome=cardTypeLabel(revealed.type,g.teams),correct=revealed.type===teamBefore,summary=revealed.type==='trap'?'Round lost on the trap.':correct?`${g.teams[teamBefore].name} can keep guessing.`:`Turn passes to ${g.teams[g.turn].name}.`;notify(`${revealed.word} → ${outcome}. ${summary}`);}
+  if(action.type==='clue')actionUpdate(`Clue locked: ${g.clue.word.toUpperCase()} · ${g.clue.count}.`);
+    if(action.type==='guess'){const revealed=g.cards[action.index],outcome=cardTypeLabel(revealed.type,g.teams),correct=revealed.type===teamBefore,summary=revealed.type==='trap'?'Round lost on the trap.':correct?`${g.teams[teamBefore].name} can keep guessing.`:`Turn passes to ${g.teams[g.turn].name}.`;notify(`${revealed.word} → ${outcome}. ${summary}`);sparkBurstFromCard(action.index,revealed.type);actionUpdate(`${revealed.word} revealed as ${outcome}.`);}
+  if(action.type==='end')actionUpdate(`${g.teams[teamBefore].name} ended the turn.`);
   if(g.winner)celebrate(g.winner);
  }catch(err){busy=false;error('gameError',err.message);}
 }
 $('clueForm').onsubmit=e=>{e.preventDefault();error('gameError');perform({type:'clue',word:$('clueWord').value,count:Number($('clueCount').value)});};
 $('endTurn').onclick=()=>perform({type:'end'});
-$('undo').onclick=()=>{if(busy||!undo.length)return;g=undo.pop();save();error('gameError');renderGame();notify('Last action undone.');};
-function fresh(){if(busy)return;confirmDialog('Deal a fresh board?','The current round will be replaced. Team names and the word pool stay the same. Send fresh spymaster links after dealing.','Deal a new board',()=>{g=newGame(pool,g.teams,g.pack);undo=[];save();showGame(true);});}
+$('undo').onclick=()=>{if(busy||!undo.length)return;g=undo.pop();save();error('gameError');renderGame();notify('Last action undone.');actionUpdate('Last action was undone.');};
+function fresh(){if(busy)return;confirmDialog('Deal a fresh board?','The current round will be replaced. Team names and the word pool stay the same. Send fresh spymaster links after dealing.','Deal a new board',()=>{g=newGame(pool,g.teams,g.pack);undo=[];save();showGame(true);actionUpdate('Fresh board dealt.','Next: send new private spymaster keys before clues begin.');});}
 $('newBoard').onclick=fresh;$('playAgain').onclick=fresh;
 $('presentation').onclick=()=>{document.body.classList.toggle('focus-mode');$('presentation').textContent=document.body.classList.contains('focus-mode')?'Exit focus':'Focus mode';};
 function celebrate(team){if(reduced)return;$('confetti').replaceChildren();const colors=[getComputedStyle(document.documentElement).getPropertyValue('--'+team),'#e8b572','#f4efe7'];for(let i=0;i<60;i++){const p=el('i','confetto');p.style.background=colors[i%3];$('confetti').append(p);window.anime.animate(p,{translateX:[0,(Math.random()-.5)*innerWidth*1.5],translateY:[0,-150-Math.random()*180,innerHeight*.7],rotate:[0,Math.random()*720],opacity:[1,1,0],duration:1800+Math.random()*700,delay:Math.random()*250,ease:'outQuad',onComplete:()=>p.remove()});}}
