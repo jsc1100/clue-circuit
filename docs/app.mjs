@@ -13,6 +13,7 @@ try{const pref=JSON.parse(storage.get(prefsKey));if(pref){theme=THEMES[pref.them
 
 function notify(message){$('toast').textContent=message;$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,3500);}
 function error(id,message=''){$(id).textContent=message;$(id).hidden=!message;}
+function cardTypeLabel(type,teams){return type==='trap'?'THE TRAP':type==='neutral'?'BYSTANDER':`${teams[type].name.toUpperCase()} AGENT`;}
 function save(){if(!guest&&g&&!storage.set(savedKey,JSON.stringify({g,undo:undo.slice(-40),pool})))notify('Browser storage unavailable. Keep this tab open.');}
 function modal(title,build){$('modalEyebrow').textContent=title;$('modalBody').replaceChildren();build($('modalBody'));if(!$('modal').open)$('modal').showModal();if(!reduced)window.Motion.animate($('modal'),{opacity:[0,1],y:[12,0],scale:[.98,1]},{duration:.25});}
 function closeModal(){$('modal').close();}
@@ -53,7 +54,7 @@ function renderGame(){
  const s=guest||g,isGuest=!!guest,master=guest?.role==='master';if(!s)return;
  $('gameLabel').textContent=`${isGuest?master?'PRIVATE SPYMASTER KEY':'OPERATOR SNAPSHOT':'HOST BOARD'} / CASE ${s.id.toUpperCase()}`;
  $('gameTitle').textContent=isGuest?`${s.teams[s.team].name} · ${master?'spymaster':'operator'}`:g.winner?`${g.teams[g.winner].name} wins.`:`${g.teams[g.turn].name}, you’re up.`;
- $('viewDescription').textContent=isGuest?master?'Keep this view private. Give your clue aloud in the meeting.':'Follow the host’s shared screen for the live game.':`${s.pack} · Screen-share this tab. The answers stay hidden.`;
+ $('viewDescription').textContent=isGuest?master?'Keep this view private. Give your clue aloud in the meeting.':'Follow the host’s shared screen for the live game.':`${s.pack} · Screen-share this tab. Answers stay hidden here; use Team links for private keys.`;
  $('hostActions').hidden=isGuest;$('hostControls').hidden=isGuest;$('guestNotice').hidden=!isGuest;$('historyPanel').hidden=isGuest;
  for(const t of ['red','blue']){
   const team=s.teams[t];$(t+'Title').textContent=team.name;$(t+'MasterDisplay').textContent=team.master||'Choose a clue giver';
@@ -82,9 +83,10 @@ function card(c,index,master,isGuest){
 function getMarks(){try{const a=JSON.parse(storage.get(`clue-circuit:marks:${guest.id}`));return Array.isArray(a)?a.filter(x=>Number.isInteger(x)&&x>=0&&x<25):[];}catch{return [];}}
 async function perform(action){
  if(busy||guest)return;
- try{const next=act(g,action);undo.push(structuredClone(g));if(undo.length>40)undo.shift();g=next;busy=true;save();renderGame();
+ try{const teamBefore=g.turn;const next=act(g,action);undo.push(structuredClone(g));if(undo.length>40)undo.shift();g=next;busy=true;save();renderGame();
   if(action.type==='guess'&&!reduced){const b=$('board').children[action.index].firstChild;await window.Motion.animate(b,{rotateY:[0,180]},{duration:.62,ease:[.22,1,.36,1]});}
   busy=false;renderGame();if(action.type==='clue'){$('clueWord').value='';if(!reduced)window.anime.animate('.clue-bar',{scale:[.98,1],duration:500,ease:'outElastic(1,.6)'});}
+    if(action.type==='guess'){const revealed=g.cards[action.index],outcome=cardTypeLabel(revealed.type,g.teams),correct=revealed.type===teamBefore,summary=revealed.type==='trap'?'Round lost on the trap.':correct?`${g.teams[teamBefore].name} can keep guessing.`:`Turn passes to ${g.teams[g.turn].name}.`;notify(`${revealed.word} → ${outcome}. ${summary}`);}
   if(g.winner)celebrate(g.winner);
  }catch(err){busy=false;error('gameError',err.message);}
 }

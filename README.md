@@ -80,7 +80,20 @@ node scripts/build-offline.mjs
 
 Edit `docs/app.mjs` for the interface, `docs/engine.mjs` for rules/invite serialization, `docs/packs.mjs` for themed collections, and `docs/style.css` for themes. `docs/data/everyday.mjs` contains the general word collection. No transpilation is necessary.
 
-All 12 unit tests pass, covering pack sizes, random board invariants, custom input, turn rules, trap/win outcomes, and answer isolation in invitations. JavaScript syntax is also checked for the standalone build. Visual browser verification remains pending: the execution environment blocked the local browser preview and browser installation. Guest views, undo, persistence, themes, mobile layout, and external request behavior should be reviewed in your browser before game night.
+All 12 unit tests pass on Node.js 22 (`npx -y node@22 --test test/*.test.mjs`), covering pack sizes, random board invariants, custom input, turn rules, trap/win outcomes, and answer isolation in invitations. The standalone bundle is rebuilt and validated with `npx -y node@22 scripts/build-offline.mjs`.
+
+Browser verification was completed against `http://localhost:3000` and direct `file:///.../play-offline.html` use. Verified flows include:
+
+- Theme switching (Halloween, high-tech, winter) and reduced-motion toggle behavior.
+- Desktop and mobile layouts (including compact game-top and two-column team sidebar behavior on small screens).
+- Keyboard interaction for guess confirmation (focusing a card and pressing Enter opens the reveal dialog).
+- Full host flow: clue entry, reveal confirmation, explicit reveal outcome messaging, undo, trap-loss round end, and normal win condition.
+- Custom word validation (`<25` rejected, `25` accepted), team editing, and local resume behavior.
+- Invite/link model: operator snapshots omit hidden answers, spymaster links expose full key, and guest pages are labeled as non-live snapshots.
+- Private key PNG action in-app feedback (`Private key downloaded...`) and no runtime external resource origins beyond the same origin while serving locally.
+- No console errors observed during local/browser verification runs.
+
+Current deployment note: `https://jsc1100.github.io/clue-circuit/` returned the GitHub Pages `404` placeholder during verification, so Pages still needs to be enabled for `main` / `docs` in repository Settings.
 
 ## License and attribution
 
