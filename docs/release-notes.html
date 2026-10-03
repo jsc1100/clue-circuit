@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Clue Circuit feature release notes for October 3, 2026: holiday moods, ghost costumes, expanded word packs, inline reveals, clocks, difficulty, and clue histories.">
+  <title>October 3, 2026 release notes — Clue Circuit</title>
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    .guide-content{max-width:78ch;margin:auto;padding:1.5rem clamp(1rem,4vw,2.5rem) 3rem;font-size:1rem;line-height:1.7;overflow-wrap:anywhere;transition:none}
+    .guide-content main,.guide-content footer{padding:0;max-width:none}
+    .guide-content header,.guide-content section,.guide-content footer{margin-block:2rem}
+    .guide-content h1{font-size:clamp(2rem,6vw,3rem);letter-spacing:-.04em;line-height:1.15}
+    .guide-content h2{font-size:1.65rem;margin:2rem 0 1rem;line-height:1.3}
+    .guide-content h3{font-size:1.2rem;margin:1.5rem 0 .75rem;line-height:1.4}
+    .guide-content li{margin-block:.6rem}
+    .guide-content nav ul{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;list-style:none;padding:0}
+    .guide-content a{text-underline-offset:.2em}
+    .guide-content a:focus-visible,.guide-content [tabindex]:focus{outline:3px solid var(--accent);outline-offset:4px}
+    .guide-content :target{scroll-margin-top:1rem}
+    .guide-content .notice{border-left:4px solid var(--accent);background:var(--panel);padding:1rem}
+    .guide-content .table-wrap{overflow-x:auto}
+    .guide-content table{width:100%;border-collapse:collapse;margin-block:1rem}
+    .guide-content caption{text-align:left;font-weight:700;margin-bottom:.5rem}
+    .guide-content th,.guide-content td{text-align:left;vertical-align:top;padding:.6rem;border:1px solid var(--line)}
+    .guide-content code,.guide-content kbd{font-size:.95em}
+    .guide-content footer{display:block;font-size:1rem;letter-spacing:normal;padding-top:1rem}
+    @media(max-width:480px){.guide-content th,.guide-content td{padding:.35rem;font-size:.9rem}}
+    @media(prefers-reduced-motion:reduce){.guide-content,.guide-content *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+<body class="guide-content">
+  <a href="#main">Skip to release notes</a>
+  <header>
+    <p>CLUE CIRCUIT · FEATURE RELEASE</p>
+    <h1>More moods, clearer turns.</h1>
+    <p>Published release notes · <time datetime="2026-10-03">October 3, 2026</time></p>
+    <p>A broader vocabulary, a dressed-up ghost, and clearer table management for screen-shared game nights. Clue Circuit remains a static browser game with no accounts, backend, or live multiplayer service.</p>
+    <nav aria-label="Documentation">
+      <ul><li><a href="./index.html">Open the game</a></li><li><a href="./guides.html">Player guides</a></li></ul>
+    </nav>
+  </header>
+  <main id="main" tabindex="-1">
+    <nav aria-label="Release note contents">
+      <h2>In this release</h2>
+      <ul>
+        <li><a href="#changes">Eight feature changes</a></li>
+        <li><a href="#collections">Collection catalog</a></li>
+        <li><a href="#presets">Difficulty and timer presets</a></li>
+        <li><a href="#migration">Existing saves and next rounds</a></li>
+        <li><a href="#limitations">Compatibility and limitations</a></li>
+        <li><a href="#publishing">Publishing and offline download</a></li>
+      </ul>
+    </nav>
+
+    <section id="changes" aria-labelledby="changes-heading">
+      <h2 id="changes-heading">Eight feature changes</h2>
+      <h3 id="holiday-moods">1. Seven holiday moods</h3>
+      <p>Diwali, Thanksgiving, Christmas, Hanukkah, Kwanzaa, Lunar New Year, and Eid join the thirteen existing moods for twenty choices. Halloween, Neon noir, Winter holiday, Arcade rush, Dungeon crawl, Space opera, Midnight noir, Heist mode, Frontier dusk, Pirate tide, Kaiju panic, Jungle pulse, and Spy thriller remain available. Switch the atmosphere without changing the rules or board.</p>
+      <h3 id="ghost-costumes">2. A unique ghost outfit in every theme</h3>
+      <p>The friendly ghost now wears an original SVG costume or accessory for each of the twenty themes, including all thirteen existing moods as well as the seven new holidays. Theme changes replace the accessory rather than accumulating decorations. The artwork is part of the app, not a remote image service.</p>
+      <h3 id="expanded-packs">3. Twelve expanded word collections</h3>
+      <p>The collections contain <strong>3,344 entries in total before cross-pack deduplication</strong>. Every pack has at least 200 unique entries. Added subject areas include federal Salesforce delivery with Copado and GitHub, nature, science, arts, sports, and world celebrations. Mix packs or add custom vocabulary; shared entries are removed when building the final pool. See the <a href="#collections">full names and counts</a> below.</p>
+      <h3 id="inline-confirmation">4. Inline card confirmation</h3>
+      <p>Selecting a card flips it to <strong>Reveal / Cancel</strong> controls in place instead of opening a reveal modal. For keyboard play, <kbd>Enter</kbd> opens confirmation with focus on <strong>Cancel</strong>. Another Enter cancels; <kbd>Tab</kbd> moves to Reveal for an intentional confirmation. <kbd>Escape</kbd> cancels the pending guess. The workflow keeps the decision attached to its card.</p>
+      <h3 id="inline-results">5. Explicit inline reveal results</h3>
+      <p><strong>CORRECT!</strong> and <strong>WRONG!</strong> feedback describes the reveal and what happens next without interrupting play with a modal. Correct agents may allow another guess; bystanders and opposing agents end the turn unless a win has been reached. The trap immediately loses the round. Public status messaging accompanies the visual feedback.</p>
+      <h3 id="phase-clocks">6. Separate clue and operator clocks</h3>
+      <p>The host runs a spymaster-clue clock and an operator-turn clock, with pause/resume and editable limits. Expiry automatically passes to the other team’s spymaster, including a clue phase where no clue was submitted. Every guess in an operator turn shares one budget: correct guesses do not restart it. Paused play blocks clues and reveals.</p>
+      <h3 id="word-difficulty">7. Vocabulary difficulty and editable presets</h3>
+      <p>Easy and Hard use curated selections in every pack; Standard uses the full selected collections. Each pack has at least 50 Easy and 50 Hard entries, and the picker displays the selected difficulty’s available count. Custom words remain unfiltered. Difficulty supplies the <a href="#presets">timer presets</a>, which the host may override independently.</p>
+      <h3 id="clue-history">8. Dedicated per-team clue tracking</h3>
+      <p><strong>Clues by team</strong> records the spoken clue word, count, and turn number in separate team histories. This structured tracker sits alongside the broader <strong>Mission log</strong>, making it easier to revisit earlier clues without searching through reveal and turn events. It is shown on the host board, not synchronized to invitations.</p>
+    </section>
+
+    <section id="collections" aria-labelledby="collections-heading">
+      <h2 id="collections-heading">Collection catalog</h2>
+      <div class="table-wrap">
+        <table>
+          <caption>Full collection counts at Standard difficulty</caption>
+          <thead><tr><th scope="col">Collection</th><th scope="col">Entries</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Beautifully ordinary</th><td>354</td></tr>
+            <tr><th scope="row">Midnight mischief</th><td>300</td></tr>
+            <tr><th scope="row">Nerds after dark</th><td>330</td></tr>
+            <tr><th scope="row">Snack intelligence</th><td>300</td></tr>
+            <tr><th scope="row">Out of office</th><td>300</td></tr>
+            <tr><th scope="row">Merry little mysteries</th><td>310</td></tr>
+            <tr><th scope="row">Mission control</th><td>240</td></tr>
+            <tr><th scope="row">Wild neighbors</th><td>250</td></tr>
+            <tr><th scope="row">Small wonders</th><td>240</td></tr>
+            <tr><th scope="row">Creative company</th><td>240</td></tr>
+            <tr><th scope="row">Good sports</th><td>240</td></tr>
+            <tr><th scope="row">Gather round</th><td>240</td></tr>
+          </tbody>
+          <tfoot><tr><th scope="row">Total before cross-pack deduplication</th><td>3,344</td></tr></tfoot>
+        </table>
+      </div>
+      <p>These are individual pack counts, not a promise of 3,344 distinct words after combining all packs. Easy and Hard use smaller curated pools. Custom words or phrases may be appended or used alone; the final pool must contain 25–5,000 unique entries of at most 24 characters each.</p>
+    </section>
+
+    <section id="presets" aria-labelledby="presets-heading">
+      <h2 id="presets-heading">Difficulty and timer presets</h2>
+      <div class="table-wrap">
+        <table>
+          <caption>Default times in seconds</caption>
+          <thead><tr><th scope="col">Difficulty</th><th scope="col">Vocabulary</th><th scope="col">Spymaster clue</th><th scope="col">Operator turn</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Easy</th><td>Familiar / concrete</td><td>180</td><td>180</td></tr>
+            <tr><th scope="row">Standard</th><td>Full selected collections</td><td>120</td><td>120</td></tr>
+            <tr><th scope="row">Hard</th><td>Specialist / abstract</td><td>60</td><td>90</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Either limit accepts whole seconds from <strong>10–1,800</strong> in setup or the host board’s <strong>Time limits</strong>. Saving restarts the current phase’s clock, preserving a paused state. Limits are host-editable and honor-system: there is no remote referee or server enforcement.</p>
+      <p>Clocks use saved wall-clock deadlines. Returning from a background tab or opening an expired save passes the expired turn once, then starts a fresh clue phase rather than forfeiting many unseen turns. Undo restores the prior state with a fresh clock for its phase. Pause explicitly before breaks or distributing keys.</p>
+    </section>
+
+    <section id="migration" aria-labelledby="migration-heading">
+      <h2 id="migration-heading">Existing saves and next rounds</h2>
+      <ul>
+        <li><strong>Older saves:</strong> saves without clock settings receive Standard timers (120 seconds for each phase). Their existing board is not automatically redealt or vocabulary-filtered, and the existing mission log is retained.</li>
+        <li><strong>Clue history migration:</strong> the dedicated tracker records newly entered structured clues. It does not reconstruct past clues from older mission-log text.</li>
+        <li><strong>New board:</strong> preserves teams, the current pool, difficulty, and limits while replacing the round. Send fresh spymaster keys and optional operator links after every redeal.</li>
+        <li><strong>Packs &amp; difficulty:</strong> returns to setup and pauses the existing board. Resume last game restores that board; dealing from setup replaces it using the newly selected vocabulary and settings.</li>
+        <li><strong>Roster edits:</strong> existing invitations keep their original names and board. After Edit teams, distribute new links; invitations do not update themselves.</li>
+      </ul>
+    </section>
+
+    <section id="limitations" aria-labelledby="limitations-heading">
+      <h2 id="limitations-heading">Compatibility and limitations</h2>
+      <p>No new dependencies are required. The interface continues using the bundled Anime.js and Motion libraries, with system reduced-motion support, a visible animation-reduction toggle, responsive layouts, and host Focus mode. The app makes no runtime CDN requests.</p>
+      <ul>
+        <li><strong>Not live multiplayer:</strong> key links and operator invitations are snapshots. There is no synchronization, presence, online membership, shared controller, or remote clock. Follow the host’s shared screen.</li>
+        <li><strong>Private means handle carefully:</strong> both spymasters see the full color key. Private key marks stay local. Never screen-share a key; share only the host board tab. Anyone with a key link can read it, and old links cannot be revoked remotely.</li>
+        <li><strong>Honor-system storage:</strong> the host holds the full answers in localStorage even though its ordinary board hides them. Use one host tab; clearing browser site data removes local saves and marks. Operator snapshots omit unrevealed answers.</li>
+        <li><strong>Clue conventions remain human:</strong> the app checks clue format, exact unrevealed-word matches, and counts 1–9, but makes no automatic clue judgments about meaning or fairness. Zero and unlimited counts are unsupported. Guess allowance remains count + 1.</li>
+        <li><strong>Hosted requests:</strong> there is no game backend or analytics. The web host still receives normal website requests; names embedded in invitations are visible to their recipients.</li>
+      </ul>
+      <p>See the <a href="./guides.html#host">host</a>, <a href="./guides.html#spymaster">spymaster</a>, <a href="./guides.html#operator">operator</a>, and <a href="./guides.html#spectator">spectator</a> guides for practical before, during, and after-play instructions.</p>
+    </section>
+
+    <section id="publishing" aria-labelledby="publishing-heading">
+      <h2 id="publishing-heading">Publishing and the standalone offline app</h2>
+      <h3>Publish the site and documentation with GitHub Pages</h3>
+      <ol>
+        <li>Keep the application assets and these HTML pages together in <code>docs/</code>. The guides and release notes both use <code>./style.css</code> and relative links.</li>
+        <li>In repository <strong>Settings → Pages</strong>, choose <strong>Deploy from a branch</strong>, then select <strong>main</strong> and <strong>/docs</strong> and save.</li>
+        <li>After deployment, open <a href="https://jsc1100.github.io/clue-circuit/">https://jsc1100.github.io/clue-circuit/</a>. The documentation is at <code>guides.html</code> and <code>release-notes.html</code> under that site. For a fork or renamed repository, use its own Pages address.</li>
+      </ol>
+      <p>No build step or package installation is required for the Pages site. These instructions describe deployment; they do not assert that a particular deployment is already available.</p>
+      <h3>Regenerate the downloadable HTML</h3>
+      <ol>
+        <li>With Node.js 22 or newer, run <code>node scripts/build-offline.mjs</code> from the repository root after application source changes.</li>
+        <li>The script writes <code>play-offline.html</code> at the repository root, embedding the game’s code, styles, word packs, and existing animation libraries. Open that file directly in a browser to play without a server.</li>
+        <li>Distribute the regenerated file as the standalone download. Publish the <code>docs/</code> site separately so documentation and hosted invitation pages are available.</li>
+      </ol>
+      <p class="notice"><strong>Offline gameplay, online documentation:</strong> gameplay in the downloaded single HTML file does not require a network. Its in-app documentation links open the published web guides and release notes rather than embedding those documents. Reading them through those links requires network access. If you need offline documentation, save these pages and their stylesheet separately.</p>
+      <p>For local hosted play, <code>npm start</code> serves the site at <code>http://localhost:3000</code> without an install step. This is a static server, not a multiplayer backend; remote teammates generally cannot reach your localhost. Supply a reachable public URL in Team links or privately distribute PNG keys.</p>
+    </section>
+  </main>
+  <footer>
+    <p><a href="#main">Back to release contents</a> · <a href="./guides.html">Player guides</a> · <a href="./index.html">Open Clue Circuit</a></p>
+  </footer>
+</body>
+</html>

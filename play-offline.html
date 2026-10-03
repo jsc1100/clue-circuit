@@ -85,6 +85,7 @@ dialog{width:min(680px,calc(100vw - 30px));max-height:88vh;background:var(--pane
 @keyframes confirmCardIn{from{transform:rotateY(-180deg)}to{transform:rotateY(0)}}
 .reveal-feedback{border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;background:var(--panel);padding:14px 18px;margin:0 0 16px;overflow-wrap:anywhere;font-size:13px}
 .reveal-feedback:empty{display:none}
+#toast{width:max-content;max-width:min(90vw,650px);pointer-events:none}
 .reveal-feedback.correct{border-color:#8bd6a7;background:linear-gradient(110deg,#8bd6a712,var(--panel))}
 .reveal-feedback.wrong{border-color:var(--red);background:linear-gradient(110deg,#ef897c12,var(--panel))}
 .reveal-feedback strong{display:block;margin-bottom:3px}
@@ -159,7 +160,7 @@ dialog{width:min(680px,calc(100vw - 30px));max-height:88vh;background:var(--pane
 <details class="history-panel" id="historyPanel"><summary>Mission log <span id="logCount"></span></summary><ol id="history"></ol></details></div></div>
 </section>
 </main>
-<footer><span>◈ CLUE CIRCUIT</span><span>MADE FOR GOOD COMPANY & QUESTIONABLE CONNECTIONS.</span><span id="footerMode">BROWSER ONLY · NO ACCOUNTS</span></footer>
+<footer><span>◈ CLUE CIRCUIT</span><span><a id="guidesLink" href="./guides.html">PLAYER GUIDES</a> · <a id="releaseNotesLink" href="./release-notes.html">RELEASE NOTES</a></span><span id="footerMode">BROWSER ONLY · NO ACCOUNTS</span></footer>
 <dialog id="modal"><div class="modal-header"><p class="eyebrow" id="modalEyebrow">CLUE CIRCUIT</p><button id="closeModal" class="icon-button" aria-label="Close dialog">×</button></div><div id="modalBody"></div></dialog>
 <div id="toast" role="status" hidden></div><div id="confetti" aria-hidden="true"></div>
 <noscript><p class="error">Clue Circuit needs JavaScript enabled in your browser.</p></noscript>
@@ -8844,7 +8845,7 @@ function renderClock(){
  $('timerReadout').classList.toggle('urgent',!g.winner&&!g.clock.paused&&seconds<=10);
 }
 function tickClock(){
- if(!g||guest||$('game').hidden)return;
+ if(!g||guest||$('game').hidden||document.hidden)return;
  renderClock();
  if(!busy&&!g.winner&&!g.clock.paused&&Date.now()>=g.clock.deadline)perform({type:'timeout'});
 }
@@ -8891,6 +8892,11 @@ function initialize(){
  if(!reduced){window.anime.animate('.hero-copy > *',{translateY:[18,0],opacity:[0,1],delay:window.anime.stagger(90),duration:850,ease:'outExpo'});window.Motion.animate('.hero-art',{opacity:[0,1],y:[15,0]},{duration:.9});}
 }
 $('theme').replaceChildren(...Object.keys(THEMES).map(id=>{const option=el('option','',THEME_LABELS[id]);option.value=id;return option;}));
+for(const id of ['guidesLink','releaseNotesLink']){
+ const link=$(id);
+ if(location.protocol==='file:'){link.href=new URL(link.getAttribute('href'),baseURL()).href;link.textContent+=' (ONLINE)';}
+ link.target='_blank';link.rel='noopener noreferrer';
+}
 window.addEventListener('hashchange',initialize);initialize();
 
 })();</script></body></html>

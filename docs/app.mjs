@@ -188,7 +188,7 @@ function renderClock(){
  $('timerReadout').classList.toggle('urgent',!g.winner&&!g.clock.paused&&seconds<=10);
 }
 function tickClock(){
- if(!g||guest||$('game').hidden)return;
+ if(!g||guest||$('game').hidden||document.hidden)return;
  renderClock();
  if(!busy&&!g.winner&&!g.clock.paused&&Date.now()>=g.clock.deadline)perform({type:'timeout'});
 }
