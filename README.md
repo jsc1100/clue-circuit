@@ -4,27 +4,31 @@ An independent, beautifully animated word-clue game for team game nights. Built 
 
 ## How your meeting works
 
-1. The host opens the game, picks word packs, and enters team names, one spymaster per team, and operators. Names are optional. Click **Deal us in**.
+1. The host opens the game, picks word packs and a difficulty, adjusts the clue/turn clocks, and enters team names, one spymaster per team, and operators. Names are optional. Click **Deal us in**.
 2. Share only the host's board tab in your approved meeting app.
-3. Open **Team links**. Privately send each spymaster their private spymaster key link or a downloaded PNG key. Operator snapshot links are optional helper views.
+3. Pause the clock while setting up. Open **Team links** and privately send each spymaster their private spymaster key link or a downloaded PNG key. Operator snapshot links are optional helper views. Resume the clock when everyone is ready.
 4. The spymaster studies the hidden colors and says one word plus a number aloud (for example, “Space, three”). The host enters the spoken clue.
-5. Operators discuss their guesses aloud. The host clicks a card and confirms the reveal. The game handles turns, guess allowances, scoring, and wins.
+5. Operators discuss their guesses aloud. The host clicks a card, which flips to an inline **Reveal / Cancel** confirmation. The board announces **CORRECT!** or **WRONG!** without interrupting play with a modal. The game handles turns, guess allowances, scoring, and wins.
 
 Operators can participate entirely in the meeting; they do not need to open the game. Optional operator links show an answer-free board snapshot for remote viewers. Guests need no GitHub accounts and do not become GitHub repository collaborators or registered members.
+
+See the [comprehensive player guides](docs/guides.html) for host, spymaster, operator, and observer instructions, and the separate [release notes](docs/release-notes.html) for this update. Both pages publish with the game on GitHub Pages and are linked from its footer. The standalone app's documentation links open the published pages online; playing the standalone game still works offline.
 
 **Links are snapshots, not live rooms.** They don't synchronize changes, report presence, or check people into a shared roster. Host-entered membership lives on the host device. Spymasters may click their private spymaster key cards to cross them off locally as the host reveals them. Existing invitations keep their original roster and board; send new links after a new board or roster change. Both spymasters see the full color key.
 
 ## Features
 
-- Thirteen switchable mood themes (including Halloween, Neon noir, Winter holiday, Arcade rush, Dungeon crawl, Space opera, and Spy thriller).
+- Twenty switchable mood themes, including Diwali, Thanksgiving, Christmas, Hanukkah, Kwanzaa, Lunar New Year, and Eid alongside the original thirteen moods. The friendly ghost wears a different outfit or accessory in every theme.
 - Anime.js staggered deals, atmospheric details, and celebrations; Motion spring hover, card flips, and dialog transitions.
 - Respects the system reduced-motion setting; a visible toggle also reduces animation.
-- Six original word collections, 300–354 unique entries each. Combine packs; cross-pack duplicates are removed.
+- Twelve original word collections, each with at least 200 unique entries. New collections cover federal Salesforce delivery with Copado and GitHub, nature, science, arts, sports, and world celebrations. Combine packs; cross-pack duplicates are removed.
+- Curated Easy and Hard word selections in every pack; Standard uses the complete collections. Difficulty also supplies editable timer presets. Custom words remain available at every difficulty.
 - Custom words and short phrases, comma/semicolon/newline separated. Append to selected packs or replace them. Minimum 25 unique entries; 24 characters each; maximum 5,000 entries.
 - Host-managed teams, spymaster and operator names, private spymaster key links, optional operator snapshots, and downloaded PNG keys.
 - One-word clues, counts 1–9, count-plus-one guess allowance, turn passing, trap loss, and team wins.
-- Undo (up to 40 actions), local game resume, mission log, and screen-sharing focus mode.
-- Responsive layouts and keyboard-accessible controls with confirmation before revealing a card.
+- Separate spymaster-clue and operator-turn clocks, pause/resume, editable time limits, and automatic turn passing on expiry.
+- Undo (up to 40 actions), local game resume, mission log, dedicated per-team clue histories with turn numbers, and screen-sharing focus mode.
+- Responsive layouts and keyboard-accessible inline card confirmation. Escape cancels a pending guess; keyboard focus initially lands on Cancel to prevent accidental double-Enter reveals.
 
 | Collection | Entries |
 | --- | ---: |
@@ -34,6 +38,28 @@ Operators can participate entirely in the meeting; they do not need to open the 
 | Snack intelligence | 300 |
 | Out of office | 300 |
 | Merry little mysteries | 310 |
+| Mission control | 240 |
+| Wild neighbors | 250 |
+| Small wonders | 240 |
+| Creative company | 240 |
+| Good sports | 240 |
+| Gather round | 240 |
+
+The pack picker shows the available count at the selected difficulty. Every pack has at least 50 curated Easy and 50 curated Hard entries.
+
+### Difficulty and clocks
+
+| Difficulty | Vocabulary | Spymaster clue | Operator turn |
+| --- | --- | ---: | ---: |
+| Easy | Curated familiar/concrete words | 180 seconds | 180 seconds |
+| Standard | Full selected collections | 120 seconds | 120 seconds |
+| Hard | Curated specialist/abstract words | 60 seconds | 90 seconds |
+
+Change either limit to 10–1,800 seconds in setup or **Time limits** on the host board. Saving time limits restarts the current phase's clock; paused clocks stay paused. All guesses in one operator turn share the same budget—correct guesses do not reset it. Expiry passes to the other team's spymaster, including when no clue was given. Pause disables clue entry and card reveals.
+
+Clocks use saved wall-clock deadlines, not interval tick counts. Returning from a background tab or resuming an expired save passes the expired turn once and starts a fresh clue clock, rather than forfeiting many unseen turns. Clocks are host-only; invitations remain non-live snapshots. Undo restores the previous game state with a fresh clock for that phase. Older saves without clock settings receive Standard timers; their existing mission log is retained, and the dedicated clue tracker records newly entered clues.
+
+**New board** retains the current pool, difficulty, and limits. **Packs & difficulty** returns to setup and pauses the existing board; **Resume last game** restores it. Changing vocabulary requires dealing a new board and sending new private keys.
 
 ## Publish on GitHub Pages
 
@@ -78,15 +104,15 @@ npm test
 node scripts/build-offline.mjs
 ```
 
-Edit `docs/app.mjs` for the interface, `docs/engine.mjs` for rules/invite serialization, `docs/packs.mjs` for themed collections, and `docs/style.css` for themes. `docs/data/everyday.mjs` contains the general word collection. No transpilation is necessary.
+Edit `docs/app.mjs` for the interface, `docs/engine.mjs` for rules/timers/invite serialization, `docs/packs.mjs` for themed collections and curated difficulty selections, `docs/themes.mjs` for theme metadata and original SVG ghost outfits, and `docs/style.css` for presentation. `docs/data/everyday.mjs` contains the general word collection. No transpilation is necessary.
 
-All 12 unit tests pass on Node.js 22 (`npx -y node@22 --test test/*.test.mjs`), covering pack sizes, random board invariants, custom input, turn rules, trap/win outcomes, and answer isolation in invitations. The standalone bundle is rebuilt and validated with `npx -y node@22 scripts/build-offline.mjs`.
+The Node test suite covers pack validity and difficulty subsets, random board invariants, custom input, turn rules, trap/win outcomes, clock expiry and pause/resume, structured clue histories, and answer isolation in invitations. Rebuild the standalone bundle after source changes with `node scripts/build-offline.mjs`.
 
 Browser verification was completed against `http://localhost:3000` and direct `file:///.../play-offline.html` use. Verified flows include:
 
 - Theme switching across the expanded mood set and reduced-motion toggle behavior.
 - Desktop and mobile layouts (including compact game-top and two-column team sidebar behavior on small screens).
-- Keyboard interaction for guess confirmation (focusing a card and pressing Enter opens the reveal dialog).
+- Keyboard interaction for inline guess confirmation (focusing a card and pressing Enter flips to Reveal / Cancel).
 - Full host flow: clue entry, reveal confirmation, explicit reveal outcome messaging, undo, trap-loss round end, and normal win condition.
 - Custom word validation (`<25` rejected, `25` accepted), team editing, and local resume behavior.
 - Invite/link model: operator snapshots omit hidden answers, spymaster links expose full key, and guest pages are labeled as non-live snapshots.

@@ -1,11 +1,11 @@
 import {readFile,writeFile} from 'node:fs/promises';
 const read=p=>readFile(new URL('../'+p,import.meta.url),'utf8');
 const strip=s=>s.replace(/^import .*;\s*$/gm,'').replace(/^export /gm,'');
-const [html,css,anime,motion,words,engine,packs,app,animeLicense,motionLicense]=await Promise.all(['docs/index.html','docs/style.css','docs/vendor/anime.umd.min.js','docs/vendor/motion.js','docs/data/everyday.mjs','docs/engine.mjs','docs/packs.mjs','docs/app.mjs','docs/vendor/ANIME-LICENSE.md','docs/vendor/MOTION-LICENSE.md'].map(read));
+const [html,css,anime,motion,words,engine,packs,themes,app,animeLicense,motionLicense]=await Promise.all(['docs/index.html','docs/style.css','docs/vendor/anime.umd.min.js','docs/vendor/motion.js','docs/data/everyday.mjs','docs/engine.mjs','docs/packs.mjs','docs/themes.mjs','docs/app.mjs','docs/vendor/ANIME-LICENSE.md','docs/vendor/MOTION-LICENSE.md'].map(read));
 let result=html.replace(/<meta http-equiv="Content-Security-Policy"[^>]+>/,'<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; script-src \'unsafe-inline\'; style-src \'unsafe-inline\'; img-src data: blob:; connect-src \'none\'; object-src \'none\'; form-action \'none\'">');
 result=result.replace(/<link rel="icon"[^>]+>/,'').replace('<link rel="stylesheet" href="./style.css">',()=>`<style>${css}</style>`).replace(/<script[^>]*src="[^"]+"[^>]*><\/script>/g,'');
 const safe=s=>s.replace(/<\/script/gi,'<\\/script');
-const code=`/* Anime.js license\n${animeLicense}\n*/\n${anime}\n/* Motion license\n${motionLicense}\n*/\n${motion}\n(()=>{\n${[words,engine,packs,app].map(strip).join('\n')}\n})();`;
+const code=`/* Anime.js license\n${animeLicense}\n*/\n${anime}\n/* Motion license\n${motionLicense}\n*/\n${motion}\n(()=>{\n${[words,engine,packs,themes,app].map(strip).join('\n')}\n})();`;
 result=result.replace('</body>',()=>`<script>${safe(code)}</script></body>`);
 await writeFile(new URL('../play-offline.html',import.meta.url),result);
 console.log('Built play-offline.html (all assets embedded).');

@@ -1,31 +1,16 @@
-import { PACKS } from './packs.mjs';
-import { newGame, act, remaining, parseWords, validateWords, invitation, encode, decode } from './engine.mjs';
+import { PACKS, packWords } from './packs.mjs';
+import { newGame, act, remaining, parseWords, validateWords, invitation, encode, decode, DIFFICULTIES, normalizeSettings, resetClock } from './engine.mjs';
+import { THEMES, THEME_HUES, THEME_LABELS, dressGhost } from './themes.mjs';
 
 const $=id=>document.getElementById(id);
 const el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
 const storage={get(k){try{return localStorage.getItem(k);}catch{return null;}},set(k,v){try{localStorage.setItem(k,v);return true;}catch{return false;}}};
-const THEMES={
- halloween:['PHANTOM','A LITTLE MISCHIEF IS IN SEASON.','☾'],
- tech:['SIGNAL','NEON STREETS. CLEAN GETAWAYS.','⌘'],
- winter:['WONDER','GOOD COMPANY. A LITTLE WINTER MAGIC.','✧'],
- arcade:['BONUS','PRESS START. BUILD A STREAK.','▣'],
- dungeon:['RELIC','TORCHLIGHT, TRAPS, AND TREASURE.','⚔'],
- space:['ORBIT','STARS ABOVE. STATIC BELOW.','✶'],
- noir:['ALIBI','RAIN, SHADOWS, AND BAD DECISIONS.','◬'],
- heist:['VAULT','BLUEPRINTS READY. TIMERS RUNNING.','⬢'],
- western:['OUTLAW','DUST, SUNSET, AND SHOWDOWNS.','✷'],
- pirate:['COMPASS','MAPS, STORMS, AND MUTINY.','☠'],
- kaiju:['COLOSSAL','CITY LIGHTS. MONSTER SHADOWS.','◉'],
- jungle:['CANOPY','VINES, DRUMS, SECRET PATHS.','✿'],
- spy:['DEAD DROP','CODE PHRASES. QUIET FOOTSTEPS.','⌖']
-};
-const THEME_HUES={halloween:28,tech:164,winter:192,arcade:308,dungeon:42,space:220,noir:334,heist:142,western:26,pirate:196,kaiju:98,jungle:140,spy:176};
 const savedKey='clue-circuit:game:v1',prefsKey='clue-circuit:prefs:v1';
-let g=null,guest=null,undo=[],pool=[],selected=new Set(['everyday','halloween']),busy=false,theme='halloween',ambient=[],hoverCleanups=[],toastTimer;
+let g=null,guest=null,undo=[],pool=[],selected=new Set(['everyday','halloween']),busy=false,theme='halloween',ambient=[],hoverCleanups=[],toastTimer,pendingIndex=null;
 const fieldFx={canvas:null,ctx:null,dpr:1,width:0,height:0,raf:0,flows:[],sparks:[],bound:false,pointer:{x:0,y:0,active:false}};
 let reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const autoReduced=reduced;
-try{const pref=JSON.parse(storage.get(prefsKey));if(pref){theme=THEMES[pref.theme]?pref.theme:theme;reduced=autoReduced||!!pref.reduced;}}catch{}
+try{const pref=JSON.parse(storage.get(prefsKey));if(pref){theme=Object.hasOwn(THEMES,pref.theme)?pref.theme:theme;reduced=autoReduced||!!pref.reduced;}}catch{}
 
 function notify(message){$('toast').textContent=message;$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,3500);}
 function error(id,message=''){$(id).textContent=message;$(id).hidden=!message;}
@@ -74,13 +59,10 @@ function nextStepText(){
  return 'Next: continue the round.';
 }
 function actionUpdate(happened,next=nextStepText()){
- modal('ACTION UPDATE',body=>{
-  body.append(el('h2','','Action complete.'),el('p','',happened),el('p','share-notice',next));
-  const actions=el('div','modal-actions'),ok=el('button','primary','Continue');ok.onclick=closeModal;actions.append(ok);body.append(actions);
- });
+ notify(`${happened} ${next}`);
 }
 function preferences(){storage.set(prefsKey,JSON.stringify({theme,reduced}));}
-function setTheme(value){theme=THEMES[value]?value:'halloween';document.documentElement.dataset.theme=theme;$('theme').value=theme;$('heroWord').textContent=THEMES[theme][0];$('artCaption').textContent=THEMES[theme][1];preferences();atmosphere();}
+function setTheme(value){theme=Object.hasOwn(THEMES,value)?value:'halloween';document.documentElement.dataset.theme=theme;$('theme').value=theme;$('heroWord').textContent=THEMES[theme][0];$('artCaption').textContent=THEMES[theme][1];dressGhost(theme);preferences();atmosphere();}
 function atmosphere(){
  ambient.forEach(a=>a.pause());ambient=[];stopVectorField();$('particles').replaceChildren();document.documentElement.classList.toggle('reduced',reduced);
  $('motionToggle').setAttribute('aria-pressed',String(reduced));$('motionToggle').setAttribute('aria-label',reduced?'Enable animations':'Reduce animations');$('motionToggle').title=reduced?'Enable animations':'Reduce animations';
@@ -101,23 +83,25 @@ function bindCardHover(){hoverCleanups.forEach(fn=>fn());hoverCleanups=[];if(red
 function renderPacks(){
  $('packs').replaceChildren(...PACKS.map(p=>{
   const button=el('button',`pack ${selected.has(p.id)?'selected':''}`);button.type='button';button.setAttribute('aria-pressed',String(selected.has(p.id)));
-  const content=el('div');content.append(el('span','pack-tag',p.tag),el('h3','',p.name),el('p','',p.description),el('span','pack-count',`${p.words.length} WORDS`));button.append(el('span','pack-icon',p.icon),content,el('span','pack-check',selected.has(p.id)?'✓':''));
+  const content=el('div');content.append(el('span','pack-tag',p.tag),el('h3','',p.name),el('p','',p.description),el('span','pack-count',`${packWords(p,$('difficulty').value).length} WORDS`));button.append(el('span','pack-icon',p.icon),content,el('span','pack-check',selected.has(p.id)?'✓':''));
   button.onclick=()=>{selected.has(p.id)?selected.delete(p.id):selected.add(p.id);renderPacks();updatePool();};return button;
  }));
 }
-function getPool(){const custom=parseWords($('customWords').value);return [...new Set([...($('customOnly').checked?[]:PACKS.filter(p=>selected.has(p.id)).flatMap(p=>p.words)),...custom])];}
+function getPool(){const custom=parseWords($('customWords').value);return [...new Set([...($('customOnly').checked?[]:PACKS.filter(p=>selected.has(p.id)).flatMap(p=>packWords(p,$('difficulty').value))),...custom])];}
 function updatePool(){const words=getPool();$('customCount').textContent=`${parseWords($('customWords').value).length} unique words`;$('poolCount').textContent=`${words.length.toLocaleString()} UNIQUE WORDS / 25 CARDS / ENDLESS CONNECTIONS`;}
 $('customWords').oninput=updatePool;$('customOnly').onchange=updatePool;
+$('difficulty').onchange=()=>{const preset=DIFFICULTIES[$('difficulty').value];$('clueSeconds').value=preset.clueSeconds;$('guessSeconds').value=preset.guessSeconds;renderPacks();updatePool();};
+function setupSettings(){return normalizeSettings({difficulty:$('difficulty').value,clueSeconds:Number($('clueSeconds').value),guessSeconds:Number($('guessSeconds').value)});}
 function teamInput(t,prefix=''){const name=$(prefix+t+'Name').value.trim().slice(0,24)||(t==='red'?'Crimson Crew':'Cyan Syndicate');return {name,master:$(prefix+t+'Master').value.trim().slice(0,40),players:parseWordsNames($(prefix+t+'Players').value)};}
 function parseWordsNames(s){return [...new Set(s.split(/[,\n]+/).map(x=>x.trim().slice(0,40)).filter(Boolean))].slice(0,20);}
-$('setupForm').onsubmit=e=>{e.preventDefault();try{pool=validateWords(getPool());const teams={red:teamInput('red'),blue:teamInput('blue')};const title=$('customOnly').checked?'Custom collection':`${PACKS.filter(p=>selected.has(p.id)).map(p=>p.name).join(' + ')}${$('customWords').value.trim()?' + custom':''}`;g=newGame(pool,teams,title.slice(0,80));guest=null;undo=[];save();showGame(true);}catch(err){error('setupError',err.message);}};
-function showGame(deal=false){$('lobby').hidden=true;$('game').hidden=false;error('gameError');renderGame();window.scrollTo({top:0,behavior:'instant'});if(deal&&!reduced)window.anime.animate('.card-wrap',{translateY:[30,0],rotate:[-5,0],opacity:[0,1],scale:[.93,1],delay:window.anime.stagger(24,{grid:[5,5],from:'center'}),duration:650,ease:'outExpo'});}
+$('setupForm').onsubmit=e=>{e.preventDefault();try{const settings=setupSettings();pool=validateWords(getPool());const teams={red:teamInput('red'),blue:teamInput('blue')};const title=$('customOnly').checked?'Custom collection':`${PACKS.filter(p=>selected.has(p.id)).map(p=>p.name).join(' + ')}${$('customWords').value.trim()?' + custom':''}`;g=newGame(pool,teams,title.slice(0,80),settings);guest=null;undo=[];save();showGame(true);}catch(err){error('setupError',err.message);}};
+function showGame(deal=false){pendingIndex=null;$('revealFeedback').replaceChildren();$('lobby').hidden=true;$('game').hidden=false;error('gameError');renderGame();tickClock();window.scrollTo({top:0,behavior:'instant'});if(deal&&!reduced)window.anime.animate('.card-wrap',{translateY:[30,0],rotate:[-5,0],opacity:[0,1],scale:[.93,1],delay:window.anime.stagger(24,{grid:[5,5],from:'center'}),duration:650,ease:'outExpo'});}
 function renderGame(){
  const s=guest||g,isGuest=!!guest,master=guest?.role==='master';if(!s)return;
- $('gameLabel').textContent=`${isGuest?master?'PRIVATE SPYMASTER KEY':'OPERATOR SNAPSHOT':'HOST BOARD'} / CASE ${s.id.toUpperCase()}`;
+ $('gameLabel').textContent=`${isGuest?master?'PRIVATE SPYMASTER KEY':'OPERATOR SNAPSHOT':`HOST BOARD · ${g.settings.difficulty.toUpperCase()}`} / CASE ${s.id.toUpperCase()}`;
  $('gameTitle').textContent=isGuest?`${s.teams[s.team].name} · ${master?'spymaster':'operator'}`:g.winner?`${g.teams[g.winner].name} wins.`:`${g.teams[g.turn].name}, you’re up.`;
  $('viewDescription').textContent=isGuest?master?'Keep this view private. Give your clue aloud in the meeting.':'Follow the host’s shared screen for the live game.':`${s.pack} · Screen-share this tab. Answers stay hidden here; use Team links to send private spymaster keys.`;
- $('hostActions').hidden=isGuest;$('hostControls').hidden=isGuest;$('guestNotice').hidden=!isGuest;$('historyPanel').hidden=isGuest;
+ $('hostActions').hidden=isGuest;$('hostControls').hidden=isGuest;$('guestNotice').hidden=!isGuest;$('historyPanel').hidden=isGuest;$('timerPanel').hidden=isGuest;$('clueTracker').hidden=isGuest;$('revealFeedback').hidden=isGuest;
  for(const t of ['red','blue']){
   const team=s.teams[t];$(t+'Title').textContent=team.name;$(t+'MasterDisplay').textContent=team.master||'Choose a clue giver';
   $(t+'PlayersDisplay').replaceChildren(...(team.players.length?team.players:['Add your operators']).map(n=>el('span','',n)));
@@ -127,38 +111,91 @@ function renderGame(){
  $('clueLabel').textContent=isGuest?master?'CLASSIFIED · FULL KEY':'BOARD SNAPSHOT':'ON THE AIR';
  $('clueText').textContent=isGuest?master?'Connect the words. Say one clue and a number.':'Same words. Follow the shared screen.':g.winner?'Case closed. Nicely done.':g.clue?`${g.clue.word} · ${g.clue.count}`:'Waiting for the spymaster’s clue…';
  $('turnBadge').textContent=isGuest?'NOT LIVE':g.winner?'ROUND COMPLETE':g.phase==='guess'?`${g.left} GUESSES LEFT`:`TURN ${g.round}`;
- $('board').replaceChildren(...s.cards.map((c,i)=>card(c,i,master,isGuest)));
- bindCardHover();
+ renderBoard();
  if(isGuest){$('guestNotice').replaceChildren(el('strong','',master?'Private spymaster key · no live sync':'Operator view · no live sync'),el('p','',master?'Give one word and a number aloud in the meeting. Click cards here to cross them off on your own key as the host reveals them. These marks stay on this device. Anyone with this link can see the full key.':'This is the board at the time your host copied the link. Opening it does not check you into a roster or update other browsers. Discuss guesses in the meeting; the host reveals cards.'));$('winnerBanner').hidden=true;return;}
  $('clueForm').hidden=g.phase!=='clue'||!!g.winner;$('endTurn').hidden=g.phase!=='guess'||!!g.winner;$('undo').disabled=busy||!undo.length;
+ for(const control of $('clueForm').elements)control.disabled=busy||g.clock.paused;
+ $('endTurn').disabled=busy||g.clock.paused;
+ $('pauseTimer').disabled=busy||!!g.winner;$('pauseTimer').textContent=g.clock.paused?'Resume clock':'Pause clock';
+ $('timerSettings').hidden=!!g.winner;
+ $('activeClueSeconds').value=g.settings.clueSeconds;$('activeGuessSeconds').value=g.settings.guessSeconds;
+ for(const t of ['red','blue']){
+  $(t+'ClueTitle').textContent=g.teams[t].name;
+  const clues=(g.clues||[]).filter(c=>c.team===t);
+  $(t+'Clues').replaceChildren(...(clues.length?clues.map(c=>el('li','',`Turn ${c.round} · ${c.word} · ${c.count}`)):[el('li','muted','No clues yet.')]));
+ }
+ renderClock();
  $('history').replaceChildren(...g.history.map((h,i)=>{const li=el('li');li.append(el('span','',String(i+1).padStart(2,'0')),document.createTextNode(h.text));return li;}).reverse());$('logCount').textContent=`${g.history.length} entries`;
  $('winnerBanner').hidden=!g.winner;if(g.winner)$('winnerTitle').textContent=`${g.teams[g.winner].name} takes the win.`;
 }
+function renderBoard(){const s=guest||g;$('board').replaceChildren(...s.cards.map((c,i)=>card(c,i,guest?.role==='master',!!guest)));bindCardHover();}
+function cancelGuess(index){pendingIndex=null;renderBoard();$('board').children[index]?.querySelector('button')?.focus();}
 function card(c,index,master,isGuest){
  const wrap=el('div','card-wrap'),b=el('button',`word-card${master?' key':''}${c.revealed&&!master?' is-revealed':''}`);b.type='button';
  const face=(back)=>{const type=(master||back)?c.type:null;const f=el('div',`card-face ${back?'card-back':'card-front'} ${type||''}`);f.append(el('span','card-number',String(index+1).padStart(2,'0')),el('span','card-glyph',type==='red'?'◆':type==='blue'?'◇':type==='trap'?'×':'◈'),el('strong','card-word',c.word),el('span','card-label',type?type==='trap'?'THE TRAP':type==='neutral'?'BYSTANDER':`${type.toUpperCase()} AGENT`:'CLUE CIRCUIT'));return f;};
- b.append(face(false),face(true));b.setAttribute('aria-label',`${c.word}${master||c.revealed?', '+c.type:''}${c.revealed?', revealed':''}`);
+ b.append(face(false));if(master||c.revealed)b.append(face(true));b.setAttribute('aria-label',`${c.word}${master||c.revealed?', '+c.type:''}${c.revealed?', revealed':''}`);
  if(master){const marked=getMarks().includes(index);b.classList.toggle('marked',marked);b.setAttribute('aria-pressed',String(marked));b.onclick=()=>{const marks=new Set(getMarks());marks.has(index)?marks.delete(index):marks.add(index);storage.set(`clue-circuit:marks:${guest.id}`,JSON.stringify([...marks]));b.classList.toggle('marked',marks.has(index));b.setAttribute('aria-pressed',String(marks.has(index)));};}
- else{b.disabled=isGuest||busy||c.revealed||g.phase!=='guess'||!!g.winner;b.onclick=()=>modal('CONFIRM YOUR TEAM’S GUESS',body=>{body.append(el('h2','',`Reveal this card?`),el('p','confirm-word',c.word),el('p','',`This is ${possessive(g.teams[g.turn].name)} guess. The reveal will be visible to everyone watching.`));const actions=el('div','modal-actions'),cancel=el('button','quiet','Keep thinking'),yes=el('button','primary','Reveal card ↗');cancel.onclick=closeModal;yes.onclick=()=>{closeModal();perform({type:'guess',index});};actions.append(cancel,yes);body.append(actions);});}
- wrap.append(b);return wrap;
+ else{b.disabled=isGuest||busy||c.revealed||g.phase!=='guess'||!!g.winner||g.clock.paused;b.onclick=()=>{pendingIndex=index;renderBoard();$('board').children[index].querySelector('.confirm-cancel').focus();};}
+ wrap.append(b);
+ if(!isGuest&&pendingIndex===index&&!b.disabled){
+  wrap.classList.add('is-confirming');b.hidden=true;
+  const confirmation=el('div','card-confirm'),label=el('strong','',c.word),prompt=el('span','','Reveal this card?'),actions=el('div','confirm-actions'),yes=el('button','primary','Reveal'),cancel=el('button','confirm-cancel','Cancel');
+  confirmation.setAttribute('role','group');confirmation.setAttribute('aria-label',`Confirm guess: ${c.word}`);
+  yes.type=cancel.type='button';yes.setAttribute('aria-label',`Reveal ${c.word}`);cancel.setAttribute('aria-label',`Cancel ${c.word}`);
+  yes.onclick=()=>perform({type:'guess',index});cancel.onclick=()=>cancelGuess(index);
+  confirmation.onkeydown=e=>{if(e.key==='Escape'){e.preventDefault();cancelGuess(index);}};
+  actions.append(cancel,yes);confirmation.append(label,prompt,actions);wrap.append(confirmation);
+ }
+ return wrap;
 }
 function getMarks(){try{const a=JSON.parse(storage.get(`clue-circuit:marks:${guest.id}`));return Array.isArray(a)?a.filter(x=>Number.isInteger(x)&&x>=0&&x<25):[];}catch{return [];}}
 async function perform(action){
  if(busy||guest)return;
- try{const teamBefore=g.turn;const next=act(g,action);undo.push(structuredClone(g));if(undo.length>40)undo.shift();g=next;busy=true;save();renderGame();
+ try{const teamBefore=g.turn;const next=act(g,action);undo.push(structuredClone(g));if(undo.length>40)undo.shift();g=next;pendingIndex=null;busy=true;error('gameError');save();renderGame();
   if(action.type==='guess'&&!reduced){const b=$('board').children[action.index].firstChild;await window.Motion.animate(b,{rotateY:[0,180]},{duration:.62,ease:[.22,1,.36,1]});}
-  busy=false;renderGame();if(action.type==='clue'){$('clueWord').value='';if(!reduced)window.anime.animate('.clue-bar',{scale:[.98,1],duration:500,ease:'outElastic(1,.6)'});}
+  busy=false;renderGame();if(action.type==='clue'){$('clueWord').value='';$('revealFeedback').replaceChildren();$('board').querySelector('button:not(:disabled)')?.focus();if(!reduced)window.anime.animate('.clue-bar',{scale:[.98,1],duration:500,ease:'outElastic(1,.6)'});}
   if(action.type==='clue')actionUpdate(`Clue locked: ${g.clue.word.toUpperCase()} · ${g.clue.count}.`);
-    if(action.type==='guess'){const revealed=g.cards[action.index],outcome=cardTypeLabel(revealed.type,g.teams),correct=revealed.type===teamBefore,summary=revealed.type==='trap'?'Round lost on the trap.':correct?`${g.teams[teamBefore].name} can keep guessing.`:`Turn passes to ${g.teams[g.turn].name}.`;notify(`${revealed.word} → ${outcome}. ${summary}`);sparkBurstFromCard(action.index,revealed.type);actionUpdate(`${revealed.word} revealed as ${outcome}.`);}
+  if(action.type==='guess'){
+   const revealed=g.cards[action.index],correct=revealed.type===teamBefore,feedback=$('revealFeedback');
+   feedback.className=`reveal-feedback ${correct?'correct':'wrong'}`;feedback.replaceChildren(el('strong','',correct?'✓ CORRECT!':'✕ WRONG!'),el('span','',`${revealed.word} → ${cardTypeLabel(revealed.type,g.teams)}. ${nextStepText()}`));
+   if(!reduced){window.anime.animate(feedback,correct?{scale:[.96,1.03,1],duration:650,ease:'outBack'}:{translateX:[0,-8,8,-5,5,0],duration:450,ease:'outQuad'});if(correct)sparkBurstFromCard(action.index,revealed.type);}
+   if(g.phase==='clue'&&!g.winner)$('clueWord').focus();else{const slot=$('board').children[action.index];slot.tabIndex=-1;slot.focus();}
+  }
   if(action.type==='end')actionUpdate(`${g.teams[teamBefore].name} ended the turn.`);
+  if(action.type==='timeout'){closeModal();notify(`Time is up! ${g.teams[teamBefore].name} passes the turn.`);$('clueWord').value='';$('clueWord').focus();}
+  if(action.type==='pause'||action.type==='resume')notify(action.type==='pause'?'Clock paused. Resume to continue playing.':'Clock resumed.');
+  if(action.type==='settings')notify('Time limits saved. The current phase has a fresh clock.');
   if(g.winner)celebrate(g.winner);
- }catch(err){busy=false;error('gameError',err.message);}
+ }catch(err){busy=false;renderGame();error('gameError',err.message);}
 }
 $('clueForm').onsubmit=e=>{e.preventDefault();error('gameError');perform({type:'clue',word:$('clueWord').value,count:Number($('clueCount').value)});};
 $('endTurn').onclick=()=>perform({type:'end'});
-$('undo').onclick=()=>{if(busy||!undo.length)return;g=undo.pop();save();error('gameError');renderGame();notify('Last action undone.');actionUpdate('Last action was undone.');};
-function fresh(){if(busy)return;confirmDialog('Deal a fresh board?','The current round will be replaced. Team names and the word pool stay the same. Send fresh spymaster links after dealing.','Deal a new board',()=>{g=newGame(pool,g.teams,g.pack);undo=[];save();showGame(true);actionUpdate('Fresh board dealt.','Next: send new private spymaster keys before clues begin.');});}
+$('undo').onclick=()=>{if(busy||!undo.length)return;g=undo.pop();g.settings=normalizeSettings(g.settings);resetClock(g);pendingIndex=null;save();error('gameError');$('revealFeedback').replaceChildren();renderGame();actionUpdate('Last action undone; this phase has a fresh clock.');};
+function fresh(){if(busy)return;confirmDialog('Deal a fresh board?','The current round will be replaced. Teams, difficulty, time limits, and the word pool stay the same. Send fresh spymaster links after dealing.','Deal a new board',()=>{g=newGame(pool,g.teams,g.pack,g.settings);undo=[];save();showGame(true);actionUpdate('Fresh board dealt.','Next: send new private spymaster keys. Pause the clock while setting up.');});}
 $('newBoard').onclick=fresh;$('playAgain').onclick=fresh;
+$('changeSetup').onclick=()=>{if(busy)return;confirmDialog('Change packs or difficulty?','Return to setup to choose a different word pool and difficulty. Your current board will remain available through Resume last game.','Open setup',()=>{
+ if(!g.winner&&!g.clock.paused){tickClock();g=act(g,{type:'pause'});}
+ save();pendingIndex=null;
+ for(const t of ['red','blue']){$(t+'Name').value=g.teams[t].name;$(t+'Master').value=g.teams[t].master;$(t+'Players').value=g.teams[t].players.join(', ');}
+ $('difficulty').value=g.settings.difficulty;$('clueSeconds').value=g.settings.clueSeconds;$('guessSeconds').value=g.settings.guessSeconds;
+ $('lobby').hidden=false;$('game').hidden=true;$('resume').hidden=false;document.body.classList.remove('focus-mode');$('presentation').textContent='Focus mode';renderPacks();updatePool();$('difficulty').focus();
+});};
+function renderClock(){
+ if(!g||guest)return;
+ const ms=g.winner?0:g.clock.paused?g.clock.remainingMs:Math.max(0,g.clock.deadline-Date.now()),seconds=Math.ceil(ms/1000);
+ $('timerRole').textContent=g.winner?'Round complete':`${g.phase==='clue'?'Spymaster clue':'Operator turn'}${g.clock.paused?' · PAUSED':''}`;
+ $('timerReadout').textContent=`${Math.floor(seconds/60)}:${String(seconds%60).padStart(2,'0')}`;
+ $('timerReadout').classList.toggle('urgent',!g.winner&&!g.clock.paused&&seconds<=10);
+}
+function tickClock(){
+ if(!g||guest||$('game').hidden)return;
+ renderClock();
+ if(!busy&&!g.winner&&!g.clock.paused&&Date.now()>=g.clock.deadline)perform({type:'timeout'});
+}
+$('pauseTimer').onclick=()=>perform({type:g.clock.paused?'resume':'pause'});
+$('timerForm').onsubmit=e=>{e.preventDefault();perform({type:'settings',settings:{...g.settings,clueSeconds:Number($('activeClueSeconds').value),guessSeconds:Number($('activeGuessSeconds').value)}});};
+setInterval(tickClock,250);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)tickClock();});
 $('presentation').onclick=()=>{document.body.classList.toggle('focus-mode');$('presentation').textContent=document.body.classList.contains('focus-mode')?'Exit focus':'Focus mode';};
 function celebrate(team){if(reduced)return;$('confetti').replaceChildren();const colors=[getComputedStyle(document.documentElement).getPropertyValue('--'+team),'#e8b572','#f4efe7'];for(let i=0;i<60;i++){const p=el('i','confetto');p.style.background=colors[i%3];$('confetti').append(p);window.anime.animate(p,{translateX:[0,(Math.random()-.5)*innerWidth*1.5],translateY:[0,-150-Math.random()*180,innerHeight*.7],rotate:[0,Math.random()*720],opacity:[1,1,0],duration:1800+Math.random()*700,delay:Math.random()*250,ease:'outQuad',onComplete:()=>p.remove()});}}
 function baseURL(){const current=new URL(location.href);current.hash='';current.search='';if(['localhost','127.0.0.1',''].includes(location.hostname))return storage.get('clue-circuit:public-url')||'https://jsc1100.github.io/clue-circuit/';return current.href;}
@@ -189,12 +226,18 @@ $('roster').onclick=()=>modal('THE PEOPLE BEHIND THE CLUES',body=>{
  body.append(el('h2','','Make it your team.'),el('p','','Changes apply on this host device. Existing invite links keep their original names; copy new links to share updates.'));
  const form=el('form'),grid=el('div','modal-team');for(const t of ['red','blue']){const section=el('section',t+'-team');section.append(el('h3','',t.toUpperCase()+' TEAM'));for(const [part,labelText,val]of [['Name','Team name',g.teams[t].name],['Master','Spymaster',g.teams[t].master],['Players','Operators (comma-separated)',g.teams[t].players.join(', ')]]){const label=el('label','',labelText),input=el(part==='Players'?'textarea':'input');input.id='edit'+t+part;input.value=val;input.maxLength=part==='Players'?800:part==='Name'?24:40;label.htmlFor=input.id;section.append(label,input);}grid.append(section);}const actions=el('div','modal-actions'),submit=el('button','primary','Save teams');actions.append(submit);form.append(grid,actions);form.onsubmit=e=>{e.preventDefault();g.teams={red:teamInput('red','edit'),blue:teamInput('blue','edit')};undo=[];save();renderGame();closeModal();};body.append(form);
 });
-$('help').onclick=()=>modal('FIELD GUIDE',body=>{body.append(el('h2','','One word can change everything.'));const list=el('ol','rules-list');for(const text of ['Make two teams. Choose one spymaster per team; everyone else is an operator. The host enters names and controls the shared board.','The spymasters privately see the color key. On their turn they say one clue word and a number: “Space, three.” The host types that clue into the board.','Operators discuss and announce a word. The host clicks it and confirms the reveal. A matching agent lets the team keep guessing, up to the clue number plus one.','A bystander or opposing agent ends the turn. Finding the trap immediately loses the round. Reveal all your team’s agents to win.','You may end a guessing turn early. Agree together on proper names, word parts, and other clue conventions. This version supports clue counts 1–9.','Share the host’s browser tab in your meeting. Private key links and operator links are snapshots; they do not sync or create online accounts. Only the host controls the live game.'])list.append(el('li','',text));body.append(list,el('p','share-notice','Made independently with original code, visual design, and word collections. Not affiliated with Czech Games Edition or the official Codenames game.'));});
-$('resume').onclick=()=>{try{const s=JSON.parse(storage.get(savedKey));if(!s?.g||!Array.isArray(s.g.cards)||s.g.cards.length!==25)throw Error('Saved game is unavailable.');g=s.g;pool=validateWords(s.pool);undo=Array.isArray(s.undo)?s.undo:[];guest=null;showGame();}catch(err){error('setupError',err.message);}};
+$('help').onclick=()=>modal('FIELD GUIDE',body=>{body.append(el('h2','','One word can change everything.'));const list=el('ol','rules-list');for(const text of ['Make two teams. Choose one spymaster per team; everyone else is an operator. The host enters names and controls the shared board.','The spymasters privately see the color key. On their turn they say one clue word and a number: “Space, three.” The host types that clue into the board.','Operators discuss and announce a word. Click a card to flip to its Reveal / Cancel controls. Escape cancels. CORRECT! means your team’s agent; WRONG! means a bystander, opponent, or trap. A matching agent allows more guesses, up to the clue number plus one.','A bystander or opposing agent ends the turn. Finding the trap immediately loses the round. Reveal all your team’s agents to win.','You may end a guessing turn early. Agree together on proper names, word parts, and other clue conventions. This version supports clue counts 1–9.','Each clue and guessing turn has its own time limit. Correct guesses do not reset the operator clock. Expiry passes the turn. Pause while distributing keys or taking a break; Time limits lets the host adjust either clock.','Difficulty changes the available built-in words and supplies time presets. Custom words are not filtered. Clues by team records each spoken clue, number, and turn separately from the mission log.','Share the host’s browser tab in your meeting. Private key links and operator links are snapshots; they do not sync or create online accounts. Only the host controls the live game.'])list.append(el('li','',text));body.append(list,el('p','share-notice','Made independently with original code, visual design, and word collections. Not affiliated with Czech Games Edition or the official Codenames game.'));});
+$('resume').onclick=()=>{try{const s=JSON.parse(storage.get(savedKey));if(!s?.g||!Array.isArray(s.g.cards)||s.g.cards.length!==25)throw Error('Saved game is unavailable.');g=s.g;g.settings=normalizeSettings(g.settings);if(!g.clock)resetClock(g);pool=validateWords(s.pool);undo=Array.isArray(s.undo)?s.undo:[];guest=null;showGame();}catch(err){error('setupError',err.message);}};
 function initialize(){
  const hash=new URLSearchParams(location.hash.slice(1));
  if(hash.has('invite')){try{guest=decode(hash.get('invite'));setTheme(guest.theme);showGame(true);}catch(err){$('lobby').hidden=false;$('game').hidden=true;error('setupError',err.message);$('setupError').scrollIntoView();}return;}
  guest=null;$('lobby').hidden=false;$('game').hidden=true;$('resume').hidden=!storage.get(savedKey);setTheme(theme);renderPacks();updatePool();
  if(!reduced){window.anime.animate('.hero-copy > *',{translateY:[18,0],opacity:[0,1],delay:window.anime.stagger(90),duration:850,ease:'outExpo'});window.Motion.animate('.hero-art',{opacity:[0,1],y:[15,0]},{duration:.9});}
+}
+$('theme').replaceChildren(...Object.keys(THEMES).map(id=>{const option=el('option','',THEME_LABELS[id]);option.value=id;return option;}));
+for(const id of ['guidesLink','releaseNotesLink']){
+ const link=$(id);
+ if(location.protocol==='file:'){link.href=new URL(link.getAttribute('href'),baseURL()).href;link.textContent+=' (ONLINE)';}
+ link.target='_blank';link.rel='noopener noreferrer';
 }
 window.addEventListener('hashchange',initialize);initialize();

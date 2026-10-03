@@ -61,6 +61,75 @@ dialog{width:min(680px,calc(100vw - 30px));max-height:88vh;background:var(--pane
 
 .reduced .aurora-layer,.reduced .mesh-layer,.reduced #vectorField{display:none}
 .reduced #particles .particle{display:none}
+
+/* Holiday palettes keep team colors independent from the selected celebration. */
+:root[data-theme=diwali]{--bg:#201127;--panel:#301b35;--panel2:#432447;--line:#6b4268;--text:#fff4df;--muted:#d6b9cc;--accent:#ffd179;--accent-rgb:255,209,121;--glow:#9b4f6b}
+:root[data-theme=thanksgiving]{--bg:#211710;--panel:#302319;--panel2:#403022;--line:#69513b;--text:#fff0db;--muted:#d2b99d;--accent:#f4ba77;--accent-rgb:244,186,119;--glow:#8c4e30}
+:root[data-theme=christmas]{--bg:#101e19;--panel:#192e25;--panel2:#263c30;--line:#4a6151;--text:#fff5e6;--muted:#bdccba;--accent:#f2c779;--accent-rgb:242,199,121;--glow:#94504f}
+:root[data-theme=hanukkah]{--bg:#10182e;--panel:#1a2743;--panel2:#253657;--line:#48628b;--text:#f0f6ff;--muted:#b1c6e4;--accent:#b4d9ff;--accent-rgb:180,217,255;--glow:#466ca6}
+:root[data-theme=kwanzaa]{--bg:#191714;--panel:#28221c;--panel2:#363026;--line:#5e5840;--text:#fff2dc;--muted:#cbbfa1;--accent:#f0be6a;--accent-rgb:240,190,106;--glow:#8a4439}
+:root[data-theme=lunar]{--bg:#280f19;--panel:#3a1925;--panel2:#4d2430;--line:#7c4751;--text:#fff1db;--muted:#e0b6ae;--accent:#ffd17c;--accent-rgb:255,209,124;--glow:#a13c50}
+:root[data-theme=eid]{--bg:#10231f;--panel:#19352e;--panel2:#24463c;--line:#456e5f;--text:#f8f5df;--muted:#bad3c5;--accent:#edce8c;--accent-rgb:237,206,140;--glow:#447e71}
+
+.ghost [data-theme-costume]{filter:drop-shadow(0 1px 1px #0003)}
+.card-wrap .card-confirm{height:109px;width:100%;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:8px;padding:8px;border:1px solid var(--accent);border-radius:8px;background:linear-gradient(145deg,var(--panel2),var(--panel));color:var(--text);box-shadow:0 3px 0 #0003;backface-visibility:hidden}
+.card-confirm .confirm-word,.card-confirm .card-word,.card-confirm>strong{font-size:clamp(10px,1.1vw,16px)!important;line-height:1.15;letter-spacing:0;padding:0;margin:0!important;text-align:center;overflow-wrap:anywhere}
+.card-confirm>p:not(.confirm-word){margin:0;font-size:10px;line-height:1.2;text-align:center}
+.card-confirm>span{font-size:10px;line-height:1.2;text-align:center;color:var(--muted)}
+.card-confirm .confirm-actions{display:grid;grid-template-columns:1fr 1fr;gap:5px;width:100%;min-width:0}
+.confirm-actions button{min-width:0;min-height:32px;padding:5px 2px;font-size:11px;line-height:1.1;border:1px solid var(--line)}
+.confirm-actions .primary{border-color:var(--accent)}
+.confirm-actions button:focus-visible{outline-offset:1px;outline:2px solid var(--text)}
+.card-wrap.is-confirming{position:relative;z-index:2}
+.card-wrap.is-confirming .card-confirm{animation:confirmCardIn .35s cubic-bezier(.22,1,.36,1) both}
+@keyframes confirmCardIn{from{transform:rotateY(-180deg)}to{transform:rotateY(0)}}
+.reveal-feedback{border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;background:var(--panel);padding:14px 18px;margin:0 0 16px;overflow-wrap:anywhere;font-size:13px}
+.reveal-feedback:empty{display:none}
+.reveal-feedback.correct{border-color:#8bd6a7;background:linear-gradient(110deg,#8bd6a712,var(--panel))}
+.reveal-feedback.wrong{border-color:var(--red);background:linear-gradient(110deg,#ef897c12,var(--panel))}
+.reveal-feedback strong{display:block;margin-bottom:3px}
+.reveal-feedback.correct strong{color:#a1e6ba}
+.reveal-feedback.wrong strong{color:var(--red)}
+.reveal-feedback p{margin:3px 0 0}
+.timer-panel,.clue-tracker{min-width:0;padding:17px;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+.timer-panel{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:12px;margin-bottom:16px}
+.timer-panel>div{min-width:0;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.timer-panel>div>.eyebrow{margin:0;overflow-wrap:anywhere}
+.timer-panel>.timer-settings{grid-column:1/-1}
+.timer-panel h2,.timer-panel h3,.clue-tracker h2{font-size:16px;letter-spacing:0;margin:0 0 12px}
+.timer-panel p{margin:6px 0;font-size:11px;color:var(--muted)}
+.timer-readout{display:block;font-size:clamp(30px,3.5vw,48px);font-weight:650;line-height:1.15;letter-spacing:1px;font-variant-numeric:tabular-nums;color:var(--accent);margin:9px 0}
+.timer-panel .timer-readout{font-size:clamp(26px,3vw,36px);margin:0}
+.timer-readout.urgent{color:var(--red);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:6px}
+.timer-panel button{min-height:36px;font-size:11px;padding:7px 9px}
+.timer-settings{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+.timer-settings summary{font-size:11px;color:var(--muted);cursor:pointer;padding:4px 0}
+.settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.timer-settings .settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+#setupForm>.timer-settings{padding:22px;margin:0 0 32px;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+#setupForm>.timer-settings .settings-grid{grid-template-columns:repeat(3,minmax(0,1fr));margin:18px 0 12px}
+#setupForm>.timer-settings p{margin-bottom:0}
+.settings-grid label{display:flex;flex-direction:column;gap:5px;font-size:11px;color:var(--muted);min-width:0}
+.settings-grid label.check{flex-direction:row;align-items:center;grid-column:1/-1}
+.settings-grid input:not([type=checkbox]),.settings-grid select{width:100%;min-width:0;font-size:12px;padding:8px 6px}
+.settings-grid input[type=checkbox]{accent-color:var(--accent);min-width:18px;min-height:18px}
+.clue-tracker{margin-top:20px}
+.clue-tracker>p{font-size:12px;color:var(--muted)}
+.clue-team{min-width:0;border-left:3px solid var(--team,var(--line));background:var(--panel2);border-radius:6px;padding:12px;margin-top:12px}
+.clue-team h3{color:var(--team,var(--text));font-size:13px;margin:0 0 8px;overflow-wrap:anywhere}
+.clue-team p{font-size:11px;color:var(--muted);margin:0}
+.clue-list{list-style:none;padding:0;margin:0;max-height:240px;overflow:auto;scrollbar-gutter:stable}
+.clue-list li{padding:8px 0;border-top:1px solid var(--line);font-size:12px;overflow-wrap:anywhere}
+.clue-list li:first-child{border-top:0}
+.clue-list li strong{color:var(--text)}
+.clue-list li span,.clue-list li small{color:var(--muted)}
+.focus-mode .card-wrap .card-confirm{height:clamp(90px,13vh,155px)}
+@media(min-width:1450px){.card-wrap .card-confirm{height:123px}}
+@media(max-width:1100px){.card-wrap .card-confirm{height:97px;padding:6px;gap:6px}.confirm-actions button{font-size:10px}.timer-settings .settings-grid{grid-template-columns:1fr}}
+@media(max-width:800px){.team-sidebar .timer-panel{grid-column:1/-1}.timer-settings .settings-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.clue-tracker{padding:14px}.clue-team{padding:10px}}
+@media(max-width:560px){.card-wrap .card-confirm{height:82px;padding:3px;gap:3px;border-radius:5px}.card-confirm .confirm-actions{grid-template-columns:1fr;gap:2px}.confirm-actions button{min-height:24px;font-size:10px;padding:3px 1px;border-radius:3px}.card-confirm .confirm-word,.card-confirm .card-word,.card-confirm>strong{font-size:9px!important;max-height:21px;overflow:auto}.card-confirm>span,.card-confirm>p:not(.confirm-word){position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}.focus-mode .card-wrap .card-confirm{height:85px}.timer-panel{padding:13px}.reveal-feedback{padding:11px 13px;font-size:12px}.clue-tracker>.settings-grid,#setupForm>.timer-settings .settings-grid{grid-template-columns:1fr}#setupForm>.timer-settings{padding:16px}}
+.reduced .card-wrap.is-confirming .card-confirm{animation:none}
+@media(prefers-reduced-motion:reduce){.card-wrap.is-confirming .card-confirm{animation:none}}
 </style>
 </head><body>
 <div class="atmosphere" aria-hidden="true"><div class="aurora-layer"><span class="aurora-ribbon ribbon-a"></span><span class="aurora-ribbon ribbon-b"></span><span class="aurora-ribbon ribbon-c"></span></div><div class="mesh-layer"><span class="mesh-blob blob-a"></span><span class="mesh-blob blob-b"></span><span class="mesh-blob blob-c"></span><span class="mesh-shimmer"></span></div><canvas id="vectorField"></canvas><div class="orb orb-one"></div><div class="orb orb-two"></div><div class="grid-glow"></div><div id="particles"></div></div>
@@ -73,17 +142,21 @@ dialog{width:min(680px,calc(100vw - 30px));max-height:88vh;background:var(--pane
 <div class="section-heading"><div><p class="eyebrow">01 / SET THE SCENE</p><h2>Pick your vocabulary.</h2></div><span class="section-note">Mix a few packs. Find a few surprises.</span></div>
 <div id="packs" class="pack-grid"></div>
 <details class="custom-panel"><summary><span>＋ Bring your own words</span><span class="small">Your inside jokes belong here.</span></summary><div class="custom-body"><label for="customWords">One word or short phrase per line, or separate with commas. Duplicates are removed.</label><textarea id="customWords" rows="4" placeholder="DEPLOYMENT, COFFEE, FRIDAY, RUBBER DUCK…" maxlength="120000"></textarea><div class="custom-bottom"><label class="check"><input id="customOnly" type="checkbox"> Use only my custom words</label><span id="customCount">0 unique words</span></div><p class="small">At least 25 unique entries in the final pool. Up to 24 characters per entry.</p></div></details>
-<form id="setupForm"><div class="section-heading"><div><p class="eyebrow">02 / ASSEMBLE THE USUAL SUSPECTS</p><h2>Two teams. Excellent company.</h2></div><span class="section-note">Names are optional. Change them anytime.</span></div>
+<form id="setupForm"><section class="timer-settings" aria-labelledby="settingsHeading"><h2 id="settingsHeading">Choose your challenge.</h2><div class="settings-grid"><label for="difficulty">Word difficulty<select id="difficulty"><option value="easy">Easy · familiar words</option><option value="standard" selected>Standard · full collections</option><option value="hard">Hard · specialist words</option></select></label><label for="clueSeconds">Spymaster clue time (seconds)<input id="clueSeconds" type="number" min="10" max="1800" step="1" value="120" required></label><label for="guessSeconds">Operator turn time (seconds)<input id="guessSeconds" type="number" min="10" max="1800" step="1" value="120" required></label></div><p class="small">Difficulty selects curated words and time presets; you can override either clock (10–1,800 seconds). Custom words are never filtered. Operators share one clock for the whole guessing turn. Time running out passes play to the other team.</p></section><div class="section-heading"><div><p class="eyebrow">02 / ASSEMBLE THE USUAL SUSPECTS</p><h2>Two teams. Excellent company.</h2></div><span class="section-note">Names are optional. Change them anytime.</span></div>
 <div class="teams-setup"><section class="team-setup red-team"><div class="team-top"><span class="team-sigil">◆</span><label for="redName">RED TEAM</label><input id="redName" maxlength="24" value="Crimson Crew" aria-label="Red team name"></div><div class="team-fields"><div><label for="redMaster">SPYMASTER</label><input id="redMaster" maxlength="40" placeholder="The one with the clues"></div><div><label for="redPlayers">OPERATORS</label><textarea id="redPlayers" rows="2" maxlength="800" placeholder="Names, separated by commas"></textarea></div></div></section>
 <section class="team-setup blue-team"><div class="team-top"><span class="team-sigil">◇</span><label for="blueName">BLUE TEAM</label><input id="blueName" maxlength="24" value="Cyan Syndicate" aria-label="Blue team name"></div><div class="team-fields"><div><label for="blueMaster">SPYMASTER</label><input id="blueMaster" maxlength="40" placeholder="The one with the clues"></div><div><label for="bluePlayers">OPERATORS</label><textarea id="bluePlayers" rows="2" maxlength="800" placeholder="Names, separated by commas"></textarea></div></div></section></div>
 <div class="launch-panel"><div><span class="eyebrow" id="poolCount">PREPARING YOUR WORD POOL</span><p>You host the board. Your meeting carries the conversation.</p></div><div class="launch-actions"><button type="button" id="resume" class="quiet" hidden>Resume last game</button><button class="primary launch" id="start">Deal us in <span>↗</span></button></div></div><p id="setupError" class="error" role="alert" hidden></p></form>
 <div class="how-strip"><div><b>01</b><span><strong>Share your screen.</strong>Operators watch the host’s board.</span></div><div><b>02</b><span><strong>Send the private keys.</strong>Each spymaster opens their own link.</span></div><div><b>03</b><span><strong>Let the clues fly.</strong>Say the clue. Talk it out. Pick a word.</span></div></div>
 </section>
-<section id="game" hidden><div class="game-top"><div><p class="eyebrow" id="gameLabel"></p><h1 id="gameTitle"></h1><p id="viewDescription" class="muted"></p></div><div class="game-actions" id="hostActions"><button id="share" class="primary">Team links <span>↗</span></button><button id="roster" class="quiet">Edit teams</button><button id="presentation" class="quiet">Focus mode</button><button id="newBoard" class="quiet">New board</button></div></div>
+<section id="game" hidden><div class="game-top"><div><p class="eyebrow" id="gameLabel"></p><h1 id="gameTitle"></h1><p id="viewDescription" class="muted"></p></div><div class="game-actions" id="hostActions"><button id="share" class="primary">Team links <span>↗</span></button><button id="roster" class="quiet">Edit teams</button><button id="presentation" class="quiet">Focus mode</button><button id="newBoard" class="quiet">New board</button><button id="changeSetup" class="quiet">Packs &amp; difficulty</button></div></div>
 <div class="game-layout"><aside class="team-sidebar"><section class="team-panel red-team" id="redPanel"><div class="team-panel-head"><span>◆ RED TEAM</span><span id="redTurn" class="turn-dot"></span></div><h2 id="redTitle"></h2><div class="remaining"><strong id="redRemaining"></strong><span>agents<br>remaining</span></div><div class="progress-track"><div id="redProgress"></div></div><p class="eyebrow">SPYMASTER</p><p id="redMasterDisplay"></p><p class="eyebrow">OPERATORS</p><div id="redPlayersDisplay" class="player-list"></div></section><section class="team-panel blue-team" id="bluePanel"><div class="team-panel-head"><span>◇ BLUE TEAM</span><span id="blueTurn" class="turn-dot"></span></div><h2 id="blueTitle"></h2><div class="remaining"><strong id="blueRemaining"></strong><span>agents<br>remaining</span></div><div class="progress-track"><div id="blueProgress"></div></div><p class="eyebrow">SPYMASTER</p><p id="blueMasterDisplay"></p><p class="eyebrow">OPERATORS</p><div id="bluePlayersDisplay" class="player-list"></div></section></aside>
-<div class="board-column"><div class="clue-bar"><div><span class="eyebrow" id="clueLabel">ON THE AIR</span><p id="clueText" aria-live="polite"></p></div><span id="turnBadge" class="pill"></span></div><div id="board" class="board" aria-label="Word cards"></div>
+<div class="board-column"><div class="clue-bar"><div><span class="eyebrow" id="clueLabel">ON THE AIR</span><p id="clueText" aria-live="polite"></p></div><span id="turnBadge" class="pill"></span></div>
+<section id="timerPanel" class="timer-panel" aria-label="Turn clock"><div><span id="timerRole" class="eyebrow"></span><strong id="timerReadout" class="timer-readout" role="timer" aria-live="off"></strong></div><button id="pauseTimer" class="quiet">Pause clock</button><details id="timerSettings" class="timer-settings"><summary>Time limits</summary><form id="timerForm"><div class="settings-grid"><label for="activeClueSeconds">Clue seconds<input id="activeClueSeconds" type="number" min="10" max="1800" step="1" required></label><label for="activeGuessSeconds">Turn seconds<input id="activeGuessSeconds" type="number" min="10" max="1800" step="1" required></label></div><p class="small">Saving restarts this phase’s clock. Pause while distributing keys or taking a break.</p><button class="primary">Save time limits</button></form></details></section>
+<div id="revealFeedback" class="reveal-feedback" role="status" aria-live="polite" aria-atomic="true"></div><div id="board" class="board" aria-label="Word cards"></div>
 <div id="hostControls" class="host-controls"><form id="clueForm"><label for="clueWord">ENTER THE SPOKEN CLUE</label><div class="clue-inputs"><input id="clueWord" placeholder="One word…" maxlength="30" required autocomplete="off"><select id="clueCount" aria-label="Clue number"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option></select><button class="primary">Lock in clue <span>→</span></button></div></form><div class="turn-controls"><button id="endTurn" hidden>End turn →</button><button id="undo" class="quiet" disabled>↶ Undo</button><span class="small">Click a card, then confirm its reveal.</span></div></div>
-<div id="guestNotice" class="guest-notice" hidden></div><div id="winnerBanner" class="winner-banner" hidden><span>✦</span><h2 id="winnerTitle"></h2><p>A fine piece of questionable detective work.</p><button id="playAgain" class="primary">Another round ↗</button></div><p id="gameError" class="error" role="alert" hidden></p><details class="history-panel" id="historyPanel"><summary>Mission log <span id="logCount"></span></summary><ol id="history"></ol></details></div></div>
+<div id="guestNotice" class="guest-notice" hidden></div><div id="winnerBanner" class="winner-banner" hidden><span>✦</span><h2 id="winnerTitle"></h2><p>A fine piece of questionable detective work.</p><button id="playAgain" class="primary">Another round ↗</button></div><p id="gameError" class="error" role="alert" hidden></p>
+<section id="clueTracker" class="clue-tracker" aria-labelledby="clueTrackerTitle"><h2 id="clueTrackerTitle">Clues by team</h2><div class="settings-grid"><section class="clue-team red-team"><h3 id="redClueTitle"></h3><ol id="redClues" class="clue-list"></ol></section><section class="clue-team blue-team"><h3 id="blueClueTitle"></h3><ol id="blueClues" class="clue-list"></ol></section></div></section>
+<details class="history-panel" id="historyPanel"><summary>Mission log <span id="logCount"></span></summary><ol id="history"></ol></details></div></div>
 </section>
 </main>
 <footer><span>◈ CLUE CIRCUIT</span><span>MADE FOR GOOD COMPANY & QUESTIONABLE CONNECTIONS.</span><span id="footerMode">BROWSER ONLY · NO ACCOUNTS</span></footer>
@@ -7795,38 +7868,81 @@ WALL WALNUT WATER WAVE WEB WHEEL WHALE WHEAT WHISTLE WILLOW WIND
 WINDOW WING WOLF WOOD WOOL WREN YACHT YARN ZEBRA ZIPPER`.split(/\s+/);
 
 const TEAMS=['red','blue'];
+const DIFFICULTIES={
+ easy:{label:'Easy',clueSeconds:180,guessSeconds:180},
+ standard:{label:'Standard',clueSeconds:120,guessSeconds:120},
+ hard:{label:'Hard',clueSeconds:60,guessSeconds:90}
+};
+function normalizeSettings(options={}){
+ if(!options||typeof options!=='object'||Array.isArray(options))throw Error('Choose valid timer settings.');
+ const difficulty=options.difficulty===undefined?'standard':options.difficulty;
+ if(typeof difficulty!=='string'||!Object.hasOwn(DIFFICULTIES,difficulty))throw Error('Choose a valid difficulty.');
+ const settings={difficulty};
+ for(const key of ['clueSeconds','guessSeconds']){
+  const value=options[key]===undefined?DIFFICULTIES[difficulty][key]:options[key];
+  if(!Number.isInteger(value)||value<10||value>1800)throw Error('Timer durations must be whole seconds from 10 to 1800.');
+  settings[key]=value;
+ }
+ return settings;
+}
+function resetClock(g,now=Date.now()){
+ g.settings=normalizeSettings(g.settings);
+ const remainingMs=g.winner||g.phase==='finished'?0:g.settings[g.phase==='guess'?'guessSeconds':'clueSeconds']*1000;
+ g.clock={deadline:remainingMs?now+remainingMs:null,paused:false,remainingMs};return g;
+}
 const other=team=>team==='red'?'blue':'red';
 function randomInt(max){const x=new Uint32Array(1); const limit=4294967296-(4294967296%max);do{crypto.getRandomValues(x);}while(x[0]>=limit);return x[0]%max;}
 function shuffle(items){const a=[...items];for(let i=a.length-1;i>0;i--){const j=randomInt(i+1);[a[i],a[j]]=[a[j],a[i]];}return a;}
 function parseWords(text){return [...new Set(text.split(/[,;\n\r]+/).map(w=>w.trim().replace(/\s+/g,' ').toUpperCase()).filter(Boolean))];}
 function validateWords(words){if(words.length<25)throw Error('Add at least 25 unique words.');if(words.length>5000)throw Error('Use at most 5,000 words.');if(words.some(w=>w.length>24 || !/^[\p{L}\p{N} '\-]+$/u.test(w)))throw Error('Each word or phrase must be 1–24 characters: letters, numbers, spaces, apostrophes or hyphens.');return words;}
-function newGame(words,teams,pack){
+function newGame(words,teams,pack,options={},now=Date.now()){
+ const settings=normalizeSettings(options);
  validateWords(words);const turn=TEAMS[randomInt(2)],types=shuffle([...Array(9).fill(turn),...Array(8).fill(other(turn)),...Array(7).fill('neutral'),'trap']);
- return {v:1,id:crypto.randomUUID().slice(0,8),pack,teams,turn,phase:'clue',clue:null,left:0,winner:null,round:1,
- cards:shuffle(words).slice(0,25).map((word,i)=>({word,type:types[i],revealed:false})),history:[{text:`${teams[turn].name} starts. Awaiting a clue.`,team:turn}]};
+ return resetClock({v:1,id:crypto.randomUUID().slice(0,8),pack,teams,turn,phase:'clue',clue:null,clues:[],left:0,winner:null,round:1,settings,
+ cards:shuffle(words).slice(0,25).map((word,i)=>({word,type:types[i],revealed:false})),history:[{text:`${teams[turn].name} starts. Awaiting a clue.`,team:turn}]},now);
 }
 function remaining(g,team){return g.cards.filter(c=>c.type===team&&!c.revealed).length;}
 function end(g){g.turn=other(g.turn);g.phase='clue';g.clue=null;g.left=0;g.round++;}
-function act(original,action){
+function act(original,action,now=Date.now()){
  const g=structuredClone(original);if(g.winner)throw Error('This round is finished. Deal a new board.');
+ g.settings=normalizeSettings(g.settings);if(!g.clock)resetClock(g,now);if(!g.clues)g.clues=[];
  const team=g.turn,name=g.teams[team].name;
+ const expired=!g.clock.paused&&g.clock.deadline!==null&&now>=g.clock.deadline;
+ if(['clue','guess','end'].includes(action.type)){
+  if(g.clock.paused)throw Error('The timer is paused. Resume before playing.');
+  if(expired)throw Error('Time is up. Advance to the next team before playing.');
+ }
  if(action.type==='clue'){
   if(g.phase!=='clue')throw Error('Finish the current turn first.');
   const word=String(action.word||'').trim().toUpperCase();
   if(!/^[\p{L}\p{N}'-]{1,30}$/u.test(word))throw Error('Enter one clue word, up to 30 characters.');
   if(g.cards.some(c=>!c.revealed&&c.word===word))throw Error('That word is still on the board. Choose a different clue.');
   if(!Number.isInteger(action.count)||action.count<1||action.count>9)throw Error('Choose a number from 1 to 9.');
-  g.clue={word,count:action.count};g.left=action.count+1;g.phase='guess';g.history.push({text:`${name}: ${word} · ${action.count}`,team});
+  g.clue={word,count:action.count};g.clues.push({team,round:g.round,word,count:action.count});g.left=action.count+1;g.phase='guess';g.history.push({text:`${name}: ${word} · ${action.count}`,team});resetClock(g,now);
  }else if(action.type==='guess'){
   if(g.phase!=='guess')throw Error('Enter the spymaster’s clue before revealing cards.');
   const c=g.cards[action.index];if(!Number.isInteger(action.index)||!c||c.revealed)throw Error('Choose an unrevealed card.');
   c.revealed=true;g.left--;g.history.push({text:`${c.word} → ${c.type==='neutral'?'bystander':c.type==='trap'?'the trap':g.teams[c.type].name}`,team});
   if(c.type==='trap')g.winner=other(team);
   else if(!remaining(g,'red'))g.winner='red';else if(!remaining(g,'blue'))g.winner='blue';
-  if(g.winner){g.phase='finished';g.history.push({text:`${g.teams[g.winner].name} wins the round!`,team:g.winner});}
-  else if(c.type!==team||g.left===0)end(g);
+  if(g.winner){g.phase='finished';g.history.push({text:`${g.teams[g.winner].name} wins the round!`,team:g.winner});resetClock(g,now);}
+  else if(c.type!==team||g.left===0){end(g);resetClock(g,now);}
  }else if(action.type==='end'){
-  if(g.phase!=='guess')throw Error('Enter a clue first.');g.history.push({text:`${name} ends the turn.`,team});end(g);
+  if(g.phase!=='guess')throw Error('Enter a clue first.');g.history.push({text:`${name} ends the turn.`,team});end(g);resetClock(g,now);
+ }else if(action.type==='timeout'){
+  if(!expired)throw Error('The timer has not expired.');
+  g.history.push({text:`${name} ran out of time to ${g.phase==='clue'?'give a clue':'guess'}.`,team});end(g);resetClock(g,now);
+ }else if(action.type==='pause'){
+  if(g.clock.paused)throw Error('The timer is already paused.');
+  if(expired)throw Error('Time is up. Advance to the next team before pausing.');
+  g.clock.remainingMs=Math.max(0,g.clock.deadline-now);g.clock.deadline=null;g.clock.paused=true;
+ }else if(action.type==='resume'){
+  if(!g.clock.paused)throw Error('The timer is not paused.');
+  g.clock.deadline=now+g.clock.remainingMs;g.clock.paused=false;
+ }else if(action.type==='settings'){
+  if(!action.settings||typeof action.settings!=='object'||Array.isArray(action.settings))throw Error('Choose valid timer settings.');
+  const paused=g.clock.paused;g.settings=normalizeSettings({...g.settings,...action.settings});resetClock(g,now);
+  if(paused){g.clock.paused=true;g.clock.deadline=null;}
  }else throw Error('Unknown action.');return g;
 }
 // Viewer invitations deliberately omit the unrevealed answers and the host's history.
@@ -7849,6 +7965,101 @@ function decode(value){
 
 
 const list = text => [...new Set(text.trim().split(/\s+/))];
+const phrases = text => [...new Set(text.trim().split('|').map(word => word.trim()).filter(Boolean))];
+// Explicit selections reflect familiarity and conceptual depth, not word length.
+const curated = {
+everyday: {
+easy: list(`APPLE BALLOON BEAR BELL BICYCLE BLANKET BOAT BOOK BOOT BOTTLE BOWL
+BRUSH BUCKET BUTTON CAMERA CANDLE CARROT CHAIR CHERRY CLOCK CLOUD CUP
+DEER DESK DOOR DRUM EGG FLOWER FORK FOX FROG GLOVE HAT HORSE
+KEY KITE LAMP LEAF LEMON LION MOON MOUSE PAPER PENCIL PIANO PILLOW
+PLATE RABBIT RAIN ROPE SHOE SOCK SPOON STAR SUN TABLE TREE WATER`),
+hard: list(`ATLAS AURORA AXLE BEACON CELLO COMPASS CORAL CRYSTAL DAWN DIAMOND
+ECHO FALCON FIDDLE FINCH FLASK FLINT FOSSIL GLACIER GRAVITY HARBOR
+HAZEL HERON IVORY JAZZ JOURNAL LAVA LOTUS MAGNET MARBLE MEADOW
+ORBIT ORCHARD OYSTER PEARL PRISM QUARTZ RAVEN REEF RUBY SATELLITE
+SHADOW SHIELD SILK SILVER SPEAR STEEL SUMMIT TEMPLE THRONE TIMBER
+VELVET VOLCANO WHEAT WILLOW WREN YACHT`)
+},
+halloween: {
+easy: list(`PUMPKIN GHOST WITCH WIZARD VAMPIRE ZOMBIE SKELETON MONSTER BAT SPIDER
+CROW OWL CAT RAT WOLF BROOM WAND CANDLE LANTERN SMOKE MOON STAR
+NIGHT BONE MASK COSTUME HAT BOOT GLOVE WIG CANDY CHOCOLATE APPLE
+CORN HAY BARN FARM LEAF OAK FOREST BRANCH ROOT MUSHROOM CASTLE
+ATTIC DOOR WINDOW MIRROR CLOCK PIANO KEY LOCK CHAIN CAVE POND`),
+hard: list(`ALCHEMY PHANTOM SPECTER HEX MAUSOLEUM CRYPT SHROUD SARCOPHAGUS TALON
+EQUINOX SOLSTICE HEMLOCK NIGHTSHADE OMEN PROPHECY ORACLE SEER MEDIUM SEANCE
+TAROT AMULET TALISMAN RELIC IDOL RITUAL RUNE GRIMOIRE PARCHMENT ABYSS
+CROSSROADS DISGUISE ILLUSION POSSESSION ENCHANTMENT TRANSFORMATION IMMORTALITY
+RESURRECTION AFTERLIFE FOLKLORE DREAD GARGOYLE MIRAGE MANOR CHANDELIER
+NETTLE LICORICE MYTH VISION CURSE SYMBOL HOLLOW`)
+},
+tech: {
+easy: list(`CAMERA LAPTOP MOUSE KEYBOARD SCREEN PRINTER
+FILE FOLDER PASSWORD BUTTON CABLE CHARGER MONITOR INTERNET WEB WINDOW
+DOWNLOAD UPLOAD SEARCH ROBOT RADIO SPEAKER MICROPHONE FAN DISK
+CODE CLOUD DATA IMAGE AUDIO USER UPDATE TOOL TEST DELETE
+DOCUMENT LINK BROWSER ICON DISPLAY DESKTOP DEVICE NETWORK WIRELESS USB
+WEBCAM TOUCHSCREEN JOYSTICK DRONE GADGET POWER ZOOM BACKUP`),
+hard: list(`ALGORITHM BOOLEAN COMPILER KERNEL ITERATOR LAMBDA RECURSION REGEX
+SUBNET TUPLE UNICODE AUTHENTICATION CAPACITOR
+CONTAINER CONTEXT DIODE EMULATOR ENDPOINT LATENCY MULTIPLEX NAMESPACE
+PARTITION PAYLOAD PIPELINE PROTOCOL PROXY RASTER REPLICA SEMICONDUCTOR
+TELEMETRY TENSOR TERRAFORM TRANSISTOR OSCILLATOR WAVEFORM QUANTUM
+POINTER HEAP HASH FIRMWARE ENCRYPTION EXCEPTION SERIAL SOCKET
+TRANSACTION SCHEMA SYNTAX PARSER GATEWAY BANDWIDTH INFRARED RESISTOR`)
+},
+food: {
+easy: list(`APPLE BANANA CHERRY GRAPE LEMON LIME MANGO ORANGE PEACH PEAR
+PINEAPPLE PLUM STRAWBERRY WATERMELON CARROT CORN CUCUMBER GARLIC LETTUCE
+ONION PEA PEPPER POTATO PUMPKIN TOMATO PEANUT SALT BREAD CRACKER
+FLOUR PASTA RICE BACON BEEF CHICKEN HAM SAUSAGE EGG BUTTER CHEESE
+MILK YOGURT CAKE COOKIE DOUGHNUT HONEY JAM PANCAKE PIE SUGAR
+CHOCOLATE BURGER PIZZA SALAD SANDWICH SOUP JUICE WATER FORK SPOON`),
+hard: list(`ARUGULA CARDAMOM BULGUR SEMOLINA SPELT SEITAN TEMPEH FENNEL
+RUTABAGA SHALLOT WATERCRESS TARRAGON SAFFRON TURMERIC ANISE BRIOCHE
+COUSCOUS POLENTA QUINOA CHORIZO VENISON ANCHOVY HALIBUT SCALLOP
+EDAMAME RICOTTA CAMEMBERT FRITTATA QUICHE MERINGUE MACARON MARZIPAN
+MOLASSES TIRAMISU BAKLAVA PAELLA RISOTTO TEMPURA CHUTNEY BRINE
+MARINADE PESTO KOMBUCHA MATCHA COLANDER MORTAR LYCHEE PERSIMMON
+MACADAMIA CAYENNE CORIANDER WASABI`)
+},
+adventure: {
+easy: list(`AIRPORT AIRPLANE BACKPACK BICYCLE BOAT BUS CABIN CAR HOTEL ISLAND
+MAP ROAD SHIP SUITCASE TAXI TICKET TRAIN BEACH FOREST GARDEN HILL
+LAKE MOUNTAIN OCEAN POND RAINBOW RIVER ROCK SAND WATERFALL BASKET
+BLANKET BOOTS BOTTLE CHAIR FLASHLIGHT HELMET JACKET KNIFE LANTERN
+ROPE SCARF SHOVEL SOCK TENT TOWEL UMBRELLA CAMPING FISHING WALKING
+PICNIC PARK BEAR DEER FOX LION PANDA TIGER TURTLE ZEBRA`),
+hard: list(`ARCHIPELAGO ATOLL AURORA AVALANCHE BLUFF DELTA ESTUARY FJORD
+GEYSER GLACIER GORGE LAGOON MESA PENINSULA PLATEAU PRAIRIE SAVANNA
+TUNDRA CARABINER CRAMPON HARNESS ORIENTEERING PARAGLIDING SPELUNKING
+EXPEDITION BAZAAR MONASTERY OBSERVATORY PROMENADE COBBLESTONE BOULEVARD
+COURTYARD TRANSIT CUSTOMS RESERVATION CHECKPOINT GONDOLA
+SPYGLASS CANTEEN PONCHO RAPIDS REEF RIDGE HORIZON CONTINENT CAPE
+CAVERN CORAL CRATER BOULDER WETLAND`)
+},
+holiday: {
+easy: list(`SNOW SNOWBALL SNOWMAN ICE SCARF MITTEN GLOVE SWEATER COAT BOOT
+SOCK HAT BLANKET CANDLE LIGHT RIBBON BELL STAR TOY DOLL TRAIN
+DRUM PUZZLE GIFT BOX BAG PAPER TAPE SCISSORS LETTER CARD TREE
+FAMILY CORN BASKET PARTY CLOCK COOKIE CAKE CANDY SUGAR APPLE ORANGE
+TEA COFFEE POTATO CARROT TABLE PLATE BOWL CUP FORK SPOON HUG
+RABBIT FOX BEAR DEER PENGUIN`),
+hard: list(`SOLSTICE BLIZZARD FLURRY SLEET HEARTH TINSEL BAUBLE BOUGH JUNIPER
+MISTLETOE MENORAH DREIDEL GELT LATKE SUFGANIYAH SHAMASH ADVENT
+NATIVITY HYMN STEEPLE PAGEANT KWANZAA KINARA HERITAGE UNITY
+RESOLUTION CHALET TOBOGGAN LUGE BOBSLED AURORA HORIZON TWILIGHT
+NUTMEG CLOVE NOUGAT MARZIPAN PANETTONE STOLLEN MOLASSES
+POMEGRANATE HAZELNUT PISTACHIO PARSNIP GRATITUDE REUNION
+TRADITION MIRACLE COMMUNITY CASSEROLE GOBLET FLEECE FLANNEL`)
+}
+};
+const themedPack = (metadata, easy, standard, hard) => ({
+  ...metadata,
+  words: [...new Set([...phrases(easy), ...phrases(standard), ...phrases(hard)])],
+  difficulties: {easy: phrases(easy), hard: phrases(hard)}
+});
 const PACKS = [
 {id:'everyday',name:'Beautifully ordinary',icon:'✳',tag:'THE CLASSIC MIX',description:'Everyday things. Unexpected connections.',words:WORDS},
 {id:'halloween',name:'Midnight mischief',icon:'☾',tag:'OCTOBER SPECIAL',description:'Haunted houses, autumn nights, and things that go bump.',words:list(`
@@ -8009,14 +8220,180 @@ TURKEY HAM ROAST POTATO PARSNIP CARROT STUFFING GRAVY CRANBERRIES CASSEROLE
 TABLE TABLECLOTH NAPKIN PLATE PLATTER BOWL GOBLET CUP FORK SPOON
 KITCHEN OVEN APRON RECIPE DOUGH WHISK SPATULA LADLE KETTLE TRAY
 REUNION FRIENDSHIP KINDNESS JOY PEACE HOPE LAUGHTER HUG MEMORY GRATITUDE
-RABBIT ROBIN CARDINAL WREN OWL FOX WOLF BEAR DEER PENGUIN`)}
-];
+RABBIT ROBIN CARDINAL WREN OWL FOX WOLF BEAR DEER PENGUIN`)},
+themedPack(
+{id:'federal',name:'Mission control',icon:'⌁',tag:'PUBLIC SERVICE DELIVERY',description:'Federal missions meet Salesforce, Copado, and GitHub delivery.'},
+`TEAM|USER|ACCOUNT|CONTACT|CASE|REPORT|DASHBOARD|FORM|FIELD|RECORD|
+FILE|FOLDER|BUTTON|PAGE|TAB|MENU|LIST|TABLE|CHART|EMAIL|
+TASK|CALENDAR|MEETING|TRAINING|HELP|SEARCH|FILTER|SORT|SAVE|EDIT|
+DELETE|COPY|PASTE|UPLOAD|DOWNLOAD|PASSWORD|LOGIN|LOGOUT|LINK|COMMENT|
+REVIEW|APPROVAL|PLAN|TEST|BUG|FIX|RELEASE|BACKUP|OWNER|MEMBER|
+MANAGER|PROJECT|DEADLINE|CHECKLIST|DOCUMENT|GUIDE|TICKET|STATUS|QUEUE|SUPPORT`,
+`SALESFORCE|COPADO|GITHUB|GIT|APEX|SOQL|SOSL|LIGHTNING|LWC|VISUALFORCE|
+FLOW|TRIGGER|SANDBOX|SCRATCH ORG|PRODUCTION ORG|DEVELOPER ORG|TRAILHEAD|APP BUILDER|APP LAUNCHER|OBJECT MANAGER|
+CUSTOM OBJECT|STANDARD OBJECT|PICKLIST|FORMULA FIELD|LOOKUP|MASTER-DETAIL|VALIDATION RULE|RECORD TYPE|PAGE LAYOUT|RELATED LIST|
+PERMISSION SET|PROFILE|ROLE HIERARCHY|SHARING RULE|PUBLIC GROUP|SERVICE CLOUD|SALES CLOUD|EXPERIENCE CLOUD|GOVERNMENT CLOUD|OMNISTUDIO|
+OMNISCRIPT|FLEXCARD|DATA LOADER|WORKBENCH|CHANGE SET|PACKAGE XML|METADATA|CUSTOM METADATA|CUSTOM LABEL|STATIC RESOURCE|
+NAMED CREDENTIAL|CONNECTED APP|DEPLOYMENT|USER STORY|SPRINT|BACKLOG|RETROSPECTIVE|SCRUM|KANBAN|ACCEPTANCE CRITERIA|
+REPOSITORY|BRANCH|COMMIT|PULL REQUEST|MERGE|MERGE CONFLICT|TAG|FORK|CLONE|ISSUE|
+GITHUB ACTIONS|WORKFLOW|RUNNER|ARTIFACT|CODE REVIEW|CODEOWNERS|BRANCH PROTECTION|ENVIRONMENT|SECRET|WEBHOOK|
+COPADO PIPELINE|PROMOTION|PROMOTION BRANCH|DEPLOYMENT JOB|QUALITY GATE|REGRESSION TEST|APEX TEST|CODE COVERAGE|UNIT TEST|SMOKE TEST|
+UAT|INTEGRATION TEST|VERSION CONTROL|RELEASE NOTE|ROLLBACK|HOTFIX|FEDERAL AGENCY|CIVIL SERVANT|PUBLIC TRUST|ACCESSIBILITY|
+SECTION 508|PROCUREMENT|CONTRACT|DELIVERABLE|STATEMENT OF WORK|MISSION|STAKEHOLDER|PRODUCT OWNER|BUSINESS ANALYST|SYSTEM ADMIN`,
+`FEDRAMP|FISMA|NIST|NIST 800-53|NIST 800-171|ATO|AUTHORIZATION BOUNDARY|CONTROL BASELINE|CONTROL INHERITANCE|CONTINUOUS MONITORING|
+RMF|POAM|SSP|CUI|FIPS 199|FIPS 200|FIPS 140-3|PIV|CAC|ZERO TRUST|
+LEAST PRIVILEGE|SEPARATION OF DUTIES|AUDIT TRAIL|DATA RESIDENCY|IMPACT LEVEL|SALESFORCE SHIELD|PLATFORM ENCRYPTION|EVENT MONITORING|FIELD AUDIT TRAIL|GOVERNOR LIMIT|
+BULKIFICATION|MIXED DML|SHARING MODEL|CRUD|FLS|USER MODE|STRIPINACCESSIBLE|IDEMPOTENCY|DESTRUCTIVE CHANGES|DEPENDENCY RESOLUTION|
+UNLOCKED PACKAGE|MANAGED PACKAGE|2GP|METADATA API|TOOLING API|PLATFORM EVENT|CHANGE DATA CAPTURE|ASYNC APEX|QUEUEABLE APEX|BATCH APEX|
+BACK PROMOTION|SELECTIVE DEPLOYMENT|COPADO ROBOTIC TESTING|COPADO FUNCTIONS|COMPLIANCE HUB|MERGE QUEUE|REQUIRED STATUS CHECK|OIDC|SBOM|SLSA|
+CODEQL|DEPENDABOT|SECRET SCANNING|SIGNED COMMIT|ARTIFACT ATTESTATION|PINNED ACTION|REUSABLE WORKFLOW|SELF-HOSTED RUNNER|DEPLOYMENT GATE|SUPPLY CHAIN`
+),
+themedPack(
+{id:'nature',name:'Wild neighbors',icon:'♧',tag:'NATURE AND WILDLIFE',description:'From garden visitors to the intricate life of wild habitats.'},
+`TREE|LEAF|ROOT|BRANCH|FLOWER|GRASS|SEED|FRUIT|BERRY|APPLE|
+OAK|PINE|ROSE|DAISY|SUNFLOWER|MOSS|FERN|MUSHROOM|FOREST|MEADOW|
+RIVER|POND|LAKE|OCEAN|BEACH|SAND|ROCK|SOIL|RAIN|SNOW|
+SUN|CLOUD|WIND|RAINBOW|BIRD|NEST|EGG|FEATHER|WING|BEAK|
+BEAR|FOX|DEER|RABBIT|SQUIRREL|MOUSE|FROG|TURTLE|SNAIL|WORM|
+BEE|ANT|BUTTERFLY|SPIDER|FISH|WHALE|DOLPHIN|SEAL|DUCK|OWL`,
+`BADGER|BEAVER|OTTER|MINK|STOAT|WEASEL|MARTEN|WOLVERINE|LYNX|BOBCAT|
+COUGAR|JAGUAR|LEOPARD|CHEETAH|LION|TIGER|WOLF|COYOTE|JACKAL|HYENA|
+ELK|MOOSE|CARIBOU|BISON|BUFFALO|ANTELOPE|GAZELLE|IBEX|CHAMOIS|MUSKOX|
+GIRAFFE|ZEBRA|ELEPHANT|RHINOCEROS|HIPPOPOTAMUS|OKAPI|TAPIR|CAPYBARA|PORCUPINE|HEDGEHOG|
+PANGOLIN|ARMADILLO|SLOTH|ANTEATER|LEMUR|GORILLA|CHIMPANZEE|ORANGUTAN|GIBBON|BABOON|
+KANGAROO|WALLABY|WOMBAT|KOALA|PLATYPUS|ECHIDNA|OPOSSUM|QUOKKA|NUMBAT|BILBY|
+EAGLE|HAWK|FALCON|OSPREY|KESTREL|HERON|EGRET|CRANE|STORK|IBIS|
+PUFFIN|PENGUIN|ALBATROSS|PETREL|GULL|TERN|PELICAN|CORMORANT|KINGFISHER|WOODPECKER|
+ROBIN|WREN|FINCH|SPARROW|SWALLOW|SWIFT|LARK|THRUSH|BLACKBIRD|NIGHTINGALE|
+SALAMANDER|NEWT|TOAD|GECKO|IGUANA|CHAMELEON|SKINK|MONITOR LIZARD|CROCODILE|ALLIGATOR|
+SALMON|TROUT|PIKE|PERCH|CARP|EEL|RAY|SHARK|SEAHORSE|OCTOPUS|
+SQUID|CUTTLEFISH|JELLYFISH|STARFISH|URCHIN|CRAB|LOBSTER|SHRIMP|OYSTER|MUSSEL|
+DRAGONFLY|DAMSELFLY|LADYBIRD|BEETLE|MOTH|CICADA|CRICKET|GRASSHOPPER|MANTIS|FIREFLY`,
+`BIODIVERSITY|ECOSYSTEM|ECOLOGICAL NICHE|KEYSTONE SPECIES|TROPHIC CASCADE|FOOD WEB|CARRYING CAPACITY|SUCCESSION|SYMBIOSIS|MUTUALISM|
+COMMENSALISM|PARASITISM|PREDATION|CAMOUFLAGE|MIMICRY|APOSEMATISM|BIOLUMINESCENCE|ECHOLOCATION|MAGNETORECEPTION|MIGRATION|
+HIBERNATION|ESTIVATION|DIAPAUSE|METAMORPHOSIS|POLLINATION|SEED DISPERSAL|MYCORRHIZA|RHIZOME|STOMA|XYLEM|
+PHLOEM|TRANSPIRATION|PHOTOSYNTHESIS|NITROGEN FIXATION|DECOMPOSITION|DETRITIVORE|SAPROTROPH|EPIPHYTE|ENDEMIC|INVASIVE SPECIES|
+RIPARIAN ZONE|ESTUARY|MANGROVE|PEATLAND|TUNDRA|TAIGA|CHAPARRAL|SAVANNA|KELP FOREST|CORAL BLEACHING|
+REWILDING|HABITAT CORRIDOR|CONSERVATION|FRAGMENTATION|WATERSHED|CARBON SINK|PERMAFROST|CANOPY|UNDERSTORY|ECOTONE`
+),
+themedPack(
+{id:'science',name:'Small wonders',icon:'⚗',tag:'SCIENCE AND DISCOVERY',description:'Curious experiments, distant galaxies, and ideas worth exploring.'},
+`WATER|ICE|STEAM|AIR|FIRE|HEAT|LIGHT|SOUND|RAIN|SNOW|
+SUN|MOON|STAR|EARTH|PLANET|SPACE|ROCKET|MAGNET|BATTERY|WIRE|
+WHEEL|RAMP|LEVER|PULLEY|SCALE|RULER|CLOCK|TIMER|LENS|MIRROR|
+PRISM|RAINBOW|SHADOW|COLOR|SOAP|SALT|SUGAR|SAND|ROCK|CRYSTAL|
+BONE|HEART|LUNG|BRAIN|SKIN|BLOOD|EYE|EAR|TOOTH|MUSCLE|
+SEED|ROOT|LEAF|FLOWER|EGG|SHELL|FOSSIL|DINOSAUR|TELESCOPE|MICROSCOPE`,
+`LABORATORY|EXPERIMENT|HYPOTHESIS|OBSERVATION|EVIDENCE|MEASUREMENT|VARIABLE|CONTROL GROUP|TRIAL|RESULT|
+BEAKER|FLASK|TEST TUBE|PIPETTE|PETRI DISH|THERMOMETER|BAROMETER|BALANCE|GOGGLES|LAB COAT|
+ATOM|MOLECULE|ELEMENT|COMPOUND|MIXTURE|SOLUTION|SOLVENT|SOLUTE|ACID|BASE|
+OXYGEN|HYDROGEN|CARBON|NITROGEN|HELIUM|IRON|COPPER|GOLD|SILVER|ALUMINUM|
+PROTON|NEUTRON|ELECTRON|NUCLEUS|ION|ISOTOPE|PERIODIC TABLE|REACTION|CATALYST|POLYMER|
+GRAVITY|FORCE|MOTION|SPEED|VELOCITY|MASS|WEIGHT|ENERGY|POWER|FRICTION|
+PRESSURE|DENSITY|VOLUME|TEMPERATURE|CONDUCTION|CONVECTION|RADIATION|REFLECTION|REFRACTION|SPECTRUM|
+CURRENT|VOLTAGE|RESISTANCE|CIRCUIT|CONDUCTOR|INSULATOR|GENERATOR|TURBINE|SOLAR PANEL|ELECTROMAGNET|
+GALAXY|NEBULA|COMET|ASTEROID|METEOR|ORBIT|ECLIPSE|CONSTELLATION|SATELLITE|SPACE STATION|
+MERCURY|VENUS|MARS|JUPITER|SATURN|URANUS|NEPTUNE|PLUTO|SUPERNOVA|BLACK HOLE|
+CELL|MEMBRANE|DNA|GENE|CHROMOSOME|PROTEIN|ENZYME|BACTERIA|VIRUS|VACCINE|
+GEOLOGY|BIOLOGY|CHEMISTRY|PHYSICS|ASTRONOMY|BOTANY|ZOOLOGY|PALEONTOLOGY|OCEANOGRAPHY|METEOROLOGY`,
+`ENTROPY|ENTHALPY|STOICHIOMETRY|CHIRALITY|COVALENT BOND|IONIC BOND|REDOX|EQUILIBRIUM|OSMOSIS|DIFFUSION|
+MITOSIS|MEIOSIS|TRANSCRIPTION|TRANSLATION|EPIGENETICS|ALLELE|GENOTYPE|PHENOTYPE|HOMEOSTASIS|APOPTOSIS|
+ENDOSYMBIOSIS|PHYLOGENY|NATURAL SELECTION|GENETIC DRIFT|CRISPR|RIBOSOME|MITOCHONDRION|CHLOROPLAST|CYTOSKELETON|PLASMID|
+QUANTUM ENTANGLEMENT|SUPERPOSITION|UNCERTAINTY PRINCIPLE|WAVE-PARTICLE DUALITY|RELATIVITY|SPACETIME|GRAVITATIONAL LENSING|REDSHIFT|DARK MATTER|COSMIC MICROWAVE|
+PLATE TECTONICS|SUBDUCTION|STRATIGRAPHY|RADIOISOTOPE DATING|HALF-LIFE|PEER REVIEW|REPRODUCIBILITY|FALSIFIABILITY|NULL HYPOTHESIS|CONFIDENCE INTERVAL|
+STANDARD DEVIATION|STATISTICAL POWER|SELECTION BIAS|CONFOUNDING|DOUBLE-BLIND|META-ANALYSIS|CALIBRATION|SPECTROSCOPY|CHROMATOGRAPHY|INTERFEROMETRY`
+),
+themedPack(
+{id:'arts',name:'Creative company',icon:'♫',tag:'ARTS AND MUSIC',description:'Paint, rhythm, stagecraft, and the many ways people create.'},
+`PAINT|BRUSH|PENCIL|PAPER|INK|CHALK|CRAYON|COLOR|RED|BLUE|
+YELLOW|GREEN|PURPLE|ORANGE|PINK|BLACK|WHITE|LINE|SHAPE|CIRCLE|
+PICTURE|FRAME|PHOTO|CAMERA|CLAY|BEAD|RIBBON|THREAD|NEEDLE|YARN|
+SONG|SINGER|BAND|DRUM|GUITAR|PIANO|FLUTE|VIOLIN|TRUMPET|BELL|
+DANCE|DANCER|STAGE|CURTAIN|ACTOR|COSTUME|MASK|PUPPET|TICKET|AUDIENCE|
+STORY|BOOK|POEM|RHYME|POSTER|CARTOON|COMIC|SKETCH|STATUE|MUSEUM`,
+`CANVAS|EASEL|PALETTE|WATERCOLOR|OIL PAINT|ACRYLIC|PASTEL|CHARCOAL|GOUACHE|TEMPERA|
+PORTRAIT|LANDSCAPE|STILL LIFE|MURAL|FRESCO|COLLAGE|MOSAIC|PRINT|ETCHING|WOODCUT|
+SCULPTURE|CARVING|POTTERY|CERAMIC|GLAZE|KILN|WEAVING|EMBROIDERY|QUILTING|TAPESTRY|
+ORIGAMI|CALLIGRAPHY|TYPOGRAPHY|DESIGN|ILLUSTRATION|ANIMATION|PHOTOGRAPHY|FILM|CINEMA|SCREENPLAY|
+CELLO|VIOLA|DOUBLE BASS|HARP|BANJO|MANDOLIN|UKULELE|SITAR|OUD|KORA|
+CLARINET|OBOE|BASSOON|SAXOPHONE|TROMBONE|TUBA|FRENCH HORN|RECORDER|HARMONICA|ACCORDION|
+XYLOPHONE|MARIMBA|VIBRAPHONE|GONG|CYMBAL|TAMBOURINE|TABLA|DJEMBE|STEELPAN|CAJON|
+MELODY|HARMONY|RHYTHM|BEAT|TEMPO|PITCH|NOTE|REST|SCALE|CHORD|
+CHORUS|VERSE|BRIDGE|SOLO|DUET|TRIO|QUARTET|CHOIR|ORCHESTRA|CONDUCTOR|
+JAZZ|BLUES|ROCK|POP|FOLK|SOUL|REGGAE|HIP-HOP|COUNTRY|ELECTRONIC|
+BALLET|TAP|SALSA|TANGO|WALTZ|SWING|FLAMENCO|KATHAK|CAPOEIRA|BREAKING|
+THEATER|COMEDY|TRAGEDY|MUSICAL|OPERA|REHEARSAL|AUDITION|DIRECTOR|SPOTLIGHT|BACKDROP`,
+`CHIAROSCURO|SFUMATO|FORESHORTENING|PERSPECTIVE|NEGATIVE SPACE|COMPLEMENTARY COLOR|SATURATION|HUE|IMPASTO|POINTILLISM|
+CUBISM|SURREALISM|EXPRESSIONISM|IMPRESSIONISM|ABSTRACTION|MINIMALISM|DADA|BAUHAUS|INSTALLATION|ASSEMBLAGE|
+COUNTERPOINT|POLYPHONY|MONOPHONY|SYNCOPATION|POLYRHYTHM|HEMIOLA|ARPEGGIO|CADENCE|MODULATION|TRANSPOSITION|
+DISSONANCE|CONSONANCE|TIMBRE|VIBRATO|TREMOLO|PIZZICATO|LEGATO|STACCATO|OSTINATO|LEITMOTIF|
+SONATA|FUGUE|CONCERTO|SYMPHONY|RAGA|MAQAM|GAMELAN|MICROTONALITY|PENTATONIC|DODECAPHONY|
+DRAMATURGY|BLOCKING|PROSCENIUM|SOLILOQUY|ASIDE|DENOUEMENT|SUBTEXT|DIEGESIS|MONTAGE|MISE-EN-SCENE`
+),
+themedPack(
+{id:'sports',name:'Good sports',icon:'◎',tag:'SPORTS AND GAMES',description:'Team spirit, tabletop tactics, and a little friendly competition.'},
+`BALL|BAT|NET|GOAL|TEAM|PLAYER|COACH|REFEREE|WHISTLE|SCORE|
+WIN|LOSE|DRAW|RACE|RUN|JUMP|SWIM|THROW|CATCH|KICK|
+PASS|SHOOT|HIT|BOUNCE|ROLL|CLIMB|SKATE|SKI|BIKE|BOAT|
+HELMET|GLOVE|SHOE|SOCK|JERSEY|SHORTS|CAP|RACKET|PADDLE|HOOP|
+COURT|FIELD|POOL|TRACK|STADIUM|MEDAL|TROPHY|FLAG|DICE|CARD|
+BOARD|PAWN|TOKEN|TILE|PUZZLE|CHESS|CHECKERS|DOMINO|BINGO|TAG`,
+`FOOTBALL|SOCCER|RUGBY|BASKETBALL|BASEBALL|SOFTBALL|CRICKET|HOCKEY|LACROSSE|HANDBALL|
+VOLLEYBALL|BEACH VOLLEYBALL|TENNIS|TABLE TENNIS|BADMINTON|SQUASH|PICKLEBALL|RACQUETBALL|GOLF|MINI GOLF|
+SPRINT|MARATHON|HURDLES|RELAY|HIGH JUMP|LONG JUMP|TRIPLE JUMP|POLE VAULT|SHOT PUT|DISCUS|
+JAVELIN|HAMMER THROW|DECATHLON|HEPTATHLON|TRIATHLON|PENTATHLON|CROSS COUNTRY|RACE WALKING|ORIENTEERING|CYCLING|
+ROWING|CANOEING|KAYAKING|SAILING|SURFING|DIVING|WATER POLO|ARTISTIC SWIMMING|WATERSKIING|WAKEBOARDING|
+GYMNASTICS|TRAMPOLINE|TUMBLING|BALANCE BEAM|VAULT|POMMEL HORSE|PARALLEL BARS|FLOOR ROUTINE|RINGS|UNEVEN BARS|
+BOXING|WRESTLING|JUDO|KARATE|TAEKWONDO|FENCING|ARCHERY|WEIGHTLIFTING|POWERLIFTING|CLIMBING|
+CURLING|BOBSLED|LUGE|SKELETON|FIGURE SKATING|SPEED SKATING|SNOWBOARDING|SKI JUMPING|BIATHLON|ICE HOCKEY|
+BOCCIA|GOALBALL|WHEELCHAIR RUGBY|SITTING VOLLEYBALL|PARA SWIMMING|BOWLS|CROQUET|PETANQUE|DARTS|BILLIARDS|
+ROOK|BISHOP|KNIGHT|QUEEN|KING|CHECKMATE|CASTLING|GAMBIT|BACKGAMMON|GO|
+MAHJONG|MANCALA|BRIDGE|HEARTS|SPADES|RUMMY|SOLITAIRE|POKER|CRIBBAGE|CANASTA|
+DECK|HAND|TRICK|SUIT|SHUFFLE|DEAL|DISCARD|ROUND|TURN|TIMER`,
+`OFFSIDE|ICING|POWER PLAY|PENALTY KILL|HAT TRICK|NUTMEG|PANENKA|GEGENPRESSING|FALSE NINE|CATENACCIO|
+PICK AND ROLL|ZONE DEFENSE|TRIPLE-DOUBLE|SHOT CLOCK|BALK|INFIELD FLY|SACRIFICE FLY|EARNED RUN AVERAGE|LEG BEFORE WICKET|GOOGLY|
+DOOSRA|REVERSE SWING|SILLY POINT|DECLARATION|FOLLOW-ON|SCRUM|RUCK|MAUL|CONVERSION|DROP GOAL|
+DEUCE|TIEBREAK|TOPSPIN|SLICE|LOB|VOLLEY|BIRDIE|BOGEY|ALBATROSS|HANDICAP|
+EN PASSANT|ZUGZWANG|ZWISCHENZUG|STALEMATE|FORK|PIN|SKEWER|OPPOSITION|KO RULE|KOMI|
+ATARI|TERRITORY|TESUJI|FUSEKI|JOSEKI|TRUMP|FINESSE|RUFF|DRAFTING|WORKER PLACEMENT`
+),
+themedPack(
+{id:'celebrations',name:'Gather round',icon:'✺',tag:'WORLD CELEBRATIONS',description:'Shared tables, seasonal gatherings, and living traditions around the world.'},
+`PARTY|PARADE|FESTIVAL|FAIR|FAMILY|FRIEND|NEIGHBOR|GUEST|HOST|WELCOME|
+INVITATION|CARD|LETTER|GIFT|PRESENT|BOX|BAG|PAPER|RIBBON|BOW|
+BALLOON|BANNER|FLAG|FLOWER|CANDLE|LANTERN|LIGHT|SPARKLER|FIREWORK|CONFETTI|
+MUSIC|SONG|DANCE|DRUM|BELL|COSTUME|MASK|STORY|GAME|FEAST|
+TABLE|PLATE|BOWL|CUP|BREAD|RICE|FRUIT|CAKE|SWEET|TEA|
+SMILE|LAUGHTER|HUG|THANKS|WISH|HOPE|PEACE|JOY|LOVE|SHARING`,
+`LUNAR NEW YEAR|SPRING FESTIVAL|TET|SEOLLAL|LOSAR|NOWRUZ|SONGKRAN|THINGYAN|PI MAI|KHMER NEW YEAR|
+DIWALI|HOLI|DUSSEHRA|NAVRATRI|DURGA PUJA|GANESH CHATURTHI|JANMASHTAMI|RAKSHA BANDHAN|ONAM|PONGAL|
+VAISAKHI|LOHRI|MAKAR SANKRANTI|UGADI|GUDI PADWA|VESAK|ASALHA PUJA|KATHINA|OBON|HANAMI|
+TANABATA|SETSUBUN|SHICHI-GO-SAN|CHUSEOK|MID-AUTUMN FESTIVAL|DRAGON BOAT FESTIVAL|LANTERN FESTIVAL|QIXI|DOUBLE NINTH|LOY KRATHONG|
+EID AL-FITR|EID AL-ADHA|RAMADAN|IFTAR|SUHOOR|HANUKKAH|PASSOVER|PURIM|ROSH HASHANAH|SUKKOT|
+SHAVUOT|CHRISTMAS|EASTER|ADVENT|EPIPHANY|PENTECOST|LAS POSADAS|SIMBANG GABI|TIMKAT|MESKEL|
+KWANZAA|JUNETEENTH|THANKSGIVING|NEW YEAR|MIDSUMMER|MAY DAY|CARNIVAL|MARDI GRAS|DIA DE LOS MUERTOS|INTI RAYMI|
+FIESTAS PATRIAS|FESTA JUNINA|LAS FALLAS|LA TOMATINA|SAINT LUCIA DAY|HOGMANAY|BURNS NIGHT|SAINT PATRICK'S DAY|BASTILLE DAY|INDEPENDENCE DAY|
+MATARIKI|WAITANGI DAY|NAIDOC WEEK|POWWOW|NATIONAL INDIGENOUS DAY|EMANCIPATION DAY|HERITAGE DAY|AFRICA DAY|PRIDE|WOMEN'S DAY|
+RED ENVELOPE|MOONCAKE|DUMPLING|RICE CAKE|LION DANCE|DRAGON DANCE|FLOWER GARLAND|HENNA|RANGOLI|OIL LAMP|
+MENORAH|DREIDEL|LATKE|MATZAH|SEDER|KINARA|UNITY CUP|ADVENT WREATH|NATIVITY|EASTER EGG|
+PANETTONE|STOLLEN|TAMALE|PAN DE MUERTO|KING CAKE|HOT CROSS BUN|BUNNY|WREATH|HOLLY|MISTLETOE`,
+`SOLAR CALENDAR|LUNAR CALENDAR|LUNISOLAR CALENDAR|INTERCALATION|EQUINOX|SOLSTICE|CRESCENT SIGHTING|PILGRIMAGE|HOSPITALITY|RECIPROCITY|
+REMEMBRANCE|RECONCILIATION|RENEWAL|GRATITUDE|GENEROSITY|SOLIDARITY|DIASPORA|CULTURAL HERITAGE|ORAL TRADITION|COMMUNITY SERVICE|
+ZAKAT AL-FITR|SADAQAH|QURBANI|CHAROSET|AFIKOMAN|HAGGADAH|SHOFAR|ETROG|LULAV|HAMANTASCHEN|
+SUFGANIYOT|SHAMASH|UJAMAA|UJIMA|KUJICHAGULIA|UMOJA|NIA|KUUMBA|IMANI|KARAMU|
+HAFT-SEEN|SABZEH|SIZDAH BEDAR|SUMAN|PUTO BUMBONG|SONGPYEON|TTEOKGUK|ZONGZI|SEBAE|KAGAMI MOCHI|
+KADOMATSU|EMA|KRATHONG|KOLAM|POOKALAM|OFRENDA|CEMPASUCHIL|PAPEL PICADO|CANDOMBE|CEILIDH`
+)
+].map(pack => ({...pack, difficulties: pack.difficulties || curated[pack.id]}));
 
+function packWords(pack, difficulty = 'standard') {
+  const selected = typeof pack === 'string' ? PACKS.find(item => item.id === pack) : pack;
+  if (!selected) return [];
+  return difficulty === 'easy' || difficulty === 'hard'
+    ? selected.difficulties?.[difficulty] || selected.words
+    : selected.words;
+}
 
-
-const $=id=>document.getElementById(id);
-const el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
-const storage={get(k){try{return localStorage.getItem(k);}catch{return null;}},set(k,v){try{localStorage.setItem(k,v);return true;}catch{return false;}}};
 const THEMES={
  halloween:['PHANTOM','A LITTLE MISCHIEF IS IN SEASON.','☾'],
  tech:['SIGNAL','NEON STREETS. CLEAN GETAWAYS.','⌘'],
@@ -8030,15 +8407,266 @@ const THEMES={
  pirate:['COMPASS','MAPS, STORMS, AND MUTINY.','☠'],
  kaiju:['COLOSSAL','CITY LIGHTS. MONSTER SHADOWS.','◉'],
  jungle:['CANOPY','VINES, DRUMS, SECRET PATHS.','✿'],
- spy:['DEAD DROP','CODE PHRASES. QUIET FOOTSTEPS.','⌖']
+ spy:['DEAD DROP','CODE PHRASES. QUIET FOOTSTEPS.','⌖'],
+ diwali:['RADIANCE','LIGHTS, LAUGHTER, AND BRIGHT CONNECTIONS.','✦'],
+ thanksgiving:['GATHER','GOOD COMPANY. PLENTY TO BE THANKFUL FOR.','❧'],
+ christmas:['MERRY','A LITTLE JOY. A LOT OF TOGETHERNESS.','✵'],
+ hanukkah:['SHINE','EIGHT NIGHTS. MANY BRIGHT CONNECTIONS.','✡'],
+ kwanzaa:['UNITY','CELEBRATE COMMUNITY. CONNECT WITH PURPOSE.','✺'],
+ lunar:['FORTUNE','NEW BEGINNINGS. BRIGHT POSSIBILITIES.','❀'],
+ eid:['DELIGHT','SHARE THE JOY. MAKE ROOM FOR EVERYONE.','☾']
 };
-const THEME_HUES={halloween:28,tech:164,winter:192,arcade:308,dungeon:42,space:220,noir:334,heist:142,western:26,pirate:196,kaiju:98,jungle:140,spy:176};
+
+const THEME_HUES={halloween:28,tech:164,winter:192,arcade:308,dungeon:42,space:220,noir:334,heist:142,western:26,pirate:196,kaiju:98,jungle:140,spy:176,diwali:38,thanksgiving:24,christmas:148,hanukkah:215,kwanzaa:14,lunar:354,eid:162};
+
+const THEME_LABELS={
+ halloween:'☾ Halloween',tech:'⌘ Neon noir',winter:'✧ Winter holiday',
+ arcade:'▣ Arcade rush',dungeon:'⚔ Dungeon crawl',space:'✶ Space opera',
+ noir:'◬ Midnight noir',heist:'⬢ Heist mode',western:'✷ Frontier dusk',
+ pirate:'☠ Pirate tide',kaiju:'◉ Kaiju panic',jungle:'✿ Jungle pulse',
+ spy:'⌖ Spy thriller',diwali:'✦ Diwali',thanksgiving:'❧ Thanksgiving',
+ christmas:'✵ Christmas',hanukkah:'✡ Hanukkah',kwanzaa:'✺ Kwanzaa',
+ lunar:'❀ Lunar New Year',eid:'☾ Eid'
+};
+
+const SVG_NS='http://www.w3.org/2000/svg';
+
+// Accessories are separate from the original ghost, so changing outfits never
+// replaces its face or accumulates decorations.
+function dressGhost(theme){
+ const svg=document.querySelector('.ghost svg');
+ if(!svg)return;
+ svg.querySelectorAll('[data-theme-costume]').forEach(node=>node.remove());
+ const outfit=Object.hasOwn(THEMES,theme)?theme:'halloween';
+ const group=document.createElementNS(SVG_NS,'g');
+ group.setAttribute('data-theme-costume',outfit);
+ group.setAttribute('aria-hidden','true');
+ group.setAttribute('stroke-linecap','round');
+ group.setAttribute('stroke-linejoin','round');
+ group.setAttribute('pointer-events','none');
+ const add=(tag,attrs)=>{
+  const node=document.createElementNS(SVG_NS,tag);
+  for(const [key,value] of Object.entries(attrs))node.setAttribute(key,String(value));
+  group.append(node);
+  return node;
+ };
+ const path=(d,fill='none',stroke='none',width=2)=>add('path',{d,fill,stroke,'stroke-width':width});
+ const rect=(x,y,width,height,fill,rx=2,stroke='none')=>add('rect',{x,y,width,height,rx,fill,stroke,'stroke-width':2});
+ const circle=(cx,cy,r,fill,stroke='none')=>add('circle',{cx,cy,r,fill,stroke,'stroke-width':2});
+ const gold='#f6cc70',ink='#263044',cream='#fff3d8';
+ const star=(x,y,color=gold)=>path(`M${x} ${y-6}l2 4 5 2-5 2-2 5-2-5-5-2 5-2z`,color);
+ const scarf=(color,trim=cream)=>{
+  path('M24 81q36 15 72 0v12q-36 14-72 0z',color);
+  path('M72 92l-2 25 15-3-1-24z',color);
+  path('M73 106l10-2M72 111l11-2','none',trim,2);
+ };
+ const lantern=(x,y,color)=>{
+  path(`M${x-5} ${y}q5-12 10 0`,'none',gold);
+  rect(x-10,y,20,25,color,7,gold);
+  path(`M${x} ${y+2}v21M${x-7} ${y+5}h14M${x-7} ${y+20}h14M${x} ${y+25}v8`,'none',gold,1.5);
+ };
+ switch(outfit){
+  case 'halloween':
+   path('M28 32L47 2l12 16 21 15z','#7047a0',ink);
+   path('M21 32q40-14 75 1l-5 9q-36-9-69 0z','#3f285b',ink);
+   path('M36 23l40 7-4 7-40-7z','#e89d42');
+   rect(52,26,11,8,gold,1);
+   path('M17 92q-7-10-11-2l2 23q11 9 22-1l1-21q-6-10-14 1z','#e7883e',ink);
+   path('M12 91q8-13 14 0','none',ink);
+   path('M12 101l4-3 3 4m3-3 4 4m-12 3q5 6 11 0','none',ink);
+   break;
+  case 'tech':
+   path('M24 54V36q36-40 72 0v18','none',ink,7);
+   path('M24 43V34q36-35 72 0v9','none','#63f3d5',3);
+   rect(15,43,15,23,ink,5,'#63f3d5');
+   rect(90,43,15,23,ink,5,'#63f3d5');
+   path('M98 65v12H80','none',ink,4);
+   circle(78,77,3,'#63f3d5');
+   path('M33 94l12 8 16-9 16 8 12-7','none',ink,3);
+   break;
+  case 'winter':
+   path('M27 33q2-29 34-28 30 2 33 28z','#548aab',ink);
+   rect(24,28,73,13,cream,5);
+   circle(60,7,7,cream);
+   path('M45 12v13m15-15v15m15-12v12','none',cream,2);
+   scarf('#548aab');
+   star(14,66,cream);
+   break;
+  case 'arcade':
+   rect(27,28,65,11,'#573681',4);
+   path('M28 32h64','none','#ff73d6',3);
+   path('M31 87q-11 0-14 26-1 8 8 4l14-10h40l15 10q8 4 8-5-4-25-15-25z','#513b82',ink);
+   path('M35 91v12m-6-6h12','none','#79f5ef',4);
+   circle(81,95,3,'#ff73d6');
+   circle(90,102,3,gold);
+   rect(52,96,16,4,cream,1);
+   break;
+  case 'dungeon':
+   path('M27 38V26q30-34 64 0v12l-13-7H41z','#a2acb0',ink);
+   path('M57 7h9v29h-9z','#d7e1e1',ink);
+   path('M66 7q20-8 27 9l-24 2z','#b75d50',ink);
+   path('M18 80l19 6v18l-19 13-13-13V86z','#986d3f',ink);
+   path('M19 89v18m-7-11h16','none',gold,3);
+   path('M104 108V65l7-10 5 10-7 43z','#d7e1e1',ink);
+   path('M99 101l17 3M106 108l-1 9','none',gold,4);
+   break;
+  case 'space':
+   add('ellipse',{cx:60,cy:47,rx:48,ry:43,fill:'none',stroke:cream,'stroke-width':5});
+   path('M24 34q10-18 26-19','none','#92ceff',4);
+   rect(9,42,9,23,ink,3,'#92ceff');
+   rect(102,42,9,23,ink,3,'#92ceff');
+   path('M29 84q31 16 62 0v13H29z',cream,ink);
+   rect(40,92,39,16,ink,4);
+   circle(50,100,3,'#94e8cb');
+   rect(60,97,12,5,'#92ceff',1);
+   break;
+  case 'noir':
+   path('M32 31l4-22 19 4L76 9l12 24z','#544752',ink);
+   path('M21 31q39 9 80 0l-4 9q-35 5-72 0z','#544752',ink);
+   path('M34 27h49','none','#d9b6a1',5);
+   path('M25 83l26 9 9 20-30-7zm70 0-26 9-9 20 30-7z','#766150',ink);
+   path('M43 89l-5 12 12 2m27-14 5 12-12 2','none',gold,1.5);
+   break;
+  case 'heist':
+   path('M27 35q-2-33 34-32 32 1 32 32z',ink);
+   rect(26,28,68,13,'#41635a',4,ink);
+   path('M38 33h9m8 0h9m8 0h9','none','#99e4ac',2);
+   path('M27 87l67 14m-67-4 64 14','none',ink,5);
+   path('M87 86l-2-10 17 1-3 10q16 23-5 29-22-1-7-30z','#41635a',ink);
+   path('M85 86h16','none',gold,3);
+   circle(94,101,6,gold);
+   break;
+  case 'western':
+   path('M31 32l6-24q12-5 24 6 11-11 23-7l6 25z','#94613e',ink);
+   path('M10 26q14 18 27 7h48q17 9 24-9l-1 17q-49 18-97 0z','#bf8d59',ink);
+   path('M35 29h51','none',ink,5);
+   path('M25 83l34 13 36-13-18 30-18-9-16 8z','#ac4d43',ink);
+   star(60,95,cream);
+   break;
+  case 'pirate':
+   path('M12 39l12-23 24 7L61 6l16 18 25-10 9 26q-45-10-99-1z',ink,gold);
+   path('M15 38q47-12 93 0','none',gold,3);
+   path('M53 19l15 12m0-12L53 31','none',cream,3);
+   path('M24 72l70-26','none',ink,3);
+   path('M64 45h20v11q-10 15-20 0z',ink);
+   circle(99,68,6,'none',gold);
+   scarf('#af5149',gold);
+   break;
+  case 'kaiju':
+   path('M29 31L18 14l20 7L44 3l14 16L71 2l7 20 24-9-12 24z','#4d814a',ink);
+   path('M94 77q14 30 22 17-1 25-24 17l-8-10z','#4d814a',ink);
+   path('M106 90l8-8 1 14m-13 12 9 7','none',gold,4);
+   path('M27 89l9 8 10-7 12 9 12-9 12 7 10-8','none','#4d814a',7);
+   rect(48,96,25,10,'#d3e7a1',5);
+   break;
+  case 'jungle':
+   path('M31 31q0-28 31-28 28 0 28 28z','#aa9965',ink);
+   path('M20 31q40-10 82 0v9H20z','#d5c38a',ink);
+   path('M58 7v21','none','#796b44',3);
+   path('M85 24q7-20 21-16-2 16-21 16z','#3e8055',ink);
+   path('M29 77l23 22m40-22-23 22','none',ink,3);
+   rect(42,90,15,23,ink,4);
+   rect(65,90,15,23,ink,4);
+   rect(54,95,13,7,ink);
+   circle(49,107,4,'#92c5ba');
+   circle(72,107,4,'#92c5ba');
+   break;
+  case 'spy':
+   path('M25 84l21 8 14 20 14-20 21-8-4 21H29z',ink);
+   path('M44 85l16 6-8 9zm32 0-16 6 8 9z',cream);
+   path('M49 84l11 5 11-5v11l-11-5-11 5z',ink);
+   rect(33,45,23,14,ink,5);
+   rect(66,45,23,14,ink,5);
+   path('M54 48h14m-35 0-9-4m65 4 8-4','none',ink,3);
+   path('M38 49h10m24 0h10','none','#88c4d0',2);
+   break;
+  case 'diwali':
+   path('M25 81q34 32 70 0','none','#c47030',8);
+   for(let i=0;i<9;i++)circle(27+i*8,83+Math.sin(i*Math.PI/8)*17,5,i%2?'#f6cc70':'#f49545');
+   path('M80 104q14 25 30 0z','#a55658',gold);
+   path('M95 104q-11-8 0-22 11 14 0 22z',gold);
+   path('M95 101q-4-4 0-10 4 6 0 10z',cream);
+   star(16,31);
+   star(101,26);
+   break;
+  case 'thanksgiving':
+   path('M26 34q35-16 67 0','none','#92633e',4);
+   for(const [x,y,angle,color] of [[31,27,-40,'#c6753d'],[46,20,-15,gold],[64,20,20,'#b44e45'],[81,26,40,'#dc974e']]){
+    const leaf=path(`M${x} ${y+10}q-14-8 0-20 14 12 0 20z`,color,ink,1);
+    leaf.setAttribute('transform',`rotate(${angle} ${x} ${y})`);
+   }
+   scarf('#a9563e',gold);
+   path('M7 99h29l-4 18H12z','#b98550',ink);
+   path('M10 101q9-28 22 0M10 107h24M17 101v14m10-14v14','none',gold,2);
+   circle(16,99,5,'#c87837');
+   circle(27,98,5,'#ac5145');
+   break;
+  case 'christmas':
+   path('M26 34q12-36 43-29 25 3 33 27L84 29 68 18 80 34z','#b6434b',ink);
+   rect(23,29,66,13,cream,6);
+   circle(101,31,8,cream);
+   scarf('#b6434b');
+   path('M30 85l-11-12-3 13-13 5 14 6z','#3a7653',ink);
+   circle(26,91,4,'#c64d55');
+   circle(32,87,4,'#c64d55');
+   break;
+  case 'hanukkah':
+   scarf('#426cac',cream);
+   path('M29 85l-2 19m8-17-2 20','none',cream,2);
+   path('M74 109h36M92 88v27m-8 0h16','none',gold,2);
+   for(let i=0;i<9;i++){
+    const x=76+i*4,y=i===4?89:97;
+    path(`M${x} ${y+4}v9q0 3 ${92-x} 3`,'none',gold,1.5);
+    rect(x-1,y-5,2,9,'#c8e5ff',0);
+    path(`M${x} ${y-7}q-3-3 0-7 3 4 0 7z`,gold);
+   }
+   star(19,32,cream);
+   break;
+  case 'kwanzaa':
+   path('M28 77l58 26-7 10-55-24z','#326849',ink);
+   path('M28 79l57 26','none','#bd4e49',5);
+   path('M26 86l55 25','none',ink,3);
+   for(let i=0;i<4;i++)path(`M${35+i*12} ${86+i*5}l5 2-3 4-5-2z`,gold);
+   path('M69 116h44M91 108v8M72 107h38','none','#bc8d51',3);
+   for(let i=0;i<7;i++){
+    const x=73+i*6,y=i===3?87:93;
+    rect(x-2,y,4,107-y,i<3?'#d65353':i===3?'#202027':'#4a9f65',1,gold);
+    path(`M${x} ${y-2}q-3-4 0-8 3 4 0 8z`,gold);
+   }
+   break;
+  case 'lunar':
+   path('M26 82l24 9h20l24-9-4 25H30z','#b83e4b',gold);
+   path('M50 86l10 7 10-7m-10 7v17','none',gold,2);
+   path('M54 98h12m-12 6h12','none',gold,2);
+   lantern(103,69,'#b83e4b');
+   path('M95 68l-3-8','none',gold);
+   star(21,31);
+   break;
+  case 'eid':
+   path('M27 80l24 9-18 20-11-4zm66 0-23 9 18 20 10-4z','#317e6d',gold);
+   path('M46 89q14 9 29 0','none',gold,3);
+   circle(61,96,7,gold);
+   circle(64,93,5,'#317e6d');
+   lantern(105,33,'#317e6d');
+   star(105,45,cream);
+   star(16,27);
+   break;
+ }
+ svg.append(group);
+}
+
+
+
+
+const $=id=>document.getElementById(id);
+const el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
+const storage={get(k){try{return localStorage.getItem(k);}catch{return null;}},set(k,v){try{localStorage.setItem(k,v);return true;}catch{return false;}}};
 const savedKey='clue-circuit:game:v1',prefsKey='clue-circuit:prefs:v1';
-let g=null,guest=null,undo=[],pool=[],selected=new Set(['everyday','halloween']),busy=false,theme='halloween',ambient=[],hoverCleanups=[],toastTimer;
+let g=null,guest=null,undo=[],pool=[],selected=new Set(['everyday','halloween']),busy=false,theme='halloween',ambient=[],hoverCleanups=[],toastTimer,pendingIndex=null;
 const fieldFx={canvas:null,ctx:null,dpr:1,width:0,height:0,raf:0,flows:[],sparks:[],bound:false,pointer:{x:0,y:0,active:false}};
 let reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const autoReduced=reduced;
-try{const pref=JSON.parse(storage.get(prefsKey));if(pref){theme=THEMES[pref.theme]?pref.theme:theme;reduced=autoReduced||!!pref.reduced;}}catch{}
+try{const pref=JSON.parse(storage.get(prefsKey));if(pref){theme=Object.hasOwn(THEMES,pref.theme)?pref.theme:theme;reduced=autoReduced||!!pref.reduced;}}catch{}
 
 function notify(message){$('toast').textContent=message;$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,3500);}
 function error(id,message=''){$(id).textContent=message;$(id).hidden=!message;}
@@ -8087,13 +8715,10 @@ function nextStepText(){
  return 'Next: continue the round.';
 }
 function actionUpdate(happened,next=nextStepText()){
- modal('ACTION UPDATE',body=>{
-  body.append(el('h2','','Action complete.'),el('p','',happened),el('p','share-notice',next));
-  const actions=el('div','modal-actions'),ok=el('button','primary','Continue');ok.onclick=closeModal;actions.append(ok);body.append(actions);
- });
+ notify(`${happened} ${next}`);
 }
 function preferences(){storage.set(prefsKey,JSON.stringify({theme,reduced}));}
-function setTheme(value){theme=THEMES[value]?value:'halloween';document.documentElement.dataset.theme=theme;$('theme').value=theme;$('heroWord').textContent=THEMES[theme][0];$('artCaption').textContent=THEMES[theme][1];preferences();atmosphere();}
+function setTheme(value){theme=Object.hasOwn(THEMES,value)?value:'halloween';document.documentElement.dataset.theme=theme;$('theme').value=theme;$('heroWord').textContent=THEMES[theme][0];$('artCaption').textContent=THEMES[theme][1];dressGhost(theme);preferences();atmosphere();}
 function atmosphere(){
  ambient.forEach(a=>a.pause());ambient=[];stopVectorField();$('particles').replaceChildren();document.documentElement.classList.toggle('reduced',reduced);
  $('motionToggle').setAttribute('aria-pressed',String(reduced));$('motionToggle').setAttribute('aria-label',reduced?'Enable animations':'Reduce animations');$('motionToggle').title=reduced?'Enable animations':'Reduce animations';
@@ -8114,23 +8739,25 @@ function bindCardHover(){hoverCleanups.forEach(fn=>fn());hoverCleanups=[];if(red
 function renderPacks(){
  $('packs').replaceChildren(...PACKS.map(p=>{
   const button=el('button',`pack ${selected.has(p.id)?'selected':''}`);button.type='button';button.setAttribute('aria-pressed',String(selected.has(p.id)));
-  const content=el('div');content.append(el('span','pack-tag',p.tag),el('h3','',p.name),el('p','',p.description),el('span','pack-count',`${p.words.length} WORDS`));button.append(el('span','pack-icon',p.icon),content,el('span','pack-check',selected.has(p.id)?'✓':''));
+  const content=el('div');content.append(el('span','pack-tag',p.tag),el('h3','',p.name),el('p','',p.description),el('span','pack-count',`${packWords(p,$('difficulty').value).length} WORDS`));button.append(el('span','pack-icon',p.icon),content,el('span','pack-check',selected.has(p.id)?'✓':''));
   button.onclick=()=>{selected.has(p.id)?selected.delete(p.id):selected.add(p.id);renderPacks();updatePool();};return button;
  }));
 }
-function getPool(){const custom=parseWords($('customWords').value);return [...new Set([...($('customOnly').checked?[]:PACKS.filter(p=>selected.has(p.id)).flatMap(p=>p.words)),...custom])];}
+function getPool(){const custom=parseWords($('customWords').value);return [...new Set([...($('customOnly').checked?[]:PACKS.filter(p=>selected.has(p.id)).flatMap(p=>packWords(p,$('difficulty').value))),...custom])];}
 function updatePool(){const words=getPool();$('customCount').textContent=`${parseWords($('customWords').value).length} unique words`;$('poolCount').textContent=`${words.length.toLocaleString()} UNIQUE WORDS / 25 CARDS / ENDLESS CONNECTIONS`;}
 $('customWords').oninput=updatePool;$('customOnly').onchange=updatePool;
+$('difficulty').onchange=()=>{const preset=DIFFICULTIES[$('difficulty').value];$('clueSeconds').value=preset.clueSeconds;$('guessSeconds').value=preset.guessSeconds;renderPacks();updatePool();};
+function setupSettings(){return normalizeSettings({difficulty:$('difficulty').value,clueSeconds:Number($('clueSeconds').value),guessSeconds:Number($('guessSeconds').value)});}
 function teamInput(t,prefix=''){const name=$(prefix+t+'Name').value.trim().slice(0,24)||(t==='red'?'Crimson Crew':'Cyan Syndicate');return {name,master:$(prefix+t+'Master').value.trim().slice(0,40),players:parseWordsNames($(prefix+t+'Players').value)};}
 function parseWordsNames(s){return [...new Set(s.split(/[,\n]+/).map(x=>x.trim().slice(0,40)).filter(Boolean))].slice(0,20);}
-$('setupForm').onsubmit=e=>{e.preventDefault();try{pool=validateWords(getPool());const teams={red:teamInput('red'),blue:teamInput('blue')};const title=$('customOnly').checked?'Custom collection':`${PACKS.filter(p=>selected.has(p.id)).map(p=>p.name).join(' + ')}${$('customWords').value.trim()?' + custom':''}`;g=newGame(pool,teams,title.slice(0,80));guest=null;undo=[];save();showGame(true);}catch(err){error('setupError',err.message);}};
-function showGame(deal=false){$('lobby').hidden=true;$('game').hidden=false;error('gameError');renderGame();window.scrollTo({top:0,behavior:'instant'});if(deal&&!reduced)window.anime.animate('.card-wrap',{translateY:[30,0],rotate:[-5,0],opacity:[0,1],scale:[.93,1],delay:window.anime.stagger(24,{grid:[5,5],from:'center'}),duration:650,ease:'outExpo'});}
+$('setupForm').onsubmit=e=>{e.preventDefault();try{const settings=setupSettings();pool=validateWords(getPool());const teams={red:teamInput('red'),blue:teamInput('blue')};const title=$('customOnly').checked?'Custom collection':`${PACKS.filter(p=>selected.has(p.id)).map(p=>p.name).join(' + ')}${$('customWords').value.trim()?' + custom':''}`;g=newGame(pool,teams,title.slice(0,80),settings);guest=null;undo=[];save();showGame(true);}catch(err){error('setupError',err.message);}};
+function showGame(deal=false){pendingIndex=null;$('revealFeedback').replaceChildren();$('lobby').hidden=true;$('game').hidden=false;error('gameError');renderGame();tickClock();window.scrollTo({top:0,behavior:'instant'});if(deal&&!reduced)window.anime.animate('.card-wrap',{translateY:[30,0],rotate:[-5,0],opacity:[0,1],scale:[.93,1],delay:window.anime.stagger(24,{grid:[5,5],from:'center'}),duration:650,ease:'outExpo'});}
 function renderGame(){
  const s=guest||g,isGuest=!!guest,master=guest?.role==='master';if(!s)return;
- $('gameLabel').textContent=`${isGuest?master?'PRIVATE SPYMASTER KEY':'OPERATOR SNAPSHOT':'HOST BOARD'} / CASE ${s.id.toUpperCase()}`;
+ $('gameLabel').textContent=`${isGuest?master?'PRIVATE SPYMASTER KEY':'OPERATOR SNAPSHOT':`HOST BOARD · ${g.settings.difficulty.toUpperCase()}`} / CASE ${s.id.toUpperCase()}`;
  $('gameTitle').textContent=isGuest?`${s.teams[s.team].name} · ${master?'spymaster':'operator'}`:g.winner?`${g.teams[g.winner].name} wins.`:`${g.teams[g.turn].name}, you’re up.`;
  $('viewDescription').textContent=isGuest?master?'Keep this view private. Give your clue aloud in the meeting.':'Follow the host’s shared screen for the live game.':`${s.pack} · Screen-share this tab. Answers stay hidden here; use Team links to send private spymaster keys.`;
- $('hostActions').hidden=isGuest;$('hostControls').hidden=isGuest;$('guestNotice').hidden=!isGuest;$('historyPanel').hidden=isGuest;
+ $('hostActions').hidden=isGuest;$('hostControls').hidden=isGuest;$('guestNotice').hidden=!isGuest;$('historyPanel').hidden=isGuest;$('timerPanel').hidden=isGuest;$('clueTracker').hidden=isGuest;$('revealFeedback').hidden=isGuest;
  for(const t of ['red','blue']){
   const team=s.teams[t];$(t+'Title').textContent=team.name;$(t+'MasterDisplay').textContent=team.master||'Choose a clue giver';
   $(t+'PlayersDisplay').replaceChildren(...(team.players.length?team.players:['Add your operators']).map(n=>el('span','',n)));
@@ -8140,38 +8767,91 @@ function renderGame(){
  $('clueLabel').textContent=isGuest?master?'CLASSIFIED · FULL KEY':'BOARD SNAPSHOT':'ON THE AIR';
  $('clueText').textContent=isGuest?master?'Connect the words. Say one clue and a number.':'Same words. Follow the shared screen.':g.winner?'Case closed. Nicely done.':g.clue?`${g.clue.word} · ${g.clue.count}`:'Waiting for the spymaster’s clue…';
  $('turnBadge').textContent=isGuest?'NOT LIVE':g.winner?'ROUND COMPLETE':g.phase==='guess'?`${g.left} GUESSES LEFT`:`TURN ${g.round}`;
- $('board').replaceChildren(...s.cards.map((c,i)=>card(c,i,master,isGuest)));
- bindCardHover();
+ renderBoard();
  if(isGuest){$('guestNotice').replaceChildren(el('strong','',master?'Private spymaster key · no live sync':'Operator view · no live sync'),el('p','',master?'Give one word and a number aloud in the meeting. Click cards here to cross them off on your own key as the host reveals them. These marks stay on this device. Anyone with this link can see the full key.':'This is the board at the time your host copied the link. Opening it does not check you into a roster or update other browsers. Discuss guesses in the meeting; the host reveals cards.'));$('winnerBanner').hidden=true;return;}
  $('clueForm').hidden=g.phase!=='clue'||!!g.winner;$('endTurn').hidden=g.phase!=='guess'||!!g.winner;$('undo').disabled=busy||!undo.length;
+ for(const control of $('clueForm').elements)control.disabled=busy||g.clock.paused;
+ $('endTurn').disabled=busy||g.clock.paused;
+ $('pauseTimer').disabled=busy||!!g.winner;$('pauseTimer').textContent=g.clock.paused?'Resume clock':'Pause clock';
+ $('timerSettings').hidden=!!g.winner;
+ $('activeClueSeconds').value=g.settings.clueSeconds;$('activeGuessSeconds').value=g.settings.guessSeconds;
+ for(const t of ['red','blue']){
+  $(t+'ClueTitle').textContent=g.teams[t].name;
+  const clues=(g.clues||[]).filter(c=>c.team===t);
+  $(t+'Clues').replaceChildren(...(clues.length?clues.map(c=>el('li','',`Turn ${c.round} · ${c.word} · ${c.count}`)):[el('li','muted','No clues yet.')]));
+ }
+ renderClock();
  $('history').replaceChildren(...g.history.map((h,i)=>{const li=el('li');li.append(el('span','',String(i+1).padStart(2,'0')),document.createTextNode(h.text));return li;}).reverse());$('logCount').textContent=`${g.history.length} entries`;
  $('winnerBanner').hidden=!g.winner;if(g.winner)$('winnerTitle').textContent=`${g.teams[g.winner].name} takes the win.`;
 }
+function renderBoard(){const s=guest||g;$('board').replaceChildren(...s.cards.map((c,i)=>card(c,i,guest?.role==='master',!!guest)));bindCardHover();}
+function cancelGuess(index){pendingIndex=null;renderBoard();$('board').children[index]?.querySelector('button')?.focus();}
 function card(c,index,master,isGuest){
  const wrap=el('div','card-wrap'),b=el('button',`word-card${master?' key':''}${c.revealed&&!master?' is-revealed':''}`);b.type='button';
  const face=(back)=>{const type=(master||back)?c.type:null;const f=el('div',`card-face ${back?'card-back':'card-front'} ${type||''}`);f.append(el('span','card-number',String(index+1).padStart(2,'0')),el('span','card-glyph',type==='red'?'◆':type==='blue'?'◇':type==='trap'?'×':'◈'),el('strong','card-word',c.word),el('span','card-label',type?type==='trap'?'THE TRAP':type==='neutral'?'BYSTANDER':`${type.toUpperCase()} AGENT`:'CLUE CIRCUIT'));return f;};
- b.append(face(false),face(true));b.setAttribute('aria-label',`${c.word}${master||c.revealed?', '+c.type:''}${c.revealed?', revealed':''}`);
+ b.append(face(false));if(master||c.revealed)b.append(face(true));b.setAttribute('aria-label',`${c.word}${master||c.revealed?', '+c.type:''}${c.revealed?', revealed':''}`);
  if(master){const marked=getMarks().includes(index);b.classList.toggle('marked',marked);b.setAttribute('aria-pressed',String(marked));b.onclick=()=>{const marks=new Set(getMarks());marks.has(index)?marks.delete(index):marks.add(index);storage.set(`clue-circuit:marks:${guest.id}`,JSON.stringify([...marks]));b.classList.toggle('marked',marks.has(index));b.setAttribute('aria-pressed',String(marks.has(index)));};}
- else{b.disabled=isGuest||busy||c.revealed||g.phase!=='guess'||!!g.winner;b.onclick=()=>modal('CONFIRM YOUR TEAM’S GUESS',body=>{body.append(el('h2','',`Reveal this card?`),el('p','confirm-word',c.word),el('p','',`This is ${possessive(g.teams[g.turn].name)} guess. The reveal will be visible to everyone watching.`));const actions=el('div','modal-actions'),cancel=el('button','quiet','Keep thinking'),yes=el('button','primary','Reveal card ↗');cancel.onclick=closeModal;yes.onclick=()=>{closeModal();perform({type:'guess',index});};actions.append(cancel,yes);body.append(actions);});}
- wrap.append(b);return wrap;
+ else{b.disabled=isGuest||busy||c.revealed||g.phase!=='guess'||!!g.winner||g.clock.paused;b.onclick=()=>{pendingIndex=index;renderBoard();$('board').children[index].querySelector('.confirm-cancel').focus();};}
+ wrap.append(b);
+ if(!isGuest&&pendingIndex===index&&!b.disabled){
+  wrap.classList.add('is-confirming');b.hidden=true;
+  const confirmation=el('div','card-confirm'),label=el('strong','',c.word),prompt=el('span','','Reveal this card?'),actions=el('div','confirm-actions'),yes=el('button','primary','Reveal'),cancel=el('button','confirm-cancel','Cancel');
+  confirmation.setAttribute('role','group');confirmation.setAttribute('aria-label',`Confirm guess: ${c.word}`);
+  yes.type=cancel.type='button';yes.setAttribute('aria-label',`Reveal ${c.word}`);cancel.setAttribute('aria-label',`Cancel ${c.word}`);
+  yes.onclick=()=>perform({type:'guess',index});cancel.onclick=()=>cancelGuess(index);
+  confirmation.onkeydown=e=>{if(e.key==='Escape'){e.preventDefault();cancelGuess(index);}};
+  actions.append(cancel,yes);confirmation.append(label,prompt,actions);wrap.append(confirmation);
+ }
+ return wrap;
 }
 function getMarks(){try{const a=JSON.parse(storage.get(`clue-circuit:marks:${guest.id}`));return Array.isArray(a)?a.filter(x=>Number.isInteger(x)&&x>=0&&x<25):[];}catch{return [];}}
 async function perform(action){
  if(busy||guest)return;
- try{const teamBefore=g.turn;const next=act(g,action);undo.push(structuredClone(g));if(undo.length>40)undo.shift();g=next;busy=true;save();renderGame();
+ try{const teamBefore=g.turn;const next=act(g,action);undo.push(structuredClone(g));if(undo.length>40)undo.shift();g=next;pendingIndex=null;busy=true;error('gameError');save();renderGame();
   if(action.type==='guess'&&!reduced){const b=$('board').children[action.index].firstChild;await window.Motion.animate(b,{rotateY:[0,180]},{duration:.62,ease:[.22,1,.36,1]});}
-  busy=false;renderGame();if(action.type==='clue'){$('clueWord').value='';if(!reduced)window.anime.animate('.clue-bar',{scale:[.98,1],duration:500,ease:'outElastic(1,.6)'});}
+  busy=false;renderGame();if(action.type==='clue'){$('clueWord').value='';$('revealFeedback').replaceChildren();$('board').querySelector('button:not(:disabled)')?.focus();if(!reduced)window.anime.animate('.clue-bar',{scale:[.98,1],duration:500,ease:'outElastic(1,.6)'});}
   if(action.type==='clue')actionUpdate(`Clue locked: ${g.clue.word.toUpperCase()} · ${g.clue.count}.`);
-    if(action.type==='guess'){const revealed=g.cards[action.index],outcome=cardTypeLabel(revealed.type,g.teams),correct=revealed.type===teamBefore,summary=revealed.type==='trap'?'Round lost on the trap.':correct?`${g.teams[teamBefore].name} can keep guessing.`:`Turn passes to ${g.teams[g.turn].name}.`;notify(`${revealed.word} → ${outcome}. ${summary}`);sparkBurstFromCard(action.index,revealed.type);actionUpdate(`${revealed.word} revealed as ${outcome}.`);}
+  if(action.type==='guess'){
+   const revealed=g.cards[action.index],correct=revealed.type===teamBefore,feedback=$('revealFeedback');
+   feedback.className=`reveal-feedback ${correct?'correct':'wrong'}`;feedback.replaceChildren(el('strong','',correct?'✓ CORRECT!':'✕ WRONG!'),el('span','',`${revealed.word} → ${cardTypeLabel(revealed.type,g.teams)}. ${nextStepText()}`));
+   if(!reduced){window.anime.animate(feedback,correct?{scale:[.96,1.03,1],duration:650,ease:'outBack'}:{translateX:[0,-8,8,-5,5,0],duration:450,ease:'outQuad'});if(correct)sparkBurstFromCard(action.index,revealed.type);}
+   if(g.phase==='clue'&&!g.winner)$('clueWord').focus();else{const slot=$('board').children[action.index];slot.tabIndex=-1;slot.focus();}
+  }
   if(action.type==='end')actionUpdate(`${g.teams[teamBefore].name} ended the turn.`);
+  if(action.type==='timeout'){closeModal();notify(`Time is up! ${g.teams[teamBefore].name} passes the turn.`);$('clueWord').value='';$('clueWord').focus();}
+  if(action.type==='pause'||action.type==='resume')notify(action.type==='pause'?'Clock paused. Resume to continue playing.':'Clock resumed.');
+  if(action.type==='settings')notify('Time limits saved. The current phase has a fresh clock.');
   if(g.winner)celebrate(g.winner);
- }catch(err){busy=false;error('gameError',err.message);}
+ }catch(err){busy=false;renderGame();error('gameError',err.message);}
 }
 $('clueForm').onsubmit=e=>{e.preventDefault();error('gameError');perform({type:'clue',word:$('clueWord').value,count:Number($('clueCount').value)});};
 $('endTurn').onclick=()=>perform({type:'end'});
-$('undo').onclick=()=>{if(busy||!undo.length)return;g=undo.pop();save();error('gameError');renderGame();notify('Last action undone.');actionUpdate('Last action was undone.');};
-function fresh(){if(busy)return;confirmDialog('Deal a fresh board?','The current round will be replaced. Team names and the word pool stay the same. Send fresh spymaster links after dealing.','Deal a new board',()=>{g=newGame(pool,g.teams,g.pack);undo=[];save();showGame(true);actionUpdate('Fresh board dealt.','Next: send new private spymaster keys before clues begin.');});}
+$('undo').onclick=()=>{if(busy||!undo.length)return;g=undo.pop();g.settings=normalizeSettings(g.settings);resetClock(g);pendingIndex=null;save();error('gameError');$('revealFeedback').replaceChildren();renderGame();actionUpdate('Last action undone; this phase has a fresh clock.');};
+function fresh(){if(busy)return;confirmDialog('Deal a fresh board?','The current round will be replaced. Teams, difficulty, time limits, and the word pool stay the same. Send fresh spymaster links after dealing.','Deal a new board',()=>{g=newGame(pool,g.teams,g.pack,g.settings);undo=[];save();showGame(true);actionUpdate('Fresh board dealt.','Next: send new private spymaster keys. Pause the clock while setting up.');});}
 $('newBoard').onclick=fresh;$('playAgain').onclick=fresh;
+$('changeSetup').onclick=()=>{if(busy)return;confirmDialog('Change packs or difficulty?','Return to setup to choose a different word pool and difficulty. Your current board will remain available through Resume last game.','Open setup',()=>{
+ if(!g.winner&&!g.clock.paused){tickClock();g=act(g,{type:'pause'});}
+ save();pendingIndex=null;
+ for(const t of ['red','blue']){$(t+'Name').value=g.teams[t].name;$(t+'Master').value=g.teams[t].master;$(t+'Players').value=g.teams[t].players.join(', ');}
+ $('difficulty').value=g.settings.difficulty;$('clueSeconds').value=g.settings.clueSeconds;$('guessSeconds').value=g.settings.guessSeconds;
+ $('lobby').hidden=false;$('game').hidden=true;$('resume').hidden=false;document.body.classList.remove('focus-mode');$('presentation').textContent='Focus mode';renderPacks();updatePool();$('difficulty').focus();
+});};
+function renderClock(){
+ if(!g||guest)return;
+ const ms=g.winner?0:g.clock.paused?g.clock.remainingMs:Math.max(0,g.clock.deadline-Date.now()),seconds=Math.ceil(ms/1000);
+ $('timerRole').textContent=g.winner?'Round complete':`${g.phase==='clue'?'Spymaster clue':'Operator turn'}${g.clock.paused?' · PAUSED':''}`;
+ $('timerReadout').textContent=`${Math.floor(seconds/60)}:${String(seconds%60).padStart(2,'0')}`;
+ $('timerReadout').classList.toggle('urgent',!g.winner&&!g.clock.paused&&seconds<=10);
+}
+function tickClock(){
+ if(!g||guest||$('game').hidden)return;
+ renderClock();
+ if(!busy&&!g.winner&&!g.clock.paused&&Date.now()>=g.clock.deadline)perform({type:'timeout'});
+}
+$('pauseTimer').onclick=()=>perform({type:g.clock.paused?'resume':'pause'});
+$('timerForm').onsubmit=e=>{e.preventDefault();perform({type:'settings',settings:{...g.settings,clueSeconds:Number($('activeClueSeconds').value),guessSeconds:Number($('activeGuessSeconds').value)}});};
+setInterval(tickClock,250);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)tickClock();});
 $('presentation').onclick=()=>{document.body.classList.toggle('focus-mode');$('presentation').textContent=document.body.classList.contains('focus-mode')?'Exit focus':'Focus mode';};
 function celebrate(team){if(reduced)return;$('confetti').replaceChildren();const colors=[getComputedStyle(document.documentElement).getPropertyValue('--'+team),'#e8b572','#f4efe7'];for(let i=0;i<60;i++){const p=el('i','confetto');p.style.background=colors[i%3];$('confetti').append(p);window.anime.animate(p,{translateX:[0,(Math.random()-.5)*innerWidth*1.5],translateY:[0,-150-Math.random()*180,innerHeight*.7],rotate:[0,Math.random()*720],opacity:[1,1,0],duration:1800+Math.random()*700,delay:Math.random()*250,ease:'outQuad',onComplete:()=>p.remove()});}}
 function baseURL(){const current=new URL(location.href);current.hash='';current.search='';if(['localhost','127.0.0.1',''].includes(location.hostname))return storage.get('clue-circuit:public-url')||'https://jsc1100.github.io/clue-circuit/';return current.href;}
@@ -8202,14 +8882,15 @@ $('roster').onclick=()=>modal('THE PEOPLE BEHIND THE CLUES',body=>{
  body.append(el('h2','','Make it your team.'),el('p','','Changes apply on this host device. Existing invite links keep their original names; copy new links to share updates.'));
  const form=el('form'),grid=el('div','modal-team');for(const t of ['red','blue']){const section=el('section',t+'-team');section.append(el('h3','',t.toUpperCase()+' TEAM'));for(const [part,labelText,val]of [['Name','Team name',g.teams[t].name],['Master','Spymaster',g.teams[t].master],['Players','Operators (comma-separated)',g.teams[t].players.join(', ')]]){const label=el('label','',labelText),input=el(part==='Players'?'textarea':'input');input.id='edit'+t+part;input.value=val;input.maxLength=part==='Players'?800:part==='Name'?24:40;label.htmlFor=input.id;section.append(label,input);}grid.append(section);}const actions=el('div','modal-actions'),submit=el('button','primary','Save teams');actions.append(submit);form.append(grid,actions);form.onsubmit=e=>{e.preventDefault();g.teams={red:teamInput('red','edit'),blue:teamInput('blue','edit')};undo=[];save();renderGame();closeModal();};body.append(form);
 });
-$('help').onclick=()=>modal('FIELD GUIDE',body=>{body.append(el('h2','','One word can change everything.'));const list=el('ol','rules-list');for(const text of ['Make two teams. Choose one spymaster per team; everyone else is an operator. The host enters names and controls the shared board.','The spymasters privately see the color key. On their turn they say one clue word and a number: “Space, three.” The host types that clue into the board.','Operators discuss and announce a word. The host clicks it and confirms the reveal. A matching agent lets the team keep guessing, up to the clue number plus one.','A bystander or opposing agent ends the turn. Finding the trap immediately loses the round. Reveal all your team’s agents to win.','You may end a guessing turn early. Agree together on proper names, word parts, and other clue conventions. This version supports clue counts 1–9.','Share the host’s browser tab in your meeting. Private key links and operator links are snapshots; they do not sync or create online accounts. Only the host controls the live game.'])list.append(el('li','',text));body.append(list,el('p','share-notice','Made independently with original code, visual design, and word collections. Not affiliated with Czech Games Edition or the official Codenames game.'));});
-$('resume').onclick=()=>{try{const s=JSON.parse(storage.get(savedKey));if(!s?.g||!Array.isArray(s.g.cards)||s.g.cards.length!==25)throw Error('Saved game is unavailable.');g=s.g;pool=validateWords(s.pool);undo=Array.isArray(s.undo)?s.undo:[];guest=null;showGame();}catch(err){error('setupError',err.message);}};
+$('help').onclick=()=>modal('FIELD GUIDE',body=>{body.append(el('h2','','One word can change everything.'));const list=el('ol','rules-list');for(const text of ['Make two teams. Choose one spymaster per team; everyone else is an operator. The host enters names and controls the shared board.','The spymasters privately see the color key. On their turn they say one clue word and a number: “Space, three.” The host types that clue into the board.','Operators discuss and announce a word. Click a card to flip to its Reveal / Cancel controls. Escape cancels. CORRECT! means your team’s agent; WRONG! means a bystander, opponent, or trap. A matching agent allows more guesses, up to the clue number plus one.','A bystander or opposing agent ends the turn. Finding the trap immediately loses the round. Reveal all your team’s agents to win.','You may end a guessing turn early. Agree together on proper names, word parts, and other clue conventions. This version supports clue counts 1–9.','Each clue and guessing turn has its own time limit. Correct guesses do not reset the operator clock. Expiry passes the turn. Pause while distributing keys or taking a break; Time limits lets the host adjust either clock.','Difficulty changes the available built-in words and supplies time presets. Custom words are not filtered. Clues by team records each spoken clue, number, and turn separately from the mission log.','Share the host’s browser tab in your meeting. Private key links and operator links are snapshots; they do not sync or create online accounts. Only the host controls the live game.'])list.append(el('li','',text));body.append(list,el('p','share-notice','Made independently with original code, visual design, and word collections. Not affiliated with Czech Games Edition or the official Codenames game.'));});
+$('resume').onclick=()=>{try{const s=JSON.parse(storage.get(savedKey));if(!s?.g||!Array.isArray(s.g.cards)||s.g.cards.length!==25)throw Error('Saved game is unavailable.');g=s.g;g.settings=normalizeSettings(g.settings);if(!g.clock)resetClock(g);pool=validateWords(s.pool);undo=Array.isArray(s.undo)?s.undo:[];guest=null;showGame();}catch(err){error('setupError',err.message);}};
 function initialize(){
  const hash=new URLSearchParams(location.hash.slice(1));
  if(hash.has('invite')){try{guest=decode(hash.get('invite'));setTheme(guest.theme);showGame(true);}catch(err){$('lobby').hidden=false;$('game').hidden=true;error('setupError',err.message);$('setupError').scrollIntoView();}return;}
  guest=null;$('lobby').hidden=false;$('game').hidden=true;$('resume').hidden=!storage.get(savedKey);setTheme(theme);renderPacks();updatePool();
  if(!reduced){window.anime.animate('.hero-copy > *',{translateY:[18,0],opacity:[0,1],delay:window.anime.stagger(90),duration:850,ease:'outExpo'});window.Motion.animate('.hero-art',{opacity:[0,1],y:[15,0]},{duration:.9});}
 }
+$('theme').replaceChildren(...Object.keys(THEMES).map(id=>{const option=el('option','',THEME_LABELS[id]);option.value=id;return option;}));
 window.addEventListener('hashchange',initialize);initialize();
 
 })();</script></body></html>
