@@ -6,11 +6,12 @@ const $=id=>document.getElementById(id);
 const el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
 const storage={get(k){try{return localStorage.getItem(k);}catch{return null;}},set(k,v){try{localStorage.setItem(k,v);return true;}catch{return false;}}};
 const savedKey='clue-circuit:game:v1',prefsKey='clue-circuit:prefs:v1';
-let g=null,guest=null,undo=[],pool=[],selected=new Set(['everyday','halloween']),busy=false,theme='halloween',ambient=[],hoverCleanups=[],toastTimer,pendingIndex=null;
+let g=null,guest=null,undo=[],pool=[],selected=new Set(['everyday','halloween']),availablePacks=new Set(PACKS.map(p=>p.id)),busy=false,theme='halloween',ambient=[],hoverCleanups=[],toastTimer,pendingIndex=null;
 const fieldFx={canvas:null,ctx:null,dpr:1,width:0,height:0,raf:0,flows:[],sparks:[],bound:false,pointer:{x:0,y:0,active:false}};
 let reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const autoReduced=reduced;
-try{const pref=JSON.parse(storage.get(prefsKey));if(pref){theme=Object.hasOwn(THEMES,pref.theme)?pref.theme:theme;reduced=autoReduced||!!pref.reduced;}}catch{}
+try{const pref=JSON.parse(storage.get(prefsKey));if(pref){theme=Object.hasOwn(THEMES,pref.theme)?pref.theme:theme;reduced=autoReduced||!!pref.reduced;if(Array.isArray(pref.availablePacks))availablePacks=new Set(pref.availablePacks.filter(id=>PACKS.some(p=>p.id===id)));}}catch{}
+selected=new Set([...selected].filter(id=>availablePacks.has(id)));
 
 function notify(message){$('toast').textContent=message;$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,3500);}
 function error(id,message=''){$(id).textContent=message;$(id).hidden=!message;}
@@ -61,7 +62,7 @@ function nextStepText(){
 function actionUpdate(happened,next=nextStepText()){
  notify(`${happened} ${next}`);
 }
-function preferences(){storage.set(prefsKey,JSON.stringify({theme,reduced}));}
+function preferences(){return storage.set(prefsKey,JSON.stringify({theme,reduced,availablePacks:[...availablePacks]}));}
 function setTheme(value){theme=Object.hasOwn(THEMES,value)?value:'halloween';document.documentElement.dataset.theme=theme;$('theme').value=theme;$('heroWord').textContent=THEMES[theme][0];$('artCaption').textContent=THEMES[theme][1];dressGhost(theme);preferences();atmosphere();}
 function atmosphere(){
  ambient.forEach(a=>a.pause());ambient=[];stopVectorField();$('particles').replaceChildren();document.documentElement.classList.toggle('reduced',reduced);
@@ -81,14 +82,30 @@ function bindCardHover(){hoverCleanups.forEach(fn=>fn());hoverCleanups=[];if(red
  const wrap=element.parentElement;window.Motion.animate(wrap,{y:-4},{type:'spring',stiffness:400,damping:22});return()=>window.Motion.animate(wrap,{y:0},{type:'spring',stiffness:400,damping:22});
 }));}
 function renderPacks(){
- $('packs').replaceChildren(...PACKS.map(p=>{
+ $('packs').replaceChildren(...PACKS.filter(p=>availablePacks.has(p.id)).map(p=>{
   const button=el('button',`pack ${selected.has(p.id)?'selected':''}`);button.type='button';button.setAttribute('aria-pressed',String(selected.has(p.id)));
   const content=el('div');content.append(el('span','pack-tag',p.tag),el('h3','',p.name),el('p','',p.description),el('span','pack-count',`${packWords(p,$('difficulty').value).length} WORDS`));button.append(el('span','pack-icon',p.icon),content,el('span','pack-check',selected.has(p.id)?'✓':''));
   button.onclick=()=>{selected.has(p.id)?selected.delete(p.id):selected.add(p.id);renderPacks();updatePool();};return button;
  }));
+ $('deckVisibility').textContent=`${availablePacks.size} of ${PACKS.length} decks shown`;
+ $('noDecks').hidden=availablePacks.size>0;
 }
-function getPool(){const custom=parseWords($('customWords').value);return [...new Set([...($('customOnly').checked?[]:PACKS.filter(p=>selected.has(p.id)).flatMap(p=>packWords(p,$('difficulty').value))),...custom])];}
+function getPool(){const custom=parseWords($('customWords').value);return [...new Set([...($('customOnly').checked?[]:PACKS.filter(p=>availablePacks.has(p.id)&&selected.has(p.id)).flatMap(p=>packWords(p,$('difficulty').value))),...custom])];}
 function updatePool(){const words=getPool();$('customCount').textContent=`${parseWords($('customWords').value).length} unique words`;$('poolCount').textContent=`${words.length.toLocaleString()} UNIQUE WORDS / 25 CARDS / ENDLESS CONNECTIONS`;}
+$('manageDecks').onclick=()=>modal('YOUR HOME-PAGE DECKS',body=>{
+ body.append(el('h2','','Manage word decks'),el('p','','Choose which decks appear on this browser’s home page. Hiding a selected deck removes it from the next word pool, not from a game already in progress. Custom words are always available.'));
+ const form=el('form'),choices=el('div','deck-choices'),inputs=[];
+ for(const pack of PACKS){
+  const label=el('label','deck-choice'),input=el('input');input.type='checkbox';input.checked=availablePacks.has(pack.id);input.value=pack.id;
+  const text=el('span');text.append(el('strong','',pack.name),el('span','small',`${pack.words.length} words · ${pack.description}`));
+  label.append(input,text);choices.append(label);inputs.push(input);
+ }
+ const actions=el('div','modal-actions'),restore=el('button','quiet','Show all decks'),cancel=el('button','quiet','Cancel'),submit=el('button','primary','Save deck choices');
+ restore.type=cancel.type='button';restore.onclick=()=>inputs.forEach(input=>input.checked=true);cancel.onclick=closeModal;
+ actions.append(restore,cancel,submit);form.append(choices,actions);
+ form.onsubmit=e=>{e.preventDefault();availablePacks=new Set(inputs.filter(input=>input.checked).map(input=>input.value));selected=new Set([...selected].filter(id=>availablePacks.has(id)));const saved=preferences();renderPacks();updatePool();closeModal();$('manageDecks').focus();notify(saved?'Home-page deck choices saved.':'Deck choices applied for now. Browser storage is unavailable.');};
+ body.append(form);
+});
 $('customWords').oninput=updatePool;$('customOnly').onchange=updatePool;
 $('difficulty').onchange=()=>{const preset=DIFFICULTIES[$('difficulty').value];$('clueSeconds').value=preset.clueSeconds;$('guessSeconds').value=preset.guessSeconds;renderPacks();updatePool();};
 function setupSettings(){return normalizeSettings({difficulty:$('difficulty').value,clueSeconds:Number($('clueSeconds').value),guessSeconds:Number($('guessSeconds').value)});}

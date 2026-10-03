@@ -130,6 +130,13 @@ dialog{width:min(680px,calc(100vw - 30px));max-height:88vh;background:var(--pane
 @media(max-width:800px){.team-sidebar .timer-panel{grid-column:1/-1}.timer-settings .settings-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.clue-tracker{padding:14px}.clue-team{padding:10px}}
 @media(max-width:560px){.card-wrap .card-confirm{height:82px;padding:3px;gap:3px;border-radius:5px}.card-confirm .confirm-actions{grid-template-columns:1fr;gap:2px}.confirm-actions button{min-height:24px;font-size:10px;padding:3px 1px;border-radius:3px}.card-confirm .confirm-word,.card-confirm .card-word,.card-confirm>strong{font-size:9px!important;max-height:21px;overflow:auto}.card-confirm>span,.card-confirm>p:not(.confirm-word){position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}.focus-mode .card-wrap .card-confirm{height:85px}.timer-panel{padding:13px}.reveal-feedback{padding:11px 13px;font-size:12px}.clue-tracker>.settings-grid,#setupForm>.timer-settings .settings-grid{grid-template-columns:1fr}#setupForm>.timer-settings{padding:16px}}
 .reduced .card-wrap.is-confirming .card-confirm{animation:none}
+.deck-tools{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap}
+.deck-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.deck-choice{display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid var(--line);border-radius:8px;cursor:pointer;min-width:0}
+.deck-choice input{accent-color:var(--accent);flex-shrink:0;margin-top:4px}
+.deck-choice strong,.deck-choice .small{display:block;overflow-wrap:anywhere}
+.deck-choice strong{font-size:13px;margin-bottom:5px}
+@media(max-width:560px){.deck-choices{grid-template-columns:1fr}.deck-tools{max-width:140px}.deck-choices+.modal-actions{flex-wrap:wrap}}
 @media(prefers-reduced-motion:reduce){.card-wrap.is-confirming .card-confirm{animation:none}}
 </style>
 </head><body>
@@ -140,8 +147,9 @@ dialog{width:min(680px,calc(100vw - 30px));max-height:88vh;background:var(--pane
 <section id="lobby">
 <div class="hero"><div class="hero-copy"><p class="eyebrow"><span class="status-dot"></span> YOUR AFTER-HOURS WORD CLUB</p><h1>Good clues.<br><em>Bad alibis.</em></h1><p class="hero-description">Twenty-five words. Two teams. One beautifully<br class="desktop"> suspicious connection. Make yours count.</p><div class="hero-meta"><span><b>4+</b> people</span><span><b>15–30</b> minutes</span><span><b>Zero</b> installs</span></div></div>
 <div class="hero-art" aria-hidden="true"><div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><span class="orbit-star star-a">✦</span><span class="orbit-star star-b">✧</span><div class="floating-card back"><small>CLASSIFIED / 02</small><strong>SHADOW</strong><span>?</span></div><div class="floating-card front"><small>MAKE THE CONNECTION</small><div class="ghost"><svg viewBox="0 0 120 130"><path d="M22 110V53a38 38 0 0 1 76 0v57l-13-9-13 12-12-10-12 10-13-12z" fill="currentColor"/><ellipse cx="47" cy="53" rx="5" ry="8" fill="var(--bg)"/><ellipse cx="74" cy="53" rx="5" ry="8" fill="var(--bg)"/><path d="M52 76q9 10 18 0" fill="none" stroke="var(--bg)" stroke-width="4" stroke-linecap="round"/></svg></div><strong id="heroWord">PHANTOM</strong><span class="card-art-bottom">ONE WORD. MANY POSSIBILITIES. <b>↗</b></span></div><span class="art-caption" id="artCaption">A LITTLE MISCHIEF IS IN SEASON.</span></div></div>
-<div class="section-heading"><div><p class="eyebrow">01 / SET THE SCENE</p><h2>Pick your vocabulary.</h2></div><span class="section-note">Mix a few packs. Find a few surprises.</span></div>
+<div class="section-heading"><div><p class="eyebrow">01 / SET THE SCENE</p><h2>Pick your vocabulary.</h2></div><div class="deck-tools"><span id="deckVisibility" class="small"></span><button id="manageDecks" type="button">Manage decks</button></div></div>
 <div id="packs" class="pack-grid"></div>
+<p id="noDecks" class="share-notice" hidden>No word decks are shown. Use <strong>Manage decks</strong> to show some, or bring your own custom words below.</p>
 <details class="custom-panel"><summary><span>＋ Bring your own words</span><span class="small">Your inside jokes belong here.</span></summary><div class="custom-body"><label for="customWords">One word or short phrase per line, or separate with commas. Duplicates are removed.</label><textarea id="customWords" rows="4" placeholder="DEPLOYMENT, COFFEE, FRIDAY, RUBBER DUCK…" maxlength="120000"></textarea><div class="custom-bottom"><label class="check"><input id="customOnly" type="checkbox"> Use only my custom words</label><span id="customCount">0 unique words</span></div><p class="small">At least 25 unique entries in the final pool. Up to 24 characters per entry.</p></div></details>
 <form id="setupForm"><section class="timer-settings" aria-labelledby="settingsHeading"><h2 id="settingsHeading">Choose your challenge.</h2><div class="settings-grid"><label for="difficulty">Word difficulty<select id="difficulty"><option value="easy">Easy · familiar words</option><option value="standard" selected>Standard · full collections</option><option value="hard">Hard · specialist words</option></select></label><label for="clueSeconds">Spymaster clue time (seconds)<input id="clueSeconds" type="number" min="10" max="1800" step="1" value="120" required></label><label for="guessSeconds">Operator turn time (seconds)<input id="guessSeconds" type="number" min="10" max="1800" step="1" value="120" required></label></div><p class="small">Difficulty selects curated words and time presets; you can override either clock (10–1,800 seconds). Custom words are never filtered. Operators share one clock for the whole guessing turn. Time running out passes play to the other team.</p></section><div class="section-heading"><div><p class="eyebrow">02 / ASSEMBLE THE USUAL SUSPECTS</p><h2>Two teams. Excellent company.</h2></div><span class="section-note">Names are optional. Change them anytime.</span></div>
 <div class="teams-setup"><section class="team-setup red-team"><div class="team-top"><span class="team-sigil">◆</span><label for="redName">RED TEAM</label><input id="redName" maxlength="24" value="Crimson Crew" aria-label="Red team name"></div><div class="team-fields"><div><label for="redMaster">SPYMASTER</label><input id="redMaster" maxlength="40" placeholder="The one with the clues"></div><div><label for="redPlayers">OPERATORS</label><textarea id="redPlayers" rows="2" maxlength="800" placeholder="Names, separated by commas"></textarea></div></div></section>
@@ -8663,11 +8671,12 @@ const $=id=>document.getElementById(id);
 const el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
 const storage={get(k){try{return localStorage.getItem(k);}catch{return null;}},set(k,v){try{localStorage.setItem(k,v);return true;}catch{return false;}}};
 const savedKey='clue-circuit:game:v1',prefsKey='clue-circuit:prefs:v1';
-let g=null,guest=null,undo=[],pool=[],selected=new Set(['everyday','halloween']),busy=false,theme='halloween',ambient=[],hoverCleanups=[],toastTimer,pendingIndex=null;
+let g=null,guest=null,undo=[],pool=[],selected=new Set(['everyday','halloween']),availablePacks=new Set(PACKS.map(p=>p.id)),busy=false,theme='halloween',ambient=[],hoverCleanups=[],toastTimer,pendingIndex=null;
 const fieldFx={canvas:null,ctx:null,dpr:1,width:0,height:0,raf:0,flows:[],sparks:[],bound:false,pointer:{x:0,y:0,active:false}};
 let reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const autoReduced=reduced;
-try{const pref=JSON.parse(storage.get(prefsKey));if(pref){theme=Object.hasOwn(THEMES,pref.theme)?pref.theme:theme;reduced=autoReduced||!!pref.reduced;}}catch{}
+try{const pref=JSON.parse(storage.get(prefsKey));if(pref){theme=Object.hasOwn(THEMES,pref.theme)?pref.theme:theme;reduced=autoReduced||!!pref.reduced;if(Array.isArray(pref.availablePacks))availablePacks=new Set(pref.availablePacks.filter(id=>PACKS.some(p=>p.id===id)));}}catch{}
+selected=new Set([...selected].filter(id=>availablePacks.has(id)));
 
 function notify(message){$('toast').textContent=message;$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,3500);}
 function error(id,message=''){$(id).textContent=message;$(id).hidden=!message;}
@@ -8718,7 +8727,7 @@ function nextStepText(){
 function actionUpdate(happened,next=nextStepText()){
  notify(`${happened} ${next}`);
 }
-function preferences(){storage.set(prefsKey,JSON.stringify({theme,reduced}));}
+function preferences(){return storage.set(prefsKey,JSON.stringify({theme,reduced,availablePacks:[...availablePacks]}));}
 function setTheme(value){theme=Object.hasOwn(THEMES,value)?value:'halloween';document.documentElement.dataset.theme=theme;$('theme').value=theme;$('heroWord').textContent=THEMES[theme][0];$('artCaption').textContent=THEMES[theme][1];dressGhost(theme);preferences();atmosphere();}
 function atmosphere(){
  ambient.forEach(a=>a.pause());ambient=[];stopVectorField();$('particles').replaceChildren();document.documentElement.classList.toggle('reduced',reduced);
@@ -8738,14 +8747,30 @@ function bindCardHover(){hoverCleanups.forEach(fn=>fn());hoverCleanups=[];if(red
  const wrap=element.parentElement;window.Motion.animate(wrap,{y:-4},{type:'spring',stiffness:400,damping:22});return()=>window.Motion.animate(wrap,{y:0},{type:'spring',stiffness:400,damping:22});
 }));}
 function renderPacks(){
- $('packs').replaceChildren(...PACKS.map(p=>{
+ $('packs').replaceChildren(...PACKS.filter(p=>availablePacks.has(p.id)).map(p=>{
   const button=el('button',`pack ${selected.has(p.id)?'selected':''}`);button.type='button';button.setAttribute('aria-pressed',String(selected.has(p.id)));
   const content=el('div');content.append(el('span','pack-tag',p.tag),el('h3','',p.name),el('p','',p.description),el('span','pack-count',`${packWords(p,$('difficulty').value).length} WORDS`));button.append(el('span','pack-icon',p.icon),content,el('span','pack-check',selected.has(p.id)?'✓':''));
   button.onclick=()=>{selected.has(p.id)?selected.delete(p.id):selected.add(p.id);renderPacks();updatePool();};return button;
  }));
+ $('deckVisibility').textContent=`${availablePacks.size} of ${PACKS.length} decks shown`;
+ $('noDecks').hidden=availablePacks.size>0;
 }
-function getPool(){const custom=parseWords($('customWords').value);return [...new Set([...($('customOnly').checked?[]:PACKS.filter(p=>selected.has(p.id)).flatMap(p=>packWords(p,$('difficulty').value))),...custom])];}
+function getPool(){const custom=parseWords($('customWords').value);return [...new Set([...($('customOnly').checked?[]:PACKS.filter(p=>availablePacks.has(p.id)&&selected.has(p.id)).flatMap(p=>packWords(p,$('difficulty').value))),...custom])];}
 function updatePool(){const words=getPool();$('customCount').textContent=`${parseWords($('customWords').value).length} unique words`;$('poolCount').textContent=`${words.length.toLocaleString()} UNIQUE WORDS / 25 CARDS / ENDLESS CONNECTIONS`;}
+$('manageDecks').onclick=()=>modal('YOUR HOME-PAGE DECKS',body=>{
+ body.append(el('h2','','Manage word decks'),el('p','','Choose which decks appear on this browser’s home page. Hiding a selected deck removes it from the next word pool, not from a game already in progress. Custom words are always available.'));
+ const form=el('form'),choices=el('div','deck-choices'),inputs=[];
+ for(const pack of PACKS){
+  const label=el('label','deck-choice'),input=el('input');input.type='checkbox';input.checked=availablePacks.has(pack.id);input.value=pack.id;
+  const text=el('span');text.append(el('strong','',pack.name),el('span','small',`${pack.words.length} words · ${pack.description}`));
+  label.append(input,text);choices.append(label);inputs.push(input);
+ }
+ const actions=el('div','modal-actions'),restore=el('button','quiet','Show all decks'),cancel=el('button','quiet','Cancel'),submit=el('button','primary','Save deck choices');
+ restore.type=cancel.type='button';restore.onclick=()=>inputs.forEach(input=>input.checked=true);cancel.onclick=closeModal;
+ actions.append(restore,cancel,submit);form.append(choices,actions);
+ form.onsubmit=e=>{e.preventDefault();availablePacks=new Set(inputs.filter(input=>input.checked).map(input=>input.value));selected=new Set([...selected].filter(id=>availablePacks.has(id)));const saved=preferences();renderPacks();updatePool();closeModal();$('manageDecks').focus();notify(saved?'Home-page deck choices saved.':'Deck choices applied for now. Browser storage is unavailable.');};
+ body.append(form);
+});
 $('customWords').oninput=updatePool;$('customOnly').onchange=updatePool;
 $('difficulty').onchange=()=>{const preset=DIFFICULTIES[$('difficulty').value];$('clueSeconds').value=preset.clueSeconds;$('guessSeconds').value=preset.guessSeconds;renderPacks();updatePool();};
 function setupSettings(){return normalizeSettings({difficulty:$('difficulty').value,clueSeconds:Number($('clueSeconds').value),guessSeconds:Number($('guessSeconds').value)});}

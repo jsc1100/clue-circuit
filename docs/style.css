@@ -123,4 +123,11 @@ dialog{width:min(680px,calc(100vw - 30px));max-height:88vh;background:var(--pane
 @media(max-width:800px){.team-sidebar .timer-panel{grid-column:1/-1}.timer-settings .settings-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.clue-tracker{padding:14px}.clue-team{padding:10px}}
 @media(max-width:560px){.card-wrap .card-confirm{height:82px;padding:3px;gap:3px;border-radius:5px}.card-confirm .confirm-actions{grid-template-columns:1fr;gap:2px}.confirm-actions button{min-height:24px;font-size:10px;padding:3px 1px;border-radius:3px}.card-confirm .confirm-word,.card-confirm .card-word,.card-confirm>strong{font-size:9px!important;max-height:21px;overflow:auto}.card-confirm>span,.card-confirm>p:not(.confirm-word){position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}.focus-mode .card-wrap .card-confirm{height:85px}.timer-panel{padding:13px}.reveal-feedback{padding:11px 13px;font-size:12px}.clue-tracker>.settings-grid,#setupForm>.timer-settings .settings-grid{grid-template-columns:1fr}#setupForm>.timer-settings{padding:16px}}
 .reduced .card-wrap.is-confirming .card-confirm{animation:none}
+.deck-tools{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap}
+.deck-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.deck-choice{display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid var(--line);border-radius:8px;cursor:pointer;min-width:0}
+.deck-choice input{accent-color:var(--accent);flex-shrink:0;margin-top:4px}
+.deck-choice strong,.deck-choice .small{display:block;overflow-wrap:anywhere}
+.deck-choice strong{font-size:13px;margin-bottom:5px}
+@media(max-width:560px){.deck-choices{grid-template-columns:1fr}.deck-tools{max-width:140px}.deck-choices+.modal-actions{flex-wrap:wrap}}
 @media(prefers-reduced-motion:reduce){.card-wrap.is-confirming .card-confirm{animation:none}}

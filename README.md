@@ -22,6 +22,7 @@ See the [comprehensive player guides](docs/guides.html) for host, spymaster, ope
 - Anime.js staggered deals, atmospheric details, and celebrations; Motion spring hover, card flips, and dialog transitions.
 - Respects the system reduced-motion setting; a visible toggle also reduces animation.
 - Twelve original word collections, each with at least 200 unique entries. New collections cover federal Salesforce delivery with Copado and GitHub, nature, science, arts, sports, and world celebrations. Combine packs; cross-pack duplicates are removed.
+- **Manage decks** on the home page lets you show or hide collections and saves those choices in this browser. Hiding a selected deck removes it from the next pool without changing a current game. **Show all decks**, then **Save deck choices**, restores the full picker; custom words always remain available.
 - Curated Easy and Hard word selections in every pack; Standard uses the complete collections. Difficulty also supplies editable timer presets. Custom words remain available at every difficulty.
 - Custom words and short phrases, comma/semicolon/newline separated. Append to selected packs or replace them. Minimum 25 unique entries; 24 characters each; maximum 5,000 entries.
 - Host-managed teams, spymaster and operator names, private spymaster key links, optional operator snapshots, and downloaded PNG keys.

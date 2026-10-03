@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Clue Circuit feature release notes for October 3, 2026: holiday moods, ghost costumes, expanded word packs, inline reveals, clocks, difficulty, and clue histories.">
+  <meta name="description" content="Clue Circuit feature release notes for October 3, 2026: holiday moods, ghost costumes, expanded word packs, inline reveals, clocks, difficulty, clue histories, and deck management.">
   <title>October 3, 2026 release notes — Clue Circuit</title>
   <link rel="stylesheet" href="./style.css">
   <style>
@@ -44,7 +44,7 @@
     <nav aria-label="Release note contents">
       <h2>In this release</h2>
       <ul>
-        <li><a href="#changes">Eight feature changes</a></li>
+        <li><a href="#changes">Nine feature changes</a></li>
         <li><a href="#collections">Collection catalog</a></li>
         <li><a href="#presets">Difficulty and timer presets</a></li>
         <li><a href="#migration">Existing saves and next rounds</a></li>
@@ -54,7 +54,7 @@
     </nav>
 
     <section id="changes" aria-labelledby="changes-heading">
-      <h2 id="changes-heading">Eight feature changes</h2>
+      <h2 id="changes-heading">Nine feature changes</h2>
       <h3 id="holiday-moods">1. Seven holiday moods</h3>
       <p>Diwali, Thanksgiving, Christmas, Hanukkah, Kwanzaa, Lunar New Year, and Eid join the thirteen existing moods for twenty choices. Halloween, Neon noir, Winter holiday, Arcade rush, Dungeon crawl, Space opera, Midnight noir, Heist mode, Frontier dusk, Pirate tide, Kaiju panic, Jungle pulse, and Spy thriller remain available. Switch the atmosphere without changing the rules or board.</p>
       <h3 id="ghost-costumes">2. A unique ghost outfit in every theme</h3>
@@ -71,6 +71,10 @@
       <p>Easy and Hard use curated selections in every pack; Standard uses the full selected collections. Each pack has at least 50 Easy and 50 Hard entries, and the picker displays the selected difficulty’s available count. Custom words remain unfiltered. Difficulty supplies the <a href="#presets">timer presets</a>, which the host may override independently.</p>
       <h3 id="clue-history">8. Dedicated per-team clue tracking</h3>
       <p><strong>Clues by team</strong> records the spoken clue word, count, and turn number in separate team histories. This structured tracker sits alongside the broader <strong>Mission log</strong>, making it easier to revisit earlier clues without searching through reveal and turn events. It is shown on the host board, not synchronized to invitations.</p>
+      <h3 id="deck-management">9. Manage the home-page deck picker</h3>
+      <p><strong>Manage decks</strong> opens a dialog listing all twelve packs with checkboxes, descriptions, and full collection counts. Choose which decks appear on the home page, then select <strong>Save deck choices</strong>. Visibility preferences are stored locally in the browser and persist across reloads and theme changes when browser storage is available. They do not change another participant’s picker.</p>
+      <p>Hiding a selected deck deselects it and removes it from the next setup pool, without changing the current or saved game. Showing a deck makes it available to select; it does not automatically include it in a deal. <strong>Show all decks</strong> checks every box, but you must still save to apply it. <strong>Cancel</strong> discards unsaved edits.</p>
+      <p>Hiding all decks is supported: the empty picker provides guidance, and custom words remain usable. Supply at least 25 valid unique custom entries to deal without built-in packs, or restore visible decks and select a pack. For a quick setup, manage visibility, save, select the packs you want to play, choose difficulty and clocks, then deal. See the <a href="./guides.html#host">host setup guide</a> for the complete workflow.</p>
     </section>
 
     <section id="collections" aria-labelledby="collections-heading">
@@ -124,6 +128,7 @@
         <li><strong>New board:</strong> preserves teams, the current pool, difficulty, and limits while replacing the round. Send fresh spymaster keys and optional operator links after every redeal.</li>
         <li><strong>Packs &amp; difficulty:</strong> returns to setup and pauses the existing board. Resume last game restores that board; dealing from setup replaces it using the newly selected vocabulary and settings.</li>
         <li><strong>Roster edits:</strong> existing invitations keep their original names and board. After Edit teams, distribute new links; invitations do not update themselves.</li>
+        <li><strong>Deck visibility:</strong> Manage decks changes local home-page preferences and the next setup pool, not the saved game’s vocabulary. Resume last game restores that game, and New board retains its current pool. Deal from setup to apply changed pack selections.</li>
       </ul>
     </section>
 
