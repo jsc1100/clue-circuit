@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Practical Clue Circuit guides for hosts, spymasters, operators, and spectators: setup, turns, clocks, keyboard controls, and private snapshots.">
+  <title>Player guides — Clue Circuit</title>
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    .guide-content{max-width:78ch;margin:auto;padding:1.5rem clamp(1rem,4vw,2.5rem) 3rem;font-size:1rem;line-height:1.7;overflow-wrap:anywhere;transition:none}
+    .guide-content main,.guide-content footer{padding:0;max-width:none}
+    .guide-content header,.guide-content section,.guide-content footer{margin-block:2rem}
+    .guide-content h1{font-size:clamp(2rem,6vw,3rem);letter-spacing:-.04em;line-height:1.15}
+    .guide-content h2{font-size:1.65rem;margin:2rem 0 1rem;line-height:1.3}
+    .guide-content h3{font-size:1.2rem;margin:1.5rem 0 .75rem;line-height:1.4}
+    .guide-content li{margin-block:.6rem}
+    .guide-content nav ul{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;list-style:none;padding:0}
+    .guide-content a{text-underline-offset:.2em}
+    .guide-content a:focus-visible,.guide-content [tabindex]:focus{outline:3px solid var(--accent);outline-offset:4px}
+    .guide-content :target{scroll-margin-top:1rem}
+    .guide-content .notice{border-left:4px solid var(--accent);background:var(--panel);padding:1rem}
+    .guide-content .table-wrap{overflow-x:auto}
+    .guide-content table{width:100%;border-collapse:collapse;margin-block:1rem}
+    .guide-content caption{text-align:left;font-weight:700;margin-bottom:.5rem}
+    .guide-content th,.guide-content td{text-align:left;vertical-align:top;padding:.6rem;border:1px solid var(--line)}
+    .guide-content kbd,.guide-content code{font-size:.95em}
+    .guide-content footer{display:block;font-size:1rem;letter-spacing:normal;padding-top:1rem}
+    @media(max-width:480px){.guide-content th,.guide-content td{padding:.35rem;font-size:.9rem}}
+    @media(prefers-reduced-motion:reduce){.guide-content,.guide-content *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+<body class="guide-content">
+  <a href="#main">Skip to player guides</a>
+  <header>
+    <p>CLUE CIRCUIT · FIELD GUIDES</p>
+    <h1>One board. Four ways to join in.</h1>
+    <p>Use the guide for your role, then agree on the shared rules. Clue Circuit is a browser-only, screen-shared word game: the meeting carries the conversation and one host controls play.</p>
+    <nav aria-label="Documentation">
+      <ul><li><a href="./index.html">Open the game</a></li><li><a href="./release-notes.html">Release notes</a></li></ul>
+    </nav>
+  </header>
+  <main id="main" tabindex="-1">
+    <nav aria-label="Guide contents">
+      <h2>Choose your guide</h2>
+      <ul>
+        <li><a href="#host">Host / facilitator</a></li>
+        <li><a href="#spymaster">Spymaster</a></li>
+        <li><a href="#operator">Operator</a></li>
+        <li><a href="#spectator">Observer / spectator</a></li>
+        <li><a href="#rules">Rules and worked example</a></li>
+        <li><a href="#clocks">Difficulty and clocks</a></li>
+        <li><a href="#accessibility">Keyboard and accessibility</a></li>
+        <li><a href="#privacy">Privacy, snapshots, and offline play</a></li>
+      </ul>
+    </nav>
+
+    <section id="host" aria-labelledby="host-heading">
+      <h2 id="host-heading">Host / facilitator</h2>
+      <p><strong>Your responsibility:</strong> set up the game, distribute private information safely, enter spoken clues, confirm the operators’ choices, and keep the meeting fair. Only your host tab controls the live board, clocks, roster, and undo history. Hosting is a job, not a separate authenticated account.</p>
+      <h3>Before play</h3>
+      <ol>
+        <li>Open <a href="./index.html">the game</a> in one host tab. Use <strong>Manage decks</strong> on the home page to choose which packs appear in your picker. The dialog lists all twelve packs with checkboxes, descriptions, and full collection counts. Check the decks you want visible, then select <strong>Save deck choices</strong>. These visibility preferences are stored locally in this browser and persist across reloads and theme changes when browser storage is available.</li>
+        <li>To restore the whole picker, choose <strong>Show all decks</strong>, then <strong>Save deck choices</strong>; Show all only checks the boxes until you save. <strong>Cancel</strong> discards unsaved edits. Hiding a selected deck also deselects it and removes it from the next setup pool, but does not change the current or saved game. Showing a deck does not automatically select it for play.</li>
+        <li>Select the visible packs your group understands; combine collections if you like. Visibility and game selection are separate choices. Cross-pack duplicates are removed. Choose a <a href="#clocks">difficulty</a>, then adjust either time limit if needed. The picker’s available counts reflect difficulty, while Manage decks shows full collection counts.</li>
+        <li>For custom vocabulary, expand <strong>Bring your own words</strong>. Separate words or short phrases with commas, semicolons, or newlines. Custom entries append to selected packs unless <strong>Use only my custom words</strong> is selected. The final pool needs 25–5,000 unique entries, each 1–24 characters, using letters, numbers, spaces, apostrophes, or hyphens. Entries are normalized and deduplicated; custom words are not filtered by difficulty.</li>
+        <li>You may hide every deck. The empty picker explains how to show decks again, and custom words remain usable. With all decks hidden, supply at least 25 valid unique custom entries before dealing, or reopen Manage decks, save visible choices, and select a pack.</li>
+        <li>Enter two team names, one spymaster per team, and operators. Names are optional; nicknames are fine. Agree on clue conventions and a single person per team to announce final guesses. Nobody needs a GitHub account, repository access, or a game login.</li>
+        <li>Select <strong>Deal us in</strong>, then <strong>Pause clock</strong> while distributing keys. The starting team is chosen at random. Its nine agents face the other team’s eight, with seven bystanders and one trap on the 25-card board.</li>
+        <li>In <strong>Team links</strong>, privately send each spymaster their key link or downloaded PNG key. Both spymaster keys show the full answer layout. Optional operator links omit unrevealed answers. Pause screen sharing while handling private links or downloads; share only the host board tab, never a key tab or your whole desktop.</li>
+        <li>Ask everyone to confirm they have the correct board and role. Resume the host clock when the group is ready. If hosting locally, use a reachable public site URL for remote invitations or send private PNG keys instead; your localhost is normally unreachable by teammates.</li>
+      </ol>
+      <h3>During play</h3>
+      <ol>
+        <li>Ask the active spymaster for one clue word and a count from 1–9. Enter exactly the spoken clue and choose <strong>Lock in clue</strong>. The operator clock starts and the team has at most count + 1 guesses.</li>
+        <li>Let operators discuss aloud, then repeat their final word before selecting its card. The card flips to inline <strong>Reveal / Cancel</strong> controls. Verify the word and reveal it only after the team commits. Cancel an accidental selection before revealing.</li>
+        <li>Read the inline <strong>CORRECT!</strong> or <strong>WRONG!</strong> result and the next action. A correct agent may allow another guess; a bystander or opponent passes play; a trap immediately awards the round to the other team. The app also detects when either team has no agents left.</li>
+        <li>Use <strong>Clues by team</strong> below the board to check each clue’s word, count, and turn number. The <strong>Mission log</strong> is the broader record of reveals, passes, timeouts, and outcomes. These are host-side records, not synchronized guest feeds.</li>
+        <li>Use <strong>End turn</strong> when the operators choose to stop early. Pause for interruptions; paused play blocks clue entry, card reveals, and ending a turn. Only the host can pause, resume, or edit time limits.</li>
+      </ol>
+      <h3>After play, mistakes, and the next round</h3>
+      <ol>
+        <li>For a genuine host input mistake, agree on a correction and use <strong>Undo</strong>. It restores a previous game state, up to 40 actions, with a fresh clock for that phase. It cannot make people forget a revealed answer, so do not treat it as a strategic retry. Coordinate any corrections to spymasters’ local marks separately.</li>
+        <li>Review the clue tracker and mission log together. The host’s game saves locally for <strong>Resume last game</strong>; keep the same browser/site and do not clear site data if you want to return. Pause before taking a break because unpaused clocks use real elapsed time.</li>
+        <li><strong>New board</strong> (or <strong>Another round</strong>) replaces the round but preserves teams, the current word pool, difficulty, and time limits. It does not adopt vocabulary changes from setup.</li>
+        <li>To change vocabulary or difficulty, choose <strong>Packs &amp; difficulty</strong>. This returns to setup and pauses the existing board; <strong>Resume last game</strong> restores that saved board instead of dealing another. Manage deck visibility and select your new settings, then deal to replace it. Hiding decks alone does not rewrite that saved board or its retained pool; New board still uses the current game’s pool.</li>
+        <li>Use <strong>Edit teams</strong> for roster corrections. Send fresh links after roster changes and every redeal: old invitations retain their original names and board. Redealing does not remotely erase an old key; it creates a different answer layout for future play.</li>
+      </ol>
+      <p class="notice"><strong>Visible information:</strong> your normal board conceals unrevealed colors, but the host holds the complete answer data in localStorage. This is an honor-system game, not protection against a host inspecting browser data. Do not inspect answers if you also play as an operator.</p>
+    </section>
+
+    <section id="spymaster" aria-labelledby="spymaster-heading">
+      <h2 id="spymaster-heading">Spymaster</h2>
+      <p><strong>Your responsibility:</strong> connect your team’s hidden agents with concise spoken clues while avoiding the trap and misleading associations. You advise through clues; you do not control live reveals or clocks.</p>
+      <h3>Before play</h3>
+      <ol>
+        <li>Open only the private key the host sent you, or view its PNG privately. Check that its words match the shared board and that you know your assigned team.</li>
+        <li>Study your agents, both teams’ colors, bystanders, and the trap. Both spymasters see the full color key, not just their own team’s answers.</li>
+        <li>Agree on proper names, word parts, and other clue conventions before the clock starts. Tell the host if you need more reading time or a pause. Never share your private key on screen, paste it into the main chat, or forward it to operators.</li>
+      </ol>
+      <h3>During play</h3>
+      <ol>
+        <li>Watch the host’s screen for the live team, phase, remaining agents, and deadline. Your key is a snapshot; its counters and turn information do not update from the host.</li>
+        <li>On your turn, say one clue word and a number from 1–9 before the clue timer expires. The number says how many words you intend to connect, not how many seconds or extra turns the team receives. Counts zero and unlimited are unsupported.</li>
+        <li>For example, if your agents include MAPLE and CEDAR and nearby alternatives make it safe, say <strong>“Woodland, two.”</strong> This is an illustrative board, not a promised deal. Check the trap and opponent words before using any association.</li>
+        <li>Let the host record your clue. Once operators discuss it, avoid gestures or extra hints that reveal the key. Follow the group’s agreed conventions; the app does not judge whether an association is fair or correct.</li>
+        <li>As the host reveals cards, click those cards on your private key to cross them off locally. Click again to remove a mistaken mark. Marks are personal reminders: they do not reveal a card on the host’s board, notify anyone, or synchronize across devices.</li>
+      </ol>
+      <h3>After play</h3>
+      <ol>
+        <li>Explain intended connections during the debrief, after the round ends. Use the host’s clue history to discuss which associations worked.</li>
+        <li>Request a fresh key for a new board or changed roster. Do not assume refreshing an old invitation fetches current game data.</li>
+        <li>Keep old keys private. Anyone possessing one can still inspect that old board; there is no account-based access control or remote revocation.</li>
+      </ol>
+      <p><strong>When something goes wrong:</strong> if you misread the key or your local marks disagree with the shared board, ask the host to pause and reconcile the actual revealed cards. Do not correct the host by silently changing only your marks. The host alone can undo a game action.</p>
+    </section>
+
+    <section id="operator" aria-labelledby="operator-heading">
+      <h2 id="operator-heading">Operator</h2>
+      <p><strong>Your responsibility:</strong> discuss the clue with your team and announce deliberate guesses. You see words and public reveals, not the hidden color key. You can play entirely through the meeting without opening a link.</p>
+      <h3>Before play</h3>
+      <ol>
+        <li>Join the meeting and read the host’s shared board. Confirm your team and spymaster with the host; opening an invitation does not check you into a roster.</li>
+        <li>If useful, open an optional operator snapshot for easier reading. Unrevealed answers are omitted from its data, but revealed colors at creation time may be visible. It is not a live board or a way to submit guesses.</li>
+        <li>Agree how to reach a final decision and who will say it aloud. Ask about the operator time limit and any accessibility adjustments before play starts.</li>
+      </ol>
+      <h3>During play</h3>
+      <ol>
+        <li>Listen to the clue word and number, and verify the host recorded them correctly. Refer to <strong>Clues by team</strong> on the shared screen when recalling earlier clues.</li>
+        <li>Discuss plausible connections without asking the spymaster for additional hints. For “Woodland, two,” you might compare MAPLE and CEDAR with other visible candidates before committing.</li>
+        <li>Announce a precise card word. The host selects it and sees inline confirmation; ask for <strong>Cancel</strong> if the wrong word was selected. Clicking your own snapshot cannot make a live guess.</li>
+        <li>After a correct reveal, continue only if you have allowance and time remaining. Count two permits up to three guesses, not three guaranteed correct answers. The extra guess can revisit an earlier clue, but it is optional.</li>
+        <li>Ask the host to <strong>End turn</strong> if further guesses feel unsafe. All guesses share the same operator timer, and correct guesses do not reset it. A wrong agent or bystander ends the turn; the trap loses the round immediately. Expiry passes to the other team even if you have not guessed.</li>
+      </ol>
+      <h3>After play</h3>
+      <ol>
+        <li>Review your team’s reasoning and clues, not just the final score. If the host clicked a different word from the one you announced, explain that promptly and let the host handle any agreed undo.</li>
+        <li>Use the host screen as the authority when a snapshot looks stale. Ask for a new invitation after a redeal or roster change rather than trying to edit a link’s role.</li>
+        <li>If you become a spymaster next round, receive a fresh private key then. Do not use or request the current round’s key while still guessing.</li>
+      </ol>
+    </section>
+
+    <section id="spectator" aria-labelledby="spectator-heading">
+      <h2 id="spectator-heading">Observer / spectator</h2>
+      <p><strong>Your responsibility:</strong> follow the action without leaking information or influencing guesses unless the group has invited commentary. “Spectator” is a meeting role, not a separate application account or invitation type.</p>
+      <h3>Before play</h3>
+      <ol>
+        <li>Watch the host’s shared board. If you need a closer view, ask for an optional operator snapshot, not a private spymaster key.</li>
+        <li>Confirm whether you are only observing or may join a team later. The host enters roster changes manually; there is no presence list, automatic membership, or online check-in.</li>
+        <li>If you already saw this board’s private key, tell the host. Remain an observer for this round rather than joining as an operator with answer knowledge.</li>
+      </ol>
+      <h3>During play</h3>
+      <ol>
+        <li>Follow the active team, clue, and inline results on the host’s screen. Use the shared clue tracker and mission log to understand earlier choices.</li>
+        <li>Keep suggested guesses to yourself unless the group explicitly permits assistance. Avoid reactions that could reveal information you learned privately.</li>
+        <li>Report practical issues, such as unreadable sharing or a disconnected player, to the host. Only the host can pause, edit clocks, or undo mistakes; an observer snapshot has none of those controls.</li>
+        <li>Do not rely on the snapshot’s counters or refresh it expecting live progress. It contains the board state from when its link was created, not a connection to the host.</li>
+      </ol>
+      <h3>After play</h3>
+      <ol>
+        <li>Join the debrief with observations about clear clues and teamwork. Keep keys and participant names out of public posts unless everyone has agreed.</li>
+        <li>To play next round, ask the host to edit the roster and distribute fresh invitations. If you become an operator, continue using the public board; if you become a spymaster, keep your new key private.</li>
+        <li>Close old snapshots when a new board starts to avoid comparing the wrong cards.</li>
+      </ol>
+    </section>
+
+    <section id="rules" aria-labelledby="rules-heading">
+      <h2 id="rules-heading">Shared rules and a worked turn</h2>
+      <p>Reveal all of your team’s agents to win. Revealing the opponent’s final agent can win the round for them. Revealing the trap loses immediately, regardless of remaining guesses or time. A bystander or opposing agent normally ends your turn; a correct agent allows you to continue until your allowance runs out, you pass, time expires, or the round ends.</p>
+      <p>A clue is one word, up to 30 characters, using letters, numbers, apostrophes, or hyphens. The app rejects an exact match to an unrevealed board word and counts outside 1–9. It does not automatically judge meanings, word-part relationships, proper names, or clue etiquette: agree those conventions as a group.</p>
+      <ol>
+        <li>The active spymaster sees MAPLE and CEDAR as friendly agents and says “Woodland, two.” The host locks in that word and count.</li>
+        <li>The operators now have at most three guesses and one shared operator-turn clock. They announce MAPLE; the host confirms it. A correct result leaves two guesses, but the clock keeps counting down.</li>
+        <li>They choose CEDAR next. If correct, one optional guess remains. They may revisit an earlier clue or ask the host to end the turn instead of risking another card.</li>
+        <li>If either guess instead reveals a bystander or opposing agent, the turn ends. If it reveals the trap, the other team wins immediately. If it finds the team’s final agent, that team wins without needing more guesses.</li>
+      </ol>
+    </section>
+
+    <section id="clocks" aria-labelledby="clocks-heading">
+      <h2 id="clocks-heading">Difficulty and clocks</h2>
+      <div class="table-wrap">
+        <table>
+          <caption>Starting presets; both clocks are host-editable</caption>
+          <thead><tr><th scope="col">Difficulty</th><th scope="col">Built-in vocabulary</th><th scope="col">Clue time</th><th scope="col">Operator turn</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Easy</th><td>Curated familiar, concrete words</td><td>180 seconds</td><td>180 seconds</td></tr>
+            <tr><th scope="row">Standard</th><td>Full selected collections</td><td>120 seconds</td><td>120 seconds</td></tr>
+            <tr><th scope="row">Hard</th><td>Curated specialist, abstract words</td><td>60 seconds</td><td>90 seconds</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Each pack has at least 50 curated Easy entries and 50 curated Hard entries. The picker shows the count available at the chosen difficulty. Custom words remain available at every difficulty.</p>
+      <p>The host can set either clock to a whole number from <strong>10–1,800 seconds</strong> in setup or <strong>Time limits</strong> on the board. Saving limits restarts the current phase’s clock; a paused clock stays paused. Agree changes openly: these are host-editable, honor-system limits, not externally enforced tournament rules.</p>
+      <p>Only the host runs the clock. The clue phase ends when a clue is accepted; the operator phase has one budget for every guess. Correct guesses do not restart it. Expiry passes to the other team’s spymaster, even if no clue was given. Pause while sharing keys or taking a break; resume before entering clues or revealing cards.</p>
+      <p>Saved wall-clock deadlines account for time spent in a background tab. Returning to an expired game passes that expired turn once and starts a fresh clue clock; it does not forfeit many unseen turns. Undo restores a prior state with a fresh phase clock. Older saves receive Standard timers when settings are absent; their mission log remains, while the dedicated tracker records newly entered structured clues rather than reconstructing old ones.</p>
+    </section>
+
+    <section id="accessibility" aria-labelledby="accessibility-heading">
+      <h2 id="accessibility-heading">Keyboard, motion, and focus</h2>
+      <ol>
+        <li>Use <kbd>Tab</kbd> to reach an enabled host card during the operator phase, then press <kbd>Enter</kbd> to open its inline confirmation.</li>
+        <li>Focus starts on <strong>Cancel</strong>, not Reveal. Pressing <kbd>Enter</kbd> again cancels, protecting against an accidental double-Enter reveal.</li>
+        <li>Press <kbd>Tab</kbd> to reach <strong>Reveal</strong>, verify the card word, and press <kbd>Enter</kbd> to commit. Use <kbd>Escape</kbd> in the pending confirmation to cancel and return to the card.</li>
+        <li>Read the inline result and next-turn message; public status feedback accompanies the visual reveal. Ask the host to read updates aloud when needed.</li>
+      </ol>
+      <p>The game respects the system reduced-motion preference and offers a visible animation-reduction toggle. The host’s <strong>Focus mode</strong> hides surrounding interface elements, including the sidebar and mission log, to give the board more screen space; it is a presentation aid, not a privacy boundary. Use browser zoom and the responsive layout as needed. Ask the host to extend or pause clocks for access needs.</p>
+      <p>These documentation pages are static, have visible keyboard focus and section links, and require no JavaScript. Their reading order remains the same on narrow screens.</p>
+    </section>
+
+    <section id="privacy" aria-labelledby="privacy-heading">
+      <h2 id="privacy-heading">Privacy, snapshots, and offline play</h2>
+      <ul>
+        <li><strong>Snapshots, not rooms:</strong> guest links contain their own board and roster data. They do not synchronize reveals, clocks, clues, marks, or membership. Watch the host’s screen for the live game and send new links after redeals or roster edits.</li>
+        <li><strong>Private keys are capability links:</strong> anyone with one can see all answers. They are not passwords or authenticated invitations and cannot be revoked remotely. Never screen-share the key or distribute it to operators.</li>
+        <li><strong>Operator isolation:</strong> unrevealed answers are absent from operator invitation data. Changing a role field in that link cannot recover colors that were never included.</li>
+        <li><strong>Local storage:</strong> the host stores the full answer state and roster locally; guest key marks are local too. Clearing site data removes local saves and marks. Use one host tab per game because same-origin tabs are not supported shared controllers and can overwrite saved state.</li>
+        <li><strong>Names and hosting:</strong> link recipients can read names included in invitations. Board data is in the URL fragment, which is not sent with the page’s HTTP request. There is no game backend, analytics, or multiplayer networking; GitHub still serves and logs normal website requests.</li>
+        <li><strong>Standalone offline app:</strong> the downloaded <code>play-offline.html</code> embeds game code, styles, packs, and animation libraries. Gameplay does not require a network. Its in-app documentation links open the published web guides and release notes, which require network access unless you have separately saved those pages and their stylesheet. Remote meeting software and opening hosted invitation pages have their own connectivity needs.</li>
+      </ul>
+      <p>For publishing and rebuilding the downloadable app, see <a href="./release-notes.html#publishing">the release publishing instructions</a>.</p>
+    </section>
+  </main>
+  <footer>
+    <p><a href="#main">Back to guide contents</a> · <a href="./index.html">Open Clue Circuit</a> · <a href="./release-notes.html">Read release notes</a></p>
+  </footer>
+</body>
+</html>
